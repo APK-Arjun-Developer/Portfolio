@@ -1,0 +1,4 @@
+Place your resume PDF here and name it: resume.pdf
+
+The download button on the Contact and Home pages links to /resume.pdf
+Export your resume from Google Docs / Word / Canva as a PDF and drop it in this folder.
