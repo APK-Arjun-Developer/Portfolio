@@ -89,7 +89,7 @@ export default function Home() {
               size="large"
               startIcon={<DownloadIcon />}
               href={personal.resumeUrl}
-              download
+              download="arjun-p-resume.pdf"
               sx={{ borderRadius: 1, px: 3, py: 1.2 }}
             >
               Download Resume

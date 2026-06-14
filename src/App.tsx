@@ -1,5 +1,5 @@
 import { lazy, Suspense } from 'react';
-import { HashRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { ThemeProvider, CssBaseline, Box, CircularProgress } from '@mui/material';
 import theme from './theme';
 import Navbar from './components/layout/Navbar';
@@ -22,7 +22,7 @@ export default function App() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <HashRouter>
+      <BrowserRouter>
         <Box sx={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
           <Navbar />
           <Box component="main" sx={{ flex: 1 }}>
@@ -37,7 +37,7 @@ export default function App() {
           </Box>
           <Footer />
         </Box>
-      </HashRouter>
+      </BrowserRouter>
     </ThemeProvider>
   );
 }
