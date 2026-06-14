@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion'
 import type { Variants } from 'framer-motion'
-import { ArrowRight, Download, ExternalLink, ChevronDown, Package, Layers, Building2 } from 'lucide-react'
+import { ArrowRight, ExternalLink, ChevronDown, Package, Layers, Building2, Mail } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { personal } from '../../data/personal'
 import AuroraBackground from '../../components/ui/AuroraBackground'
@@ -49,16 +49,16 @@ export default function Home() {
             {/* Status badge */}
             <motion.div variants={item}>
               <div
-                className="mb-8 inline-flex items-center gap-2 rounded-full px-3.5 py-1.5 text-xs font-medium text-cyan-400"
+                className="mb-8 inline-flex items-center gap-2 rounded-full px-3.5 py-1.5 text-xs font-medium text-blue-600"
                 style={{
-                  background: 'rgba(6,182,212,0.07)',
-                  border: '1px solid rgba(6,182,212,0.2)',
+                  background: 'rgba(37,99,235,0.07)',
+                  border: '1px solid rgba(37,99,235,0.18)',
                 }}
                 role="status"
                 aria-label="Currently available for new opportunities"
               >
                 <span
-                  className="h-1.5 w-1.5 rounded-full bg-cyan-400 animate-pulse-slow"
+                  className="h-1.5 w-1.5 rounded-full bg-blue-500 animate-pulse-slow"
                   aria-hidden="true"
                 />
                 Available for opportunities
@@ -66,14 +66,14 @@ export default function Home() {
             </motion.div>
 
             {/* Greeting */}
-            <motion.p variants={item} className="mb-2 font-mono text-sm text-slate-500">
+            <motion.p variants={item} className="mb-2 font-mono text-sm text-text-secondary">
               Hi, I'm
             </motion.p>
 
             {/* Name */}
             <motion.h1
               variants={item}
-              className="mb-4 text-5xl font-extrabold tracking-tight text-white sm:text-6xl lg:text-7xl"
+              className="mb-4 font-heading text-5xl font-extrabold tracking-tight text-text-heading sm:text-6xl lg:text-7xl"
             >
               {personal.name}
             </motion.h1>
@@ -83,13 +83,13 @@ export default function Home() {
               <span className="text-2xl font-bold sm:text-3xl lg:text-4xl gradient-text">
                 {personal.role}
               </span>
-              <span className="text-2xl font-bold text-slate-500 sm:text-3xl lg:text-4xl">.</span>
+              <span className="text-2xl font-bold text-text-secondary sm:text-3xl lg:text-4xl">.</span>
             </motion.div>
 
             {/* Summary */}
             <motion.p
               variants={item}
-              className="mb-8 max-w-2xl text-base leading-relaxed text-slate-400 sm:text-lg"
+              className="mb-8 max-w-2xl text-base leading-relaxed text-text-body sm:text-lg"
             >
               {personal.summary}
             </motion.p>
@@ -122,13 +122,12 @@ export default function Home() {
                 />
               </Link>
               <a
-                href={personal.resumeUrl}
-                download="arjun-p-resume.pdf"
+                href={`mailto:${personal.email}`}
                 className="btn-glass"
-                aria-label="Download my resume as PDF"
+                aria-label={`Email me at ${personal.email}`}
               >
-                <Download size={15} aria-hidden="true" />
-                Download Resume
+                <Mail size={15} aria-hidden="true" />
+                Contact Me
               </a>
             </motion.div>
 
@@ -142,29 +141,29 @@ export default function Home() {
                 href={personal.github}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-2 text-sm text-slate-500 transition-colors hover:text-white"
+                className="flex items-center gap-2 text-sm text-text-secondary transition-colors hover:text-text-heading"
                 aria-label="Visit my GitHub profile (opens in new tab)"
               >
                 <GithubIcon size={16} />
                 GitHub
                 <ExternalLink size={11} className="opacity-40" aria-hidden="true" />
               </a>
-              <div className="h-1 w-1 rounded-full bg-slate-700" aria-hidden="true" />
+              <div className="h-1 w-1 rounded-full bg-gray-300" aria-hidden="true" />
               <a
                 href={personal.linkedin}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-2 text-sm text-slate-500 transition-colors hover:text-white"
+                className="flex items-center gap-2 text-sm text-text-secondary transition-colors hover:text-text-heading"
                 aria-label="Visit my LinkedIn profile (opens in new tab)"
               >
                 <LinkedinIcon size={16} />
                 LinkedIn
                 <ExternalLink size={11} className="opacity-40" aria-hidden="true" />
               </a>
-              <div className="h-1 w-1 rounded-full bg-slate-700" aria-hidden="true" />
+              <div className="h-1 w-1 rounded-full bg-gray-300" aria-hidden="true" />
               <a
                 href={`mailto:${personal.email}`}
-                className="text-sm text-slate-500 transition-colors hover:text-white"
+                className="text-sm text-text-secondary transition-colors hover:text-text-heading"
                 aria-label={`Email me at ${personal.email}`}
               >
                 {personal.email}
@@ -179,7 +178,7 @@ export default function Home() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.9, duration: 0.5 }}
-        style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}
+        className="border-t border-gray-200"
         aria-label="Career statistics"
       >
         <div className="container-xl py-8">
@@ -188,14 +187,14 @@ export default function Home() {
               <div key={label} className="group flex flex-col items-center gap-1 text-center">
                 <Icon
                   size={14}
-                  className="mb-1 text-slate-600 transition-colors group-hover:text-cyan-500"
+                  className="mb-1 text-text-secondary transition-colors group-hover:text-blue-500"
                   aria-hidden="true"
                 />
                 <dt className="sr-only">{label}</dt>
                 <dd className="text-2xl font-bold gradient-text" aria-label={`${value} ${label}`}>
                   {value}
                 </dd>
-                <dd className="text-xs text-slate-500" aria-hidden="true">{label}</dd>
+                <dd className="text-xs text-text-secondary" aria-hidden="true">{label}</dd>
               </div>
             ))}
           </dl>
@@ -213,7 +212,7 @@ export default function Home() {
         <motion.div
           animate={{ y: [0, 6, 0] }}
           transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
-          className="text-slate-600"
+          className="text-text-secondary"
         >
           <ChevronDown size={20} />
         </motion.div>

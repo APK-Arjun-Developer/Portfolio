@@ -30,9 +30,11 @@ const tabs: { id: FilterTab; label: string; icon: React.ReactNode }[] = [
 
 function ProjectCard({ project, index }: { project: Project; index: number }) {
   const isCompany = project.category === 'company'
-  const accent = isCompany ? '#8b5cf6' : '#06b6d4'
-  const accentBg = isCompany ? 'rgba(139,92,246,0.07)' : 'rgba(6,182,212,0.07)'
-  const accentBorder = isCompany ? 'rgba(139,92,246,0.22)' : 'rgba(6,182,212,0.18)'
+  const accent = isCompany ? '#7C3AED' : '#2563EB'
+  const accentBg = isCompany ? 'rgba(124,58,237,0.06)' : 'rgba(37,99,235,0.06)'
+  const accentBorder = isCompany ? 'rgba(124,58,237,0.18)' : 'rgba(37,99,235,0.15)'
+  const gradientFrom = isCompany ? '#7C3AED' : '#2563EB'
+  const gradientTo = isCompany ? '#4F46E5' : '#0284C7'
 
   return (
     <motion.article
@@ -45,160 +47,161 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
       aria-label={`Project: ${project.title}`}
     >
       <GlassCard
-        className="h-full flex flex-col p-6 transition-shadow duration-300"
+        className="h-full flex flex-col overflow-hidden"
         hover={false}
-        style={{
-          border: `1px solid ${accentBorder}`,
-        }}
+        style={{ border: `1px solid ${accentBorder}` }}
         onMouseEnter={(e) => {
-          ;(e.currentTarget as HTMLElement).style.boxShadow = `0 20px 60px rgba(0,0,0,0.45), 0 0 40px ${accent}14`
-          ;(e.currentTarget as HTMLElement).style.borderColor = accent + '50'
+          const el = e.currentTarget as HTMLElement
+          el.style.boxShadow = `0 12px 40px rgba(0,0,0,0.10), 0 0 0 1px ${accent}30`
+          el.style.borderColor = `${accent}40`
         }}
         onMouseLeave={(e) => {
-          ;(e.currentTarget as HTMLElement).style.boxShadow = ''
-          ;(e.currentTarget as HTMLElement).style.borderColor = accentBorder
+          const el = e.currentTarget as HTMLElement
+          el.style.boxShadow = ''
+          el.style.borderColor = accentBorder
         }}
       >
-        {/* Card header */}
-        <div className="flex items-start justify-between gap-3 mb-4">
-          <div className="flex flex-wrap items-center gap-2">
-            <span
-              className="font-mono text-[10px] font-semibold"
-              style={{ color: accent }}
-              aria-hidden="true"
-            >
-              {String(index + 1).padStart(2, '0')}
-            </span>
-            {/* Category badge */}
-            <span
-              className="rounded-full px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider"
-              style={{ color: accent, background: accentBg, border: `1px solid ${accentBorder}` }}
-            >
-              {isCompany ? 'Company' : 'Personal'}
-            </span>
-            {/* Role badge (company projects) */}
-            {project.role && (
-              <span className="rounded-full px-2 py-0.5 text-[10px] text-slate-500 bg-white/[0.04] border border-white/[0.06]">
-                {project.role}
+        {/* Gradient thumbnail header */}
+        <div
+          className="h-2 w-full"
+          style={{ background: `linear-gradient(90deg, ${gradientFrom}, ${gradientTo})` }}
+          aria-hidden="true"
+        />
+
+        <div className="flex flex-col flex-1 p-6">
+          {/* Card header */}
+          <div className="flex items-start justify-between gap-3 mb-4">
+            <div className="flex flex-wrap items-center gap-2">
+              <span
+                className="font-mono text-[10px] font-semibold"
+                style={{ color: accent }}
+                aria-hidden="true"
+              >
+                {String(index + 1).padStart(2, '0')}
+              </span>
+              <span
+                className="rounded-full px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider"
+                style={{ color: accent, background: accentBg, border: `1px solid ${accentBorder}` }}
+              >
+                {isCompany ? 'Company' : 'Personal'}
+              </span>
+              {project.role && (
+                <span className="rounded-full px-2 py-0.5 text-[10px] text-text-secondary bg-gray-100 border border-gray-200">
+                  {project.role}
+                </span>
+              )}
+            </div>
+            {project.npm && (
+              <span
+                className="flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-semibold"
+                style={{ color: '#d97706', background: 'rgba(245,158,11,0.08)', border: '1px solid rgba(245,158,11,0.25)' }}
+              >
+                <Package size={9} aria-hidden="true" />
+                NPM
               </span>
             )}
           </div>
-          {/* NPM badge */}
-          {project.npm && (
-            <span
-              className="flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-semibold"
-              style={{ color: '#f59e0b', background: 'rgba(245,158,11,0.08)', border: '1px solid rgba(245,158,11,0.25)' }}
-            >
-              <Package size={9} aria-hidden="true" />
-              NPM
-            </span>
+
+          {/* Title */}
+          <h3 className="text-lg font-bold text-text-heading mb-1 leading-snug">{project.title}</h3>
+
+          {/* Company attribution */}
+          {project.companyName && (
+            <p className="text-xs text-text-secondary mb-2 font-mono">@ {project.companyName}</p>
           )}
-        </div>
 
-        {/* Title */}
-        <h3 className="text-lg font-bold text-slate-100 mb-1 leading-snug">{project.title}</h3>
-
-        {/* Company attribution */}
-        {project.companyName && (
-          <p className="text-xs text-slate-600 mb-2 font-mono">@ {project.companyName}</p>
-        )}
-
-        {/* Tagline */}
-        <p className="text-sm mb-3" style={{ color: accent }}>
-          {project.tagline}
-        </p>
-
-        {/* Description */}
-        <p className="text-sm text-slate-400 leading-relaxed mb-5 flex-1">
-          {project.description}
-        </p>
-
-        {/* Key features */}
-        <div className="mb-5">
-          <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">
-            Key Features
+          {/* Tagline */}
+          <p className="text-sm mb-3 font-medium" style={{ color: accent }}>
+            {project.tagline}
           </p>
-          <ul className="space-y-1.5" aria-label="Key features">
-            {project.features.slice(0, 4).map((f) => (
-              <li key={f} className="flex gap-2 items-start">
-                <ChevronRight
-                  size={12}
-                  className="mt-0.5 flex-shrink-0"
-                  style={{ color: accent }}
-                  aria-hidden="true"
-                />
-                <span className="text-xs text-slate-400 leading-relaxed">{f}</span>
-              </li>
+
+          {/* Description */}
+          <p className="text-sm text-text-body leading-relaxed mb-5 flex-1">
+            {project.description}
+          </p>
+
+          {/* Key features */}
+          <div className="mb-5">
+            <p className="text-xs font-semibold text-text-secondary uppercase tracking-wider mb-2">
+              Key Features
+            </p>
+            <ul className="space-y-1.5" aria-label="Key features">
+              {project.features.slice(0, 4).map((f) => (
+                <li key={f} className="flex gap-2 items-start">
+                  <ChevronRight
+                    size={12}
+                    className="mt-0.5 flex-shrink-0"
+                    style={{ color: accent }}
+                    aria-hidden="true"
+                  />
+                  <span className="text-xs text-text-body leading-relaxed">{f}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Tech stack */}
+          <div className="flex flex-wrap gap-1.5 mb-5" aria-label="Technologies used">
+            {project.techStack.map((tech) => (
+              <span key={tech} className="tech-badge text-[10px]">
+                {tech}
+              </span>
             ))}
-          </ul>
-        </div>
+          </div>
 
-        {/* Tech stack */}
-        <div className="flex flex-wrap gap-1.5 mb-5" aria-label="Technologies used">
-          {project.techStack.map((tech) => (
-            <span
-              key={tech}
-              className="tech-badge text-[10px]"
+          {/* Actions */}
+          <div className="flex flex-wrap gap-2 pt-4 border-t border-gray-100">
+            <Link
+              to={`/projects/${project.id}`}
+              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-semibold text-white transition-all duration-200 hover:opacity-90"
+              style={{ background: `linear-gradient(135deg, ${gradientFrom}, ${gradientTo})` }}
+              aria-label={`View details for ${project.title}`}
             >
-              {tech}
-            </span>
-          ))}
-        </div>
-
-        {/* Actions */}
-        <div className="flex flex-wrap gap-2 pt-4" style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}>
-          <Link
-            to={`/projects/${project.id}`}
-            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-semibold text-white transition-all duration-200"
-            style={{ background: `linear-gradient(135deg, ${accent}, ${isCompany ? '#6d28d9' : '#0284c7'})` }}
-            aria-label={`View details for ${project.title}`}
-          >
-            View Details
-            <ArrowRight size={12} aria-hidden="true" />
-          </Link>
-          {project.github && project.category !== 'company' && (
-            <a
-              href={project.github}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-medium text-slate-400 hover:text-white transition-colors"
-              style={{ border: '1px solid rgba(255,255,255,0.08)', background: 'rgba(255,255,255,0.03)' }}
-              aria-label={`View source code for ${project.title} on GitHub (opens in new tab)`}
-            >
-              <GithubIcon size={12} />
-              Code
-            </a>
-          )}
-          {project.npm && (
-            <a
-              href={project.npm}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-medium transition-colors"
-              style={{
-                color: '#f59e0b',
-                border: '1px solid rgba(245,158,11,0.2)',
-                background: 'rgba(245,158,11,0.05)',
-              }}
-              aria-label={`View ${project.title} on NPM (opens in new tab)`}
-            >
-              <Package size={12} aria-hidden="true" />
-              NPM
-            </a>
-          )}
-          {project.demo && (
-            <a
-              href={project.demo}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-medium text-slate-400 hover:text-white transition-colors"
-              style={{ border: '1px solid rgba(255,255,255,0.08)', background: 'rgba(255,255,255,0.03)' }}
-              aria-label={`View live demo for ${project.title} (opens in new tab)`}
-            >
-              <ExternalLink size={12} aria-hidden="true" />
-              Demo
-            </a>
-          )}
+              View Details
+              <ArrowRight size={12} aria-hidden="true" />
+            </Link>
+            {project.github && project.category !== 'company' && (
+              <a
+                href={project.github}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-medium text-text-secondary hover:text-text-heading transition-colors border border-gray-200 hover:border-gray-300 bg-white hover:bg-gray-50"
+                aria-label={`View source code for ${project.title} on GitHub (opens in new tab)`}
+              >
+                <GithubIcon size={12} />
+                Code
+              </a>
+            )}
+            {project.npm && (
+              <a
+                href={project.npm}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-medium transition-colors"
+                style={{
+                  color: '#d97706',
+                  border: '1px solid rgba(245,158,11,0.25)',
+                  background: 'rgba(245,158,11,0.06)',
+                }}
+                aria-label={`View ${project.title} on NPM (opens in new tab)`}
+              >
+                <Package size={12} aria-hidden="true" />
+                NPM
+              </a>
+            )}
+            {project.demo && (
+              <a
+                href={project.demo}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-medium text-text-secondary hover:text-text-heading transition-colors border border-gray-200 hover:border-gray-300 bg-white hover:bg-gray-50"
+                aria-label={`View live demo for ${project.title} (opens in new tab)`}
+              >
+                <ExternalLink size={12} aria-hidden="true" />
+                Demo
+              </a>
+            )}
+          </div>
         </div>
       </GlassCard>
     </motion.article>
@@ -234,6 +237,12 @@ export default function Projects() {
         >
           {tabs.map((tab) => {
             const isActive = activeTab === tab.id
+            const count =
+              tab.id === 'all'
+                ? projects.length
+                : tab.id === 'company'
+                  ? projects.filter((p) => p.category === 'company').length
+                  : projects.filter((p) => p.category !== 'company').length
             return (
               <button
                 key={tab.id}
@@ -243,13 +252,13 @@ export default function Projects() {
                 onClick={() => setActiveTab(tab.id)}
                 className="flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-all duration-200"
                 style={isActive ? {
-                  background: 'linear-gradient(135deg, rgba(6,182,212,0.15), rgba(139,92,246,0.15))',
-                  border: '1px solid rgba(6,182,212,0.3)',
-                  color: '#06b6d4',
+                  background: 'linear-gradient(135deg, rgba(37,99,235,0.08), rgba(124,58,237,0.08))',
+                  border: '1px solid rgba(37,99,235,0.25)',
+                  color: '#2563EB',
                 } : {
-                  background: 'rgba(255,255,255,0.04)',
-                  border: '1px solid rgba(255,255,255,0.07)',
-                  color: '#94a3b8',
+                  background: 'white',
+                  border: '1px solid #E5E7EB',
+                  color: '#6B7280',
                 }}
               >
                 {tab.icon}
@@ -257,19 +266,15 @@ export default function Projects() {
                 <span
                   className="ml-1 rounded-full px-1.5 py-0.5 text-[10px] font-semibold"
                   style={isActive ? {
-                    background: 'rgba(6,182,212,0.2)',
-                    color: '#06b6d4',
+                    background: 'rgba(37,99,235,0.12)',
+                    color: '#2563EB',
                   } : {
-                    background: 'rgba(255,255,255,0.06)',
-                    color: '#64748b',
+                    background: '#F3F4F6',
+                    color: '#6B7280',
                   }}
-                  aria-label={`${projects.filter(p => tab.id === 'all' ? true : tab.id === 'company' ? p.category === 'company' : p.category !== 'company').length} projects`}
+                  aria-label={`${count} projects`}
                 >
-                  {tab.id === 'all'
-                    ? projects.length
-                    : tab.id === 'company'
-                      ? projects.filter((p) => p.category === 'company').length
-                      : projects.filter((p) => p.category !== 'company').length}
+                  {count}
                 </span>
               </button>
             )
@@ -289,7 +294,7 @@ export default function Projects() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
               transition={{ duration: 0.25 }}
-              className="grid gap-6 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2"
+              className="grid gap-6 sm:grid-cols-2"
             >
               {filtered.map((project, idx) => (
                 <ProjectCard key={project.id} project={project} index={idx} />
@@ -311,25 +316,25 @@ export default function Projects() {
             <div
               className="rounded-2xl p-6 sm:p-8"
               style={{
-                background: 'linear-gradient(135deg, rgba(245,158,11,0.06) 0%, rgba(6,182,212,0.04) 100%)',
+                background: 'linear-gradient(135deg, rgba(245,158,11,0.05) 0%, rgba(37,99,235,0.04) 100%)',
                 border: '1px solid rgba(245,158,11,0.2)',
               }}
             >
               <div className="flex flex-col sm:flex-row gap-6 items-start sm:items-center justify-between">
                 <div>
                   <div className="flex items-center gap-2 mb-2">
-                    <Package size={16} className="text-amber-400" aria-hidden="true" />
+                    <Package size={16} className="text-amber-500" aria-hidden="true" />
                     <span
                       id="opensource-heading"
-                      className="text-xs font-semibold uppercase tracking-wider text-amber-400"
+                      className="text-xs font-semibold uppercase tracking-wider text-amber-600"
                     >
                       Open Source · NPM Package
                     </span>
                   </div>
-                  <h3 className="text-lg font-bold text-slate-100 mb-1">
+                  <h3 className="text-lg font-bold text-text-heading mb-1">
                     mui-schema-form-builder
                   </h3>
-                  <p className="text-sm text-slate-400 max-w-lg">
+                  <p className="text-sm text-text-body max-w-lg">
                     Published NPM package that converts JSON schema definitions into fully validated, accessible
                     Material UI forms with zero boilerplate. TypeScript-first. &lt;12 KB gzipped.
                   </p>
@@ -339,9 +344,9 @@ export default function Projects() {
                     href="https://www.npmjs.com/package/mui-schema-form-builder"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-semibold"
+                    className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-semibold transition-colors hover:opacity-90"
                     style={{
-                      color: '#f59e0b',
+                      color: '#d97706',
                       border: '1px solid rgba(245,158,11,0.3)',
                       background: 'rgba(245,158,11,0.08)',
                     }}
@@ -354,8 +359,7 @@ export default function Projects() {
                     href="https://github.com/APK-Arjun-Developer/mui-schema-form-builder"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-medium text-slate-400 hover:text-white transition-colors"
-                    style={{ border: '1px solid rgba(255,255,255,0.08)', background: 'rgba(255,255,255,0.04)' }}
+                    className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-medium text-text-secondary hover:text-text-heading transition-colors border border-gray-200 hover:border-gray-300 bg-white hover:bg-gray-50"
                     aria-label="View mui-schema-form-builder source code on GitHub (opens in new tab)"
                   >
                     <GithubIcon size={12} />

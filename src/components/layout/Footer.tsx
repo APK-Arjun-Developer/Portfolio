@@ -18,38 +18,23 @@ const footerLinks = [
 
 export default function Footer() {
   return (
-    <footer
-      className="relative mt-24"
-      style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}
-    >
-      <div
-        className="pointer-events-none absolute inset-x-0 -top-px h-px"
-        style={{
-          background:
-            'linear-gradient(90deg, transparent 0%, rgba(6,182,212,0.2) 30%, rgba(139,92,246,0.2) 70%, transparent 100%)',
-        }}
-        aria-hidden="true"
-      />
+    <footer className="relative mt-24 border-t border-gray-200">
       <div className="container-xl py-12">
         <div className="flex flex-col items-center gap-8 md:flex-row md:justify-between">
           {/* Brand */}
-          <Link
-            to="/"
-            className="group flex items-center gap-2.5"
-            aria-label="Back to home"
-          >
+          <Link to="/" className="group flex items-center gap-2.5" aria-label="Back to home">
             <div
               className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md text-[9px] font-bold text-white"
-              style={{ background: 'linear-gradient(135deg, #06b6d4, #8b5cf6)' }}
+              style={{ background: 'linear-gradient(135deg, #2563EB, #7C3AED)' }}
               aria-hidden="true"
             >
               AP
             </div>
             <div>
-              <p className="text-sm font-semibold text-slate-300 transition-colors group-hover:text-white">
+              <p className="text-sm font-semibold text-text-heading transition-colors group-hover:text-blue-600">
                 {personal.name}
               </p>
-              <p className="text-xs text-slate-600">{personal.role}</p>
+              <p className="text-xs text-text-secondary">{personal.role}</p>
             </div>
           </Link>
 
@@ -59,7 +44,7 @@ export default function Footer() {
               <Link
                 key={link.to}
                 to={link.to}
-                className="text-xs text-slate-500 hover:text-slate-300 transition-colors"
+                className="text-xs text-text-secondary hover:text-text-heading transition-colors"
               >
                 {link.label}
               </Link>
@@ -79,13 +64,13 @@ export default function Footer() {
                   role="listitem"
                   whileHover={{ scale: 1.1, y: -2 }}
                   whileTap={{ scale: 0.95 }}
-                  className="flex items-center justify-center p-2 rounded-lg text-slate-500 hover:text-slate-200 transition-colors"
+                  className="flex items-center justify-center p-2 rounded-lg text-text-secondary hover:text-text-heading transition-colors hover:bg-gray-100"
                 >
                   <Icon size={15} />
                 </motion.a>
               ))}
             </div>
-            <p className="text-xs text-slate-600">
+            <p className="text-xs text-text-secondary">
               © {new Date().getFullYear()} {personal.name}
             </p>
           </div>

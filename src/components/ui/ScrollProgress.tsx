@@ -16,7 +16,10 @@ export default function ScrollProgress() {
       role="progressbar"
       aria-label="Page scroll progress"
     >
-      <div className="h-full w-full" style={{ background: 'linear-gradient(90deg, #06b6d4, #8b5cf6)' }} />
+      <div
+        className="h-full w-full"
+        style={{ background: 'linear-gradient(90deg, #2563EB, #7C3AED)' }}
+      />
     </motion.div>
   )
 }

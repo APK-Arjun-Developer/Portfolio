@@ -22,12 +22,10 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
-  // Close mobile menu on route change
   useEffect(() => {
     setMobileOpen(false)
   }, [location.pathname])
 
-  // Prevent body scroll when mobile menu is open
   useEffect(() => {
     document.body.style.overflow = mobileOpen ? 'hidden' : ''
     return () => { document.body.style.overflow = '' }
@@ -41,15 +39,12 @@ export default function Navbar() {
         transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
         className={cn(
           'fixed inset-x-0 top-0 z-50 transition-all duration-500',
-          scrolled
-            ? 'py-3 border-b'
-            : 'py-5',
+          scrolled ? 'py-3 border-b border-gray-200' : 'py-5',
         )}
         style={scrolled ? {
           backdropFilter: 'blur(20px) saturate(180%)',
           WebkitBackdropFilter: 'blur(20px) saturate(180%)',
-          background: 'rgba(8, 8, 14, 0.85)',
-          borderColor: 'rgba(255,255,255,0.06)',
+          background: 'rgba(250,250,250,0.92)',
         } : {}}
       >
         <nav
@@ -59,18 +54,18 @@ export default function Navbar() {
           {/* Logo */}
           <Link
             to="/"
-            className="group flex items-center gap-2.5 focus-visible:ring-2 focus-visible:ring-cyan-500 rounded-lg"
+            className="group flex items-center gap-2.5 rounded-lg focus-visible:ring-2 focus-visible:ring-blue-500"
             aria-label="Home"
           >
             <motion.div whileHover={{ scale: 1.05 }} className="flex items-center gap-2.5">
               <div
                 className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg text-[10px] font-bold text-white"
-                style={{ background: 'linear-gradient(135deg, #06b6d4, #8b5cf6)' }}
+                style={{ background: 'linear-gradient(135deg, #2563EB, #7C3AED)' }}
                 aria-hidden="true"
               >
                 AP
               </div>
-              <span className="text-sm font-semibold text-slate-300 transition-colors group-hover:text-white">
+              <span className="text-sm font-semibold text-text-heading transition-colors group-hover:text-blue-600">
                 {personal.name}
               </span>
             </motion.div>
@@ -86,19 +81,17 @@ export default function Navbar() {
                   to={link.to}
                   role="listitem"
                   className={cn(
-                    'relative px-4 py-2 text-sm rounded-lg transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-500',
-                    active ? 'text-white' : 'text-slate-400 hover:text-white hover:bg-white/[0.05]',
+                    'relative px-4 py-2 text-sm rounded-lg transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500',
+                    active
+                      ? 'text-text-heading font-medium'
+                      : 'text-text-secondary hover:text-text-heading hover:bg-gray-100',
                   )}
                   aria-current={active ? 'page' : undefined}
                 >
                   {active && (
                     <motion.span
                       layoutId="nav-pill"
-                      className="absolute inset-0 rounded-lg"
-                      style={{
-                        background: 'rgba(255,255,255,0.07)',
-                        border: '1px solid rgba(255,255,255,0.10)',
-                      }}
+                      className="absolute inset-0 rounded-lg bg-gray-100"
                       transition={{ type: 'spring', bounce: 0.2, duration: 0.55 }}
                     />
                   )}
@@ -113,7 +106,7 @@ export default function Navbar() {
             <a
               href={personal.resumeUrl}
               download="arjun-p-resume.pdf"
-              className="btn-outline-cyan text-xs"
+              className="flex items-center gap-1.5 rounded-lg border border-blue-200 px-3.5 py-1.5 text-xs font-medium text-blue-600 transition-all hover:bg-blue-50 hover:border-blue-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
               aria-label="Download resume PDF"
             >
               <Download size={13} aria-hidden="true" />
@@ -124,7 +117,7 @@ export default function Navbar() {
           {/* Mobile toggle */}
           <button
             onClick={() => setMobileOpen((o) => !o)}
-            className="flex md:hidden items-center justify-center p-2 rounded-lg text-slate-400 hover:text-white hover:bg-white/[0.05] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-500"
+            className="flex md:hidden items-center justify-center p-2 rounded-lg text-text-secondary hover:text-text-heading hover:bg-gray-100 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
             aria-label={mobileOpen ? 'Close navigation menu' : 'Open navigation menu'}
             aria-expanded={mobileOpen}
             aria-controls="mobile-menu"
@@ -160,19 +153,16 @@ export default function Navbar() {
       <AnimatePresence>
         {mobileOpen && (
           <>
-            {/* Backdrop */}
             <motion.div
               key="backdrop"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.2 }}
-              className="fixed inset-0 z-40 md:hidden"
-              style={{ background: 'rgba(0,0,0,0.5)', backdropFilter: 'blur(4px)' }}
+              className="fixed inset-0 z-40 md:hidden bg-black/20 backdrop-blur-sm"
               onClick={() => setMobileOpen(false)}
               aria-hidden="true"
             />
-            {/* Panel */}
             <motion.div
               id="mobile-menu"
               key="panel"
@@ -180,13 +170,7 @@ export default function Navbar() {
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: -8, scale: 0.98 }}
               transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
-              className="fixed inset-x-4 top-20 z-50 rounded-2xl p-4 shadow-2xl md:hidden"
-              style={{
-                background: 'rgba(13, 13, 23, 0.97)',
-                border: '1px solid rgba(255,255,255,0.08)',
-                backdropFilter: 'blur(20px)',
-                WebkitBackdropFilter: 'blur(20px)',
-              }}
+              className="fixed inset-x-4 top-20 z-50 rounded-2xl border border-gray-200 bg-white p-4 shadow-xl md:hidden"
               role="dialog"
               aria-modal="true"
               aria-label="Navigation menu"
@@ -206,13 +190,9 @@ export default function Navbar() {
                         className={cn(
                           'block px-4 py-3 rounded-xl text-sm font-medium transition-all',
                           active
-                            ? 'text-white'
-                            : 'text-slate-400 hover:text-white hover:bg-white/[0.05]',
+                            ? 'bg-gray-100 text-text-heading'
+                            : 'text-text-secondary hover:text-text-heading hover:bg-gray-50',
                         )}
-                        style={active ? {
-                          background: 'rgba(255,255,255,0.07)',
-                          border: '1px solid rgba(255,255,255,0.09)',
-                        } : {}}
                         aria-current={active ? 'page' : undefined}
                       >
                         {link.label}
@@ -224,13 +204,12 @@ export default function Navbar() {
                   initial={{ opacity: 0, x: -10 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: navLinks.length * 0.05 }}
-                  className="pt-2 mt-1"
-                  style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}
+                  className="mt-1 border-t border-gray-100 pt-2"
                 >
                   <a
                     href={personal.resumeUrl}
                     download="arjun-p-resume.pdf"
-                    className="flex items-center gap-2 px-4 py-3 rounded-xl text-sm font-medium text-cyan-400 hover:bg-cyan-500/[0.08] transition-all"
+                    className="flex items-center gap-2 rounded-xl px-4 py-3 text-sm font-medium text-blue-600 transition-all hover:bg-blue-50"
                     aria-label="Download resume PDF"
                   >
                     <Download size={14} aria-hidden="true" />

@@ -81,7 +81,7 @@ export default function App() {
   return (
     <BrowserRouter>
       <SmoothScrollProvider>
-        <div className="flex min-h-screen flex-col" style={{ backgroundColor: '#08080e' }}>
+        <div className="flex min-h-screen flex-col text-text-body">
           <ScrollProgress />
           <Navbar />
           <main id="main-content" className="flex-1" tabIndex={-1}>

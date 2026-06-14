@@ -19,12 +19,12 @@ function SectionHeading({ number, title }: { number: string; title: string }) {
   return (
     <div className="mb-6">
       <div className="flex items-center gap-2 mb-1">
-        <span className="font-mono text-[10px] font-semibold text-cyan-500 opacity-70" aria-hidden="true">
+        <span className="font-mono text-[10px] font-semibold text-blue-500 opacity-80" aria-hidden="true">
           {number}.
         </span>
-        <div className="h-px w-8" style={{ background: 'rgba(6,182,212,0.2)' }} aria-hidden="true" />
+        <div className="h-px w-8 bg-blue-200" aria-hidden="true" />
       </div>
-      <h2 className="text-xl font-bold text-slate-100">{title}</h2>
+      <h2 className="text-xl font-bold text-text-heading">{title}</h2>
     </div>
   )
 }
@@ -36,21 +36,19 @@ export default function ProjectDetail() {
   if (!project) return <Navigate to="/projects" replace />
 
   const isCompany = project.category === 'company'
-  const accent = isCompany ? '#8b5cf6' : '#06b6d4'
-  const accentBg = isCompany ? 'rgba(139,92,246,0.08)' : 'rgba(6,182,212,0.08)'
-  const accentBorder = isCompany ? 'rgba(139,92,246,0.3)' : 'rgba(6,182,212,0.3)'
+  const accent = isCompany ? '#7C3AED' : '#2563EB'
+  const accentBg = isCompany ? 'rgba(124,58,237,0.07)' : 'rgba(37,99,235,0.07)'
+  const accentBorder = isCompany ? 'rgba(124,58,237,0.22)' : 'rgba(37,99,235,0.2)'
 
   return (
     <AuroraBackground className="min-h-screen">
-      <div
-        className="container-xl py-28 sm:py-32"
-        style={{ maxWidth: '60rem' }}
-      >
+      <div className="container-xl py-28 sm:py-32" style={{ maxWidth: '60rem' }}>
+
         {/* ── Back ── */}
         <motion.div {...fadeUp(0)} className="mb-8">
           <Link
             to="/projects"
-            className="inline-flex items-center gap-2 text-sm text-slate-500 hover:text-white transition-colors group"
+            className="inline-flex items-center gap-2 text-sm text-text-secondary hover:text-text-heading transition-colors group"
             aria-label="Back to all projects"
           >
             <ArrowLeft
@@ -65,14 +63,12 @@ export default function ProjectDetail() {
         {/* ── Header ── */}
         <header>
           <motion.div {...fadeUp(0.05)} className="flex flex-wrap items-center gap-2 mb-3">
-            {/* Category */}
             <span
               className="rounded-full px-3 py-1 text-xs font-semibold"
               style={{ color: accent, background: accentBg, border: `1px solid ${accentBorder}` }}
             >
               {isCompany ? 'Company Project' : 'Personal Project'}
             </span>
-            {/* Role */}
             {project.role && (
               <span
                 className="rounded-full px-2.5 py-0.5 text-xs font-medium"
@@ -81,15 +77,13 @@ export default function ProjectDetail() {
                 {project.role}
               </span>
             )}
-            {/* Company */}
             {project.companyName && (
-              <span className="text-xs text-slate-600 font-mono">@ {project.companyName}</span>
+              <span className="text-xs text-text-secondary font-mono">@ {project.companyName}</span>
             )}
-            {/* NPM */}
             {project.npm && (
               <span
                 className="flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-semibold"
-                style={{ color: '#f59e0b', background: 'rgba(245,158,11,0.08)', border: '1px solid rgba(245,158,11,0.25)' }}
+                style={{ color: '#d97706', background: 'rgba(245,158,11,0.08)', border: '1px solid rgba(245,158,11,0.25)' }}
               >
                 <Package size={9} aria-hidden="true" />
                 NPM Package
@@ -99,15 +93,12 @@ export default function ProjectDetail() {
 
           <motion.h1
             {...fadeUp(0.08)}
-            className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-50 tracking-tight leading-tight mb-3"
+            className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-text-heading tracking-tight leading-tight mb-3"
           >
             {project.title}
           </motion.h1>
 
-          <motion.p
-            {...fadeUp(0.11)}
-            className="text-lg text-slate-400 mb-6 max-w-2xl"
-          >
+          <motion.p {...fadeUp(0.11)} className="text-lg text-text-body mb-6 max-w-2xl">
             {project.tagline}
           </motion.p>
 
@@ -145,7 +136,7 @@ export default function ProjectDetail() {
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-medium transition-all"
                 style={{
-                  color: '#f59e0b',
+                  color: '#d97706',
                   border: '1px solid rgba(245,158,11,0.3)',
                   background: 'rgba(245,158,11,0.06)',
                 }}
@@ -171,33 +162,18 @@ export default function ProjectDetail() {
         </header>
 
         {/* Divider */}
-        <motion.div
-          {...fadeUp(0.2)}
-          className="my-10 divider-glow"
-          role="separator"
-        />
+        <motion.div {...fadeUp(0.2)} className="my-10 h-px bg-gray-200" role="separator" />
 
         {/* ── 01 Problem & Overview ── */}
-        <motion.section
-          {...fadeUp(0.22)}
-          className="mb-14"
-          aria-labelledby="overview-heading"
-        >
+        <motion.section {...fadeUp(0.22)} className="mb-14" aria-labelledby="overview-heading">
           <SectionHeading number="01" title="Problem & Overview" />
-          <p
-            id="overview-heading"
-            className="text-slate-400 leading-relaxed max-w-3xl"
-          >
+          <p id="overview-heading" className="text-text-body leading-relaxed max-w-3xl">
             {project.overview}
           </p>
         </motion.section>
 
         {/* ── 02 Key Features ── */}
-        <motion.section
-          {...fadeUp(0.25)}
-          className="mb-14"
-          aria-labelledby="features-heading"
-        >
+        <motion.section {...fadeUp(0.25)} className="mb-14" aria-labelledby="features-heading">
           <SectionHeading number="02" title="Key Features" />
           <ul
             id="features-heading"
@@ -219,18 +195,14 @@ export default function ProjectDetail() {
                   style={{ color: accent }}
                   aria-hidden="true"
                 />
-                <span className="text-sm text-slate-400 leading-relaxed">{f}</span>
+                <span className="text-sm text-text-body leading-relaxed">{f}</span>
               </motion.li>
             ))}
           </ul>
         </motion.section>
 
         {/* ── 03 Challenges & Solutions ── */}
-        <motion.section
-          {...fadeUp(0.28)}
-          className="mb-14"
-          aria-labelledby="challenges-heading"
-        >
+        <motion.section {...fadeUp(0.28)} className="mb-14" aria-labelledby="challenges-heading">
           <SectionHeading number="03" title="Challenges & Solutions" />
           <ol
             id="challenges-heading"
@@ -249,8 +221,8 @@ export default function ProjectDetail() {
                   className="overflow-hidden transition-shadow duration-300"
                   hover={false}
                   onMouseEnter={(e) => {
-                    ;(e.currentTarget as HTMLElement).style.boxShadow = `0 0 30px ${accent}0f`
-                    ;(e.currentTarget as HTMLElement).style.borderColor = accent + '30'
+                    ;(e.currentTarget as HTMLElement).style.boxShadow = `0 0 30px ${accent}10`
+                    ;(e.currentTarget as HTMLElement).style.borderColor = `${accent}30`
                   }}
                   onMouseLeave={(e) => {
                     ;(e.currentTarget as HTMLElement).style.boxShadow = ''
@@ -259,17 +231,14 @@ export default function ProjectDetail() {
                 >
                   <div className="grid sm:grid-cols-2">
                     {/* Problem */}
-                    <div
-                      className="p-5"
-                      style={{ borderRight: '1px solid rgba(255,255,255,0.06)' }}
-                    >
+                    <div className="p-5 border-b sm:border-b-0 sm:border-r border-gray-100">
                       <div className="flex items-center gap-2 mb-3">
-                        <AlertCircle size={13} className="text-rose-400" aria-hidden="true" />
-                        <span className="font-mono text-[10px] font-semibold uppercase tracking-wider text-rose-400">
+                        <AlertCircle size={13} className="text-rose-500" aria-hidden="true" />
+                        <span className="font-mono text-[10px] font-semibold uppercase tracking-wider text-rose-500">
                           Problem
                         </span>
                       </div>
-                      <p className="text-sm text-slate-300 leading-relaxed">{c.problem}</p>
+                      <p className="text-sm text-text-body leading-relaxed">{c.problem}</p>
                     </div>
                     {/* Solution */}
                     <div className="p-5">
@@ -282,7 +251,7 @@ export default function ProjectDetail() {
                           Solution
                         </span>
                       </div>
-                      <p className="text-sm text-slate-400 leading-relaxed">{c.solution}</p>
+                      <p className="text-sm text-text-body leading-relaxed">{c.solution}</p>
                     </div>
                   </div>
                 </GlassCard>
@@ -292,11 +261,7 @@ export default function ProjectDetail() {
         </motion.section>
 
         {/* ── 04 Tech Stack ── */}
-        <motion.section
-          {...fadeUp(0.3)}
-          className="mb-14"
-          aria-labelledby="techstack-heading"
-        >
+        <motion.section {...fadeUp(0.3)} className="mb-14" aria-labelledby="techstack-heading">
           <SectionHeading number="04" title="Tech Stack" />
           <ul
             id="techstack-heading"
@@ -307,7 +272,7 @@ export default function ProjectDetail() {
               <li key={tech}>
                 <GlassCard
                   className="px-4 py-3 cursor-default group"
-                  glow={isCompany ? 'violet' : 'cyan'}
+                  glow={isCompany ? 'violet' : 'blue'}
                   hover={false}
                   onMouseEnter={(e) => {
                     ;(e.currentTarget as HTMLElement).style.borderColor = accentBorder
@@ -316,7 +281,7 @@ export default function ProjectDetail() {
                     ;(e.currentTarget as HTMLElement).style.borderColor = ''
                   }}
                 >
-                  <span className="text-sm font-medium text-slate-300 group-hover:text-white transition-colors">
+                  <span className="text-sm font-medium text-text-body group-hover:text-text-heading transition-colors">
                     {tech}
                   </span>
                 </GlassCard>
@@ -327,11 +292,11 @@ export default function ProjectDetail() {
 
         {/* ── Bottom CTA ── */}
         <motion.div {...fadeUp(0.32)}>
-          <div className="divider-glow mb-8" role="separator" />
+          <div className="h-px bg-gray-200 mb-8" role="separator" />
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <Link
               to="/projects"
-              className="inline-flex items-center gap-2 text-sm text-slate-500 hover:text-white transition-colors group"
+              className="inline-flex items-center gap-2 text-sm text-text-secondary hover:text-text-heading transition-colors group"
               aria-label="Back to all projects"
             >
               <ArrowLeft
@@ -361,7 +326,7 @@ export default function ProjectDetail() {
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-medium transition-all"
                   style={{
-                    color: '#f59e0b',
+                    color: '#d97706',
                     border: '1px solid rgba(245,158,11,0.25)',
                     background: 'rgba(245,158,11,0.05)',
                   }}

@@ -3,9 +3,9 @@ import { skills } from '../../data/personal'
 import AuroraBackground from '../../components/ui/AuroraBackground'
 import SectionTitle from '../../components/ui/SectionTitle'
 import GlassCard from '../../components/ui/GlassCard'
+import TechCard from '../../components/ui/TechCard'
 import { MapPin, CalendarDays } from 'lucide-react'
 
-/* ── Career start date (from original About page) ── */
 const careerStart = new Date('2023-08-01')
 function getDynamicExperience() {
   const now = new Date()
@@ -16,14 +16,13 @@ function getDynamicExperience() {
   return years % 1 === 0 ? `${years}` : years.toFixed(1)
 }
 
-/* ── Experience timeline (preserved from original About page) ── */
 const timeline = [
   {
     period: 'Feb 2025 – Present',
     role: 'Full Stack Developer',
     company: 'Techbumbles Software Solutions Pvt Ltd',
     location: 'Erode, TN',
-    accent: '#06b6d4',
+    accent: '#2563EB',
     highlights: [
       'Building scalable full-stack web applications with React, Node.js, .NET Core and PostgreSQL',
       'Collaborating with cross-functional teams to deliver new features and improve system architecture',
@@ -35,7 +34,7 @@ const timeline = [
     role: 'Full Stack Developer',
     company: 'PM Square Soft Services Pvt Ltd',
     location: 'Coimbatore, TN',
-    accent: '#8b5cf6',
+    accent: '#7C3AED',
     highlights: [
       'Developed high-performance web apps using React, Node.js, and .NET Core',
       'Designed and optimised databases with MySQL, SQLite, and SQL Server',
@@ -44,36 +43,11 @@ const timeline = [
   },
 ]
 
-/* ── Skills (preserved from original About page) ── */
-const skillSections = [
-  {
-    label: 'Backend',
-    items: skills.backend,
-    accent: '#06b6d4',
-    accentBg: 'rgba(6,182,212,0.07)',
-    accentBorder: 'rgba(6,182,212,0.2)',
-  },
-  {
-    label: 'Frontend',
-    items: skills.frontend,
-    accent: '#8b5cf6',
-    accentBg: 'rgba(139,92,246,0.07)',
-    accentBorder: 'rgba(139,92,246,0.2)',
-  },
-  {
-    label: 'Databases',
-    items: skills.databases,
-    accent: '#f59e0b',
-    accentBg: 'rgba(245,158,11,0.07)',
-    accentBorder: 'rgba(245,158,11,0.2)',
-  },
-  {
-    label: 'Tools',
-    items: skills.tools,
-    accent: '#f43f5e',
-    accentBg: 'rgba(244,63,94,0.07)',
-    accentBorder: 'rgba(244,63,94,0.2)',
-  },
+const allSkills = [
+  ...skills.frontend,
+  ...skills.backend,
+  ...skills.databases,
+  ...skills.tools,
 ]
 
 const fadeUp = (delay = 0) => ({
@@ -99,7 +73,7 @@ export default function About() {
                 <>
                   I'm a Full Stack Developer with experience building production web applications
                   using{' '}
-                  <span className="text-cyan-400 font-medium">React, Node.js, and .NET Core</span>.
+                  <span className="text-blue-600 font-medium">React, Node.js, and .NET Core</span>.
                   I work across the full stack — from database design to responsive UI.
                 </>,
                 <>
@@ -116,7 +90,7 @@ export default function About() {
                 <motion.p
                   key={i}
                   {...fadeUp(i * 0.08)}
-                  className="text-slate-400 leading-relaxed"
+                  className="text-text-body leading-relaxed"
                 >
                   {para}
                 </motion.p>
@@ -135,12 +109,12 @@ export default function About() {
                   ].map(({ label, value }) => (
                     <div key={label} className="text-center">
                       <dd className="text-3xl font-bold gradient-text">{value}</dd>
-                      <dt className="mt-0.5 text-xs text-slate-500">{label}</dt>
+                      <dt className="mt-0.5 text-xs text-text-secondary">{label}</dt>
                     </div>
                   ))}
                 </dl>
-                <div style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }} className="pt-4">
-                  <p className="text-xs text-slate-500 text-center">Based in Tamil Nadu, India</p>
+                <div className="border-t border-gray-100 pt-4">
+                  <p className="text-xs text-text-secondary text-center">Based in Tamil Nadu, India</p>
                 </div>
               </GlassCard>
             </motion.div>
@@ -156,8 +130,7 @@ export default function About() {
             <div
               className="absolute left-[7px] top-4 bottom-4 w-0.5 rounded-full"
               style={{
-                background:
-                  'linear-gradient(to bottom, rgba(6,182,212,0.4), rgba(139,92,246,0.15))',
+                background: 'linear-gradient(to bottom, rgba(37,99,235,0.35), rgba(124,58,237,0.15))',
               }}
               aria-hidden="true"
             />
@@ -174,9 +147,9 @@ export default function About() {
                     <div
                       className="h-4 w-4 rounded-full border-2"
                       style={{
-                        background: '#08080e',
+                        background: 'white',
                         borderColor: entry.accent,
-                        boxShadow: `0 0 10px ${entry.accent}40`,
+                        boxShadow: `0 0 10px ${entry.accent}30`,
                       }}
                       aria-hidden="true"
                     />
@@ -184,7 +157,7 @@ export default function About() {
 
                   <GlassCard
                     className="flex-1 p-5"
-                    glow={i === 0 ? 'cyan' : 'violet'}
+                    glow={i === 0 ? 'blue' : 'violet'}
                   >
                     <time
                       className="font-mono text-xs font-medium"
@@ -192,10 +165,10 @@ export default function About() {
                     >
                       {entry.period}
                     </time>
-                    <h3 className="text-base font-bold text-slate-100 mt-0.5">{entry.role}</h3>
+                    <h3 className="text-base font-bold text-text-heading mt-0.5">{entry.role}</h3>
                     <div className="flex flex-wrap items-center gap-3 mt-1 mb-4">
-                      <p className="text-sm text-slate-400">{entry.company}</p>
-                      <span className="flex items-center gap-1 text-xs text-slate-600">
+                      <p className="text-sm text-text-body">{entry.company}</p>
+                      <span className="flex items-center gap-1 text-xs text-text-secondary">
                         <MapPin size={11} aria-hidden="true" />
                         {entry.location}
                       </span>
@@ -211,7 +184,7 @@ export default function About() {
                             style={{ background: entry.accent }}
                             aria-hidden="true"
                           />
-                          <span className="text-sm text-slate-400 leading-relaxed">{h}</span>
+                          <span className="text-sm text-text-body leading-relaxed">{h}</span>
                         </li>
                       ))}
                     </ul>
@@ -224,60 +197,20 @@ export default function About() {
 
         {/* ── 03 Technical Skills ── */}
         <section className="mt-24 sm:mt-32" aria-labelledby="skills-heading">
-          <SectionTitle id="skills-heading" number="03" title="Technical Skills" />
+          <SectionTitle
+            id="skills-heading"
+            number="03"
+            title="Technical Skills"
+            subtitle="Technologies I work with across the full stack."
+          />
 
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {skillSections.map((section, i) => (
-              <motion.div key={section.label} {...fadeUp(i * 0.08)}>
-                <GlassCard
-                  className="h-full p-5 transition-all duration-300 cursor-default"
-                  hover={false}
-                  onMouseEnter={(e) => {
-                    const el = e.currentTarget as HTMLElement
-                    el.style.borderColor = section.accentBorder
-                    el.style.boxShadow = `0 0 24px ${section.accent}18`
-                  }}
-                  onMouseLeave={(e) => {
-                    const el = e.currentTarget as HTMLElement
-                    el.style.borderColor = ''
-                    el.style.boxShadow = ''
-                  }}
-                >
-                  {/* Category header */}
-                  <div className="flex items-center gap-2 mb-4">
-                    <div
-                      className="h-2 w-2 rounded-full"
-                      style={{ background: section.accent }}
-                      aria-hidden="true"
-                    />
-                    <span
-                      className="font-mono text-[10px] font-semibold uppercase tracking-[0.15em]"
-                      style={{ color: section.accent }}
-                    >
-                      {section.label}
-                    </span>
-                  </div>
-
-                  {/* Skills */}
-                  <ul
-                    className="flex flex-wrap gap-1.5"
-                    aria-label={`${section.label} skills`}
-                  >
-                    {section.items.map((skill) => (
-                      <li
-                        key={skill}
-                        className="rounded-md px-2.5 py-1 text-xs font-medium text-slate-300"
-                        style={{
-                          background: section.accentBg,
-                          border: `1px solid ${section.accentBorder}`,
-                        }}
-                      >
-                        {skill}
-                      </li>
-                    ))}
-                  </ul>
-                </GlassCard>
-              </motion.div>
+          <div
+            className="grid gap-3"
+            style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(100px, 1fr))' }}
+            aria-label="Technical skills"
+          >
+            {allSkills.map((skill, i) => (
+              <TechCard key={skill} name={skill} index={i} />
             ))}
           </div>
         </section>
@@ -288,18 +221,18 @@ export default function About() {
             <div className="flex-1">
               <h3
                 id="education-heading"
-                className="text-sm font-semibold text-slate-200 mb-1"
+                className="text-sm font-semibold text-text-heading mb-1"
               >
                 B.E. Aeronautical Engineering
               </h3>
-              <p className="text-sm text-slate-400">
+              <p className="text-sm text-text-body">
                 Excel Engineering College · CGPA 8.0 · Transitioned into software via NxtWave
                 MERN in 2023
               </p>
             </div>
             <div className="flex items-center gap-1.5 shrink-0">
-              <CalendarDays size={13} className="text-slate-600" aria-hidden="true" />
-              <span className="text-xs text-slate-600">2023</span>
+              <CalendarDays size={13} className="text-text-secondary" aria-hidden="true" />
+              <span className="text-xs text-text-secondary">2023</span>
             </div>
           </GlassCard>
         </motion.section>

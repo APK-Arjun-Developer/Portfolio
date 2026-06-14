@@ -18,18 +18,21 @@ export default function SectionTitle({ number, title, subtitle, id }: SectionTit
     >
       <div className="flex items-center gap-3 mb-3">
         <span
-          className="font-mono text-xs font-semibold tracking-widest text-cyan-500 opacity-70"
+          className="font-mono text-xs font-semibold tracking-widest text-blue-500 opacity-80"
           aria-hidden="true"
         >
           {number}.
         </span>
-        <div className="h-px flex-1 max-w-[60px]" style={{ background: 'rgba(6,182,212,0.2)' }} />
+        <div className="h-px flex-1 max-w-[60px] bg-blue-200" />
       </div>
-      <h2 id={id} className="text-3xl sm:text-4xl font-bold text-slate-50 tracking-tight">
+      <h2
+        id={id}
+        className="font-heading text-3xl sm:text-4xl font-bold text-text-heading tracking-tight"
+      >
         {title}
       </h2>
       {subtitle && (
-        <p className="mt-3 text-slate-400 text-base max-w-xl leading-relaxed">{subtitle}</p>
+        <p className="mt-3 text-text-secondary text-base max-w-xl leading-relaxed">{subtitle}</p>
       )}
     </motion.div>
   )
