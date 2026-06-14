@@ -34,7 +34,7 @@ npm run preview
 
 ## Deployment
 
-Pushes to `master` automatically deploy to GitHub Pages via `.github/workflows/deploy.yml`.
+Pushes to `main` automatically deploy to GitHub Pages via `.github/workflows/deploy.yml`.
 
 **One-time setup required:**
 Go to repo **Settings → Pages → Source** and select **GitHub Actions**.
