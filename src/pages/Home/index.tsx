@@ -1,135 +1,223 @@
-import { Box, Typography, Button, Stack, Chip, Divider } from '@mui/material';
-import DownloadIcon from '@mui/icons-material/Download';
-import GitHubIcon from '@mui/icons-material/GitHub';
-import LinkedInIcon from '@mui/icons-material/LinkedIn';
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import { Link } from 'react-router-dom';
-import FadeIn from '../../components/ui/FadeIn';
-import { personal } from '../../data/personal';
+import { motion } from 'framer-motion'
+import type { Variants } from 'framer-motion'
+import { ArrowRight, Download, ExternalLink, ChevronDown, Package, Layers, Building2 } from 'lucide-react'
+import { Link } from 'react-router-dom'
+import { personal } from '../../data/personal'
+import AuroraBackground from '../../components/ui/AuroraBackground'
+import { GithubIcon, LinkedinIcon } from '../../components/ui/BrandIcons'
+
+const techStack = ['React', 'Node.js', '.NET Core', 'SQL'] as const
+
+const heroStats = [
+  { value: '2+', label: 'Years Experience', Icon: Layers },
+  { value: '6', label: 'Projects Shipped', Icon: Package },
+  { value: '2', label: 'Companies', Icon: Building2 },
+  { value: '1', label: 'NPM Package', Icon: Package },
+]
+
+const easing: [number, number, number, number] = [0.22, 1, 0.36, 1]
+
+const container: Variants = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: { staggerChildren: 0.09, delayChildren: 0.15 },
+  },
+}
+
+const item: Variants = {
+  hidden: { opacity: 0, y: 22 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.55, ease: easing },
+  },
+}
 
 export default function Home() {
   return (
-    <Box>
+    <AuroraBackground className="flex min-h-screen flex-col">
       {/* ── Hero ── */}
-      <Box
-        sx={{
-          minHeight: '92vh',
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          px: { xs: 3, sm: 6, md: 12 },
-          maxWidth: 960,
-          mx: 'auto',
-        }}
+      <section className="flex flex-1 items-center pt-28 pb-20" aria-label="Introduction">
+        <div className="container-xl w-full">
+          <motion.div
+            variants={container}
+            initial="hidden"
+            animate="show"
+            className="max-w-3xl"
+          >
+            {/* Status badge */}
+            <motion.div variants={item}>
+              <div
+                className="mb-8 inline-flex items-center gap-2 rounded-full px-3.5 py-1.5 text-xs font-medium text-cyan-400"
+                style={{
+                  background: 'rgba(6,182,212,0.07)',
+                  border: '1px solid rgba(6,182,212,0.2)',
+                }}
+                role="status"
+                aria-label="Currently available for new opportunities"
+              >
+                <span
+                  className="h-1.5 w-1.5 rounded-full bg-cyan-400 animate-pulse-slow"
+                  aria-hidden="true"
+                />
+                Available for opportunities
+              </div>
+            </motion.div>
+
+            {/* Greeting */}
+            <motion.p variants={item} className="mb-2 font-mono text-sm text-slate-500">
+              Hi, I'm
+            </motion.p>
+
+            {/* Name */}
+            <motion.h1
+              variants={item}
+              className="mb-4 text-5xl font-extrabold tracking-tight text-white sm:text-6xl lg:text-7xl"
+            >
+              {personal.name}
+            </motion.h1>
+
+            {/* Role */}
+            <motion.div variants={item} className="mb-6">
+              <span className="text-2xl font-bold sm:text-3xl lg:text-4xl gradient-text">
+                {personal.role}
+              </span>
+              <span className="text-2xl font-bold text-slate-500 sm:text-3xl lg:text-4xl">.</span>
+            </motion.div>
+
+            {/* Summary */}
+            <motion.p
+              variants={item}
+              className="mb-8 max-w-2xl text-base leading-relaxed text-slate-400 sm:text-lg"
+            >
+              {personal.summary}
+            </motion.p>
+
+            {/* Tech stack pills */}
+            <motion.div
+              variants={item}
+              className="mb-10 flex flex-wrap gap-2"
+              aria-label="Core technologies"
+            >
+              {techStack.map((tech) => (
+                <span key={tech} className="tech-badge">
+                  {tech}
+                </span>
+              ))}
+            </motion.div>
+
+            {/* CTA buttons */}
+            <motion.div variants={item} className="mb-10 flex flex-wrap gap-3">
+              <Link
+                to="/projects"
+                className="btn-primary group"
+                aria-label="View my projects"
+              >
+                View Projects
+                <ArrowRight
+                  size={15}
+                  className="transition-transform group-hover:translate-x-0.5"
+                  aria-hidden="true"
+                />
+              </Link>
+              <a
+                href={personal.resumeUrl}
+                download="arjun-p-resume.pdf"
+                className="btn-glass"
+                aria-label="Download my resume as PDF"
+              >
+                <Download size={15} aria-hidden="true" />
+                Download Resume
+              </a>
+            </motion.div>
+
+            {/* Social links */}
+            <motion.div
+              variants={item}
+              className="flex flex-wrap items-center gap-5"
+              aria-label="Social links"
+            >
+              <a
+                href={personal.github}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 text-sm text-slate-500 transition-colors hover:text-white"
+                aria-label="Visit my GitHub profile (opens in new tab)"
+              >
+                <GithubIcon size={16} />
+                GitHub
+                <ExternalLink size={11} className="opacity-40" aria-hidden="true" />
+              </a>
+              <div className="h-1 w-1 rounded-full bg-slate-700" aria-hidden="true" />
+              <a
+                href={personal.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 text-sm text-slate-500 transition-colors hover:text-white"
+                aria-label="Visit my LinkedIn profile (opens in new tab)"
+              >
+                <LinkedinIcon size={16} />
+                LinkedIn
+                <ExternalLink size={11} className="opacity-40" aria-hidden="true" />
+              </a>
+              <div className="h-1 w-1 rounded-full bg-slate-700" aria-hidden="true" />
+              <a
+                href={`mailto:${personal.email}`}
+                className="text-sm text-slate-500 transition-colors hover:text-white"
+                aria-label={`Email me at ${personal.email}`}
+              >
+                {personal.email}
+              </a>
+            </motion.div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* ── Stats bar ── */}
+      <motion.section
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.9, duration: 0.5 }}
+        style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}
+        aria-label="Career statistics"
       >
-        <FadeIn delay={100}>
-          <Typography variant="body1" sx={{ color: 'primary.main', fontFamily: 'monospace', mb: 2, fontSize: '1rem' }}>
-            Hi, I'm
-          </Typography>
-        </FadeIn>
-
-        <FadeIn delay={200}>
-          <Typography
-            variant="h1"
-            sx={{
-              fontSize: { xs: '2.8rem', sm: '3.8rem', md: '5rem' },
-              color: 'text.primary',
-              lineHeight: 1.05,
-              fontWeight: 800,
-            }}
-          >
-            {personal.name}
-          </Typography>
-        </FadeIn>
-
-        <FadeIn delay={300}>
-          <Typography
-            variant="h2"
-            sx={{
-              fontSize: { xs: '1.8rem', sm: '2.5rem', md: '3.5rem' },
-              color: 'text.secondary',
-              lineHeight: 1.1,
-              mt: 1,
-              mb: 3,
-              fontWeight: 700,
-            }}
-          >
-            {personal.role}.
-          </Typography>
-        </FadeIn>
-
-        <FadeIn delay={400}>
-          <Typography
-            variant="body1"
-            sx={{ color: 'text.secondary', maxWidth: 520, lineHeight: 1.9, mb: 4, fontSize: '1.05rem' }}
-          >
-            {personal.summary}
-          </Typography>
-        </FadeIn>
-
-        <FadeIn delay={500}>
-          <Stack direction="row" spacing={1} sx={{ mb: 5, flexWrap: 'wrap' }}>
-            {['React', 'Node.js', '.NET Core', 'SQL'].map((tag) => (
-              <Chip
-                key={tag}
-                label={tag}
-                size="small"
-                variant="outlined"
-                sx={{ color: 'primary.main', borderColor: 'rgba(100,255,218,0.35)', mb: 1, fontSize: '0.75rem' }}
-              />
+        <div className="container-xl py-8">
+          <dl className="grid grid-cols-2 gap-6 sm:grid-cols-4">
+            {heroStats.map(({ value, label, Icon }) => (
+              <div key={label} className="group flex flex-col items-center gap-1 text-center">
+                <Icon
+                  size={14}
+                  className="mb-1 text-slate-600 transition-colors group-hover:text-cyan-500"
+                  aria-hidden="true"
+                />
+                <dt className="sr-only">{label}</dt>
+                <dd className="text-2xl font-bold gradient-text" aria-label={`${value} ${label}`}>
+                  {value}
+                </dd>
+                <dd className="text-xs text-slate-500" aria-hidden="true">{label}</dd>
+              </div>
             ))}
-          </Stack>
-        </FadeIn>
+          </dl>
+        </div>
+      </motion.section>
 
-        <FadeIn delay={600}>
-          <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} sx={{ mb: 5 }}>
-            <Button
-              variant="outlined"
-              color="primary"
-              size="large"
-              startIcon={<DownloadIcon />}
-              href={personal.resumeUrl}
-              download="arjun-p-resume.pdf"
-              sx={{ borderRadius: 1, px: 3, py: 1.2 }}
-            >
-              Download Resume
-            </Button>
-            <Button
-              variant="contained"
-              color="primary"
-              size="large"
-              component={Link}
-              to="/projects"
-              endIcon={<ArrowForwardIcon />}
-              sx={{ borderRadius: 1, px: 3, py: 1.2, color: '#0a192f', fontWeight: 700 }}
-            >
-              View Projects
-            </Button>
-          </Stack>
-        </FadeIn>
-
-        <FadeIn delay={700}>
-          <Stack direction="row" spacing={1}>
-            <Button
-              href={personal.github}
-              target="_blank"
-              startIcon={<GitHubIcon />}
-              sx={{ color: 'text.secondary', '&:hover': { color: 'primary.main' }, pl: 0 }}
-            >
-              GitHub
-            </Button>
-            <Divider orientation="vertical" flexItem sx={{ borderColor: 'rgba(255,255,255,0.1)', my: 1 }} />
-            <Button
-              href={personal.linkedin}
-              target="_blank"
-              startIcon={<LinkedInIcon />}
-              sx={{ color: 'text.secondary', '&:hover': { color: 'primary.main' } }}
-            >
-              LinkedIn
-            </Button>
-          </Stack>
-        </FadeIn>
-      </Box>
-    </Box>
-  );
+      {/* Scroll hint */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1.6 }}
+        className="absolute bottom-6 left-1/2 -translate-x-1/2"
+        aria-hidden="true"
+      >
+        <motion.div
+          animate={{ y: [0, 6, 0] }}
+          transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+          className="text-slate-600"
+        >
+          <ChevronDown size={20} />
+        </motion.div>
+      </motion.div>
+    </AuroraBackground>
+  )
 }

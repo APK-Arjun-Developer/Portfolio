@@ -1,43 +1,95 @@
-import { lazy, Suspense } from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { ThemeProvider, CssBaseline, Box, CircularProgress } from '@mui/material';
-import theme from './theme';
-import Navbar from './components/layout/Navbar';
-import Footer from './components/layout/Footer';
+import { lazy, Suspense, useEffect } from 'react'
+import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom'
+import { AnimatePresence, motion } from 'framer-motion'
+import Lenis from 'lenis'
+import Navbar from './components/layout/Navbar'
+import Footer from './components/layout/Footer'
+import ScrollProgress from './components/ui/ScrollProgress'
 
-const Home         = lazy(() => import('./pages/Home'));
-const About        = lazy(() => import('./pages/About'));
-const Projects     = lazy(() => import('./pages/Projects'));
-const ProjectDetail = lazy(() => import('./pages/Projects/ProjectDetail'));
+const Home = lazy(() => import('./pages/Home'))
+const About = lazy(() => import('./pages/About'))
+const Projects = lazy(() => import('./pages/Projects'))
+const ProjectDetail = lazy(() => import('./pages/Projects/ProjectDetail'))
 
 function PageLoader() {
   return (
-    <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '60vh' }}>
-      <CircularProgress color="primary" size={32} />
-    </Box>
-  );
+    <div
+      className="flex min-h-[60vh] items-center justify-center"
+      role="status"
+      aria-label="Loading page"
+    >
+      <div className="relative h-10 w-10">
+        <div
+          className="h-full w-full animate-spin rounded-full border-2 border-transparent"
+          style={{ borderTopColor: '#06b6d4', borderRightColor: 'rgba(6,182,212,0.2)' }}
+        />
+      </div>
+    </div>
+  )
+}
+
+function AnimatedRoutes() {
+  const location = useLocation()
+
+  return (
+    <AnimatePresence mode="wait" initial={false}>
+      <motion.div
+        key={location.pathname}
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: -6 }}
+        transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
+      >
+        <Suspense fallback={<PageLoader />}>
+          <Routes location={location}>
+            <Route path="/" element={<Home />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/projects" element={<Projects />} />
+            <Route path="/projects/:id" element={<ProjectDetail />} />
+          </Routes>
+        </Suspense>
+      </motion.div>
+    </AnimatePresence>
+  )
+}
+
+function SmoothScrollProvider({ children }: { children: React.ReactNode }) {
+  useEffect(() => {
+    const lenis = new Lenis({
+      duration: 1.15,
+      easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      smoothWheel: true,
+    })
+
+    let rafId: number
+    function raf(time: number) {
+      lenis.raf(time)
+      rafId = requestAnimationFrame(raf)
+    }
+    rafId = requestAnimationFrame(raf)
+
+    return () => {
+      cancelAnimationFrame(rafId)
+      lenis.destroy()
+    }
+  }, [])
+
+  return <>{children}</>
 }
 
 export default function App() {
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <BrowserRouter>
-        <Box sx={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+    <BrowserRouter>
+      <SmoothScrollProvider>
+        <div className="flex min-h-screen flex-col" style={{ backgroundColor: '#08080e' }}>
+          <ScrollProgress />
           <Navbar />
-          <Box component="main" sx={{ flex: 1 }}>
-            <Suspense fallback={<PageLoader />}>
-              <Routes>
-                <Route path="/"               element={<Home />} />
-                <Route path="/about"          element={<About />} />
-                <Route path="/projects"       element={<Projects />} />
-                <Route path="/projects/:id"   element={<ProjectDetail />} />
-              </Routes>
-            </Suspense>
-          </Box>
+          <main id="main-content" className="flex-1" tabIndex={-1}>
+            <AnimatedRoutes />
+          </main>
           <Footer />
-        </Box>
-      </BrowserRouter>
-    </ThemeProvider>
-  );
+        </div>
+      </SmoothScrollProvider>
+    </BrowserRouter>
+  )
 }

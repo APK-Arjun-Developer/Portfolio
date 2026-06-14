@@ -1,215 +1,392 @@
-import { useParams, Link, Navigate } from 'react-router-dom';
+import { useParams, Link, Navigate } from 'react-router-dom'
+import { motion } from 'framer-motion'
 import {
-  Box, Typography, Button, Chip, Stack, Paper, Grid, Divider,
-} from '@mui/material';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import GitHubIcon from '@mui/icons-material/GitHub';
-import OpenInNewIcon from '@mui/icons-material/OpenInNew';
-import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutlined';
-import FadeIn from '../../components/ui/FadeIn';
-import { projects } from '../../data/personal';
+  ArrowLeft, ExternalLink, Package, CheckCircle2,
+  AlertCircle, Lightbulb,
+} from 'lucide-react'
+import { GithubIcon } from '../../components/ui/BrandIcons'
+import { projects } from '../../data/personal'
+import AuroraBackground from '../../components/ui/AuroraBackground'
+import GlassCard from '../../components/ui/GlassCard'
 
-export default function ProjectDetail() {
-  const { id } = useParams<{ id: string }>();
-  const project = projects.find((p) => p.id === id);
+const fadeUp = (delay = 0) => ({
+  initial: { opacity: 0, y: 20 },
+  animate: { opacity: 1, y: 0 },
+  transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] as const, delay },
+})
 
-  if (!project) return <Navigate to="/projects" replace />;
-
+function SectionHeading({ number, title }: { number: string; title: string }) {
   return (
-    <Box sx={{ maxWidth: 960, mx: 'auto', px: { xs: 3, md: 6 }, py: 6 }}>
-      {/* ── Back ── */}
-      <FadeIn>
-        <Button
-          component={Link}
-          to="/projects"
-          startIcon={<ArrowBackIcon />}
-          sx={{ color: 'text.secondary', mb: 4, pl: 0, '&:hover': { color: 'primary.main' } }}
-        >
-          All Projects
-        </Button>
-      </FadeIn>
-
-      {/* ── Header ── */}
-      <FadeIn delay={50}>
-        <Stack direction="row" spacing={1.5} sx={{ flexWrap: 'wrap', alignItems: 'center' }}>
-          <Typography variant="caption" sx={{ color: project.category === 'company' ? '#bd34fe' : 'primary.main', fontFamily: 'monospace', fontSize: '0.85rem' }}>
-            {project.category === 'company' ? 'Company Project' : 'Personal Project'}
-          </Typography>
-          {project.role && (
-            <Chip label={project.role} size="small" sx={{ fontSize: '0.65rem', bgcolor: project.category === 'company' ? 'rgba(189,52,254,0.08)' : 'rgba(100,255,218,0.08)', color: project.category === 'company' ? '#bd34fe' : 'primary.main', border: '1px solid', borderColor: project.category === 'company' ? 'rgba(189,52,254,0.3)' : 'rgba(100,255,218,0.25)' }} />
-          )}
-          {project.companyName && (
-            <Typography variant="caption" sx={{ color: 'text.disabled', fontFamily: 'monospace', fontSize: '0.75rem' }}>
-              @ {project.companyName}
-            </Typography>
-          )}
-        </Stack>
-        <Typography variant="h3" sx={{ color: 'text.primary', fontWeight: 800, mt: 0.5, mb: 1, fontSize: { xs: '1.8rem', md: '2.6rem' } }}>
-          {project.title}
-        </Typography>
-        <Typography variant="h6" sx={{ color: 'text.secondary', fontWeight: 400, mb: 3 }}>
-          {project.tagline}
-        </Typography>
-
-        <Stack direction="row" spacing={1} sx={{ mb: 4, flexWrap: 'wrap' }}>
-          {project.techStack.map((tech) => (
-            <Chip
-              key={tech}
-              label={tech}
-              size="small"
-              variant="outlined"
-              sx={{ color: 'primary.main', borderColor: 'rgba(100,255,218,0.3)', mb: 1, fontSize: '0.72rem' }}
-            />
-          ))}
-        </Stack>
-
-        <Stack direction="row" spacing={2} sx={{ mb: 6 }}>
-          {project.github && project.category !== 'company' && (
-            <Button variant="outlined" color="primary" href={project.github} target="_blank" startIcon={<GitHubIcon />} sx={{ borderRadius: 1 }}>
-              View Code
-            </Button>
-          )}
-          {project.npm && (
-            <Button variant="outlined" href={project.npm} target="_blank" startIcon={<OpenInNewIcon />} sx={{ borderRadius: 1, color: 'text.secondary', borderColor: 'rgba(255,255,255,0.2)' }}>
-              NPM Package
-            </Button>
-          )}
-          {project.demo && (
-            <Button variant="contained" color="primary" href={project.demo} target="_blank" startIcon={<OpenInNewIcon />} sx={{ borderRadius: 1, color: '#0a192f', fontWeight: 700 }}>
-              Live Demo
-            </Button>
-          )}
-        </Stack>
-      </FadeIn>
-
-      <Divider sx={{ borderColor: 'rgba(100,255,218,0.1)', mb: 6 }} />
-
-      {/* ── Overview ── */}
-      <FadeIn delay={100}>
-        <SectionHeading label="01" title="Problem & Overview" />
-        <Typography variant="body1" sx={{ color: 'text.secondary', lineHeight: 2, maxWidth: 720, mb: 8 }}>
-          {project.overview}
-        </Typography>
-      </FadeIn>
-
-      {/* ── Features ── */}
-      <FadeIn delay={120}>
-        <SectionHeading label="02" title="Key Features" />
-        <Grid container spacing={2} sx={{ mb: 8 }}>
-          {project.features.map((f, i) => (
-            <Grid key={f} size={{ xs: 12, sm: 6 }}>
-              <FadeIn delay={i * 60}>
-                <Box sx={{ display: 'flex', gap: 1.5, alignItems: 'flex-start' }}>
-                  <CheckCircleOutlineIcon sx={{ color: 'primary.main', fontSize: 18, mt: 0.3, flexShrink: 0 }} />
-                  <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.8 }}>{f}</Typography>
-                </Box>
-              </FadeIn>
-            </Grid>
-          ))}
-        </Grid>
-      </FadeIn>
-
-      {/* ── Challenges ── */}
-      <FadeIn delay={140}>
-        <SectionHeading label="03" title="Challenges & Solutions" />
-        <Stack spacing={3} sx={{ mb: 8 }}>
-          {project.challenges.map((c, i) => (
-            <FadeIn key={i} delay={i * 80}>
-              <Paper
-                sx={{
-                  p: 3.5,
-                  bgcolor: 'background.paper',
-                  border: '1px solid rgba(255,255,255,0.06)',
-                  '&:hover': { borderColor: 'primary.main' },
-                  transition: 'border-color 0.2s',
-                }}
-              >
-                <Grid container spacing={3}>
-                  <Grid size={{ xs: 12, sm: 6 }}>
-                    <Typography variant="caption" sx={{ color: '#ff6b6b', fontFamily: 'monospace', textTransform: 'uppercase', letterSpacing: 1 }}>
-                      Problem
-                    </Typography>
-                    <Typography variant="body2" sx={{ color: 'text.primary', mt: 1, lineHeight: 1.8 }}>
-                      {c.problem}
-                    </Typography>
-                  </Grid>
-                  <Grid size={{ xs: 12, sm: 6 }}>
-                    <Typography variant="caption" sx={{ color: 'primary.main', fontFamily: 'monospace', textTransform: 'uppercase', letterSpacing: 1 }}>
-                      Solution
-                    </Typography>
-                    <Typography variant="body2" sx={{ color: 'text.secondary', mt: 1, lineHeight: 1.8 }}>
-                      {c.solution}
-                    </Typography>
-                  </Grid>
-                </Grid>
-              </Paper>
-            </FadeIn>
-          ))}
-        </Stack>
-      </FadeIn>
-
-      {/* ── Tech Stack detail ── */}
-      <FadeIn delay={160}>
-        <SectionHeading label="04" title="Tech Stack" />
-        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1.5, mb: 8 }}>
-          {project.techStack.map((tech) => (
-            <Paper
-              key={tech}
-              sx={{
-                px: 2.5,
-                py: 1.5,
-                bgcolor: 'background.paper',
-                border: '1px solid rgba(100,255,218,0.12)',
-                '&:hover': { borderColor: 'primary.main' },
-                transition: 'border-color 0.2s',
-              }}
-            >
-              <Typography variant="body2" sx={{ color: 'text.primary', fontWeight: 500 }}>{tech}</Typography>
-            </Paper>
-          ))}
-        </Box>
-      </FadeIn>
-
-      {/* ── Bottom CTA ── */}
-      <FadeIn delay={200}>
-        <Divider sx={{ borderColor: 'rgba(100,255,218,0.1)', mb: 5 }} />
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 2 }}>
-          <Button
-            component={Link}
-            to="/projects"
-            startIcon={<ArrowBackIcon />}
-            sx={{ color: 'text.secondary', pl: 0, '&:hover': { color: 'primary.main' } }}
-          >
-            Back to Projects
-          </Button>
-          <Stack direction="row" spacing={2}>
-            {project.github && (
-              <Button variant="outlined" color="primary" href={project.github} target="_blank" startIcon={<GitHubIcon />} sx={{ borderRadius: 1 }}>
-                View Code
-              </Button>
-            )}
-            {project.npm && (
-              <Button variant="outlined" href={project.npm} target="_blank" startIcon={<OpenInNewIcon />} sx={{ borderRadius: 1, color: 'text.secondary', borderColor: 'rgba(255,255,255,0.2)' }}>
-                NPM
-              </Button>
-            )}
-          </Stack>
-        </Box>
-      </FadeIn>
-    </Box>
-  );
+    <div className="mb-6">
+      <div className="flex items-center gap-2 mb-1">
+        <span className="font-mono text-[10px] font-semibold text-cyan-500 opacity-70" aria-hidden="true">
+          {number}.
+        </span>
+        <div className="h-px w-8" style={{ background: 'rgba(6,182,212,0.2)' }} aria-hidden="true" />
+      </div>
+      <h2 className="text-xl font-bold text-slate-100">{title}</h2>
+    </div>
+  )
 }
 
-function SectionHeading({ label, title }: { label: string; title: string }) {
+export default function ProjectDetail() {
+  const { id } = useParams<{ id: string }>()
+  const project = projects.find((p) => p.id === id)
+
+  if (!project) return <Navigate to="/projects" replace />
+
+  const isCompany = project.category === 'company'
+  const accent = isCompany ? '#8b5cf6' : '#06b6d4'
+  const accentBg = isCompany ? 'rgba(139,92,246,0.08)' : 'rgba(6,182,212,0.08)'
+  const accentBorder = isCompany ? 'rgba(139,92,246,0.3)' : 'rgba(6,182,212,0.3)'
+
   return (
-    <Box sx={{ mb: 3 }}>
-      <Typography variant="caption" sx={{ color: 'primary.main', fontFamily: 'monospace' }}>
-        {label}.
-      </Typography>
-      <Typography variant="h5" sx={{ color: 'text.primary', fontWeight: 700, mt: 0.3 }}>
-        {title}
-      </Typography>
-      <Box sx={{ height: 2, width: 40, bgcolor: 'primary.main', mt: 1, mb: 0, opacity: 0.5, borderRadius: 1 }} />
-    </Box>
-  );
+    <AuroraBackground className="min-h-screen">
+      <div
+        className="container-xl py-28 sm:py-32"
+        style={{ maxWidth: '60rem' }}
+      >
+        {/* ── Back ── */}
+        <motion.div {...fadeUp(0)} className="mb-8">
+          <Link
+            to="/projects"
+            className="inline-flex items-center gap-2 text-sm text-slate-500 hover:text-white transition-colors group"
+            aria-label="Back to all projects"
+          >
+            <ArrowLeft
+              size={16}
+              className="transition-transform group-hover:-translate-x-0.5"
+              aria-hidden="true"
+            />
+            All Projects
+          </Link>
+        </motion.div>
+
+        {/* ── Header ── */}
+        <header>
+          <motion.div {...fadeUp(0.05)} className="flex flex-wrap items-center gap-2 mb-3">
+            {/* Category */}
+            <span
+              className="rounded-full px-3 py-1 text-xs font-semibold"
+              style={{ color: accent, background: accentBg, border: `1px solid ${accentBorder}` }}
+            >
+              {isCompany ? 'Company Project' : 'Personal Project'}
+            </span>
+            {/* Role */}
+            {project.role && (
+              <span
+                className="rounded-full px-2.5 py-0.5 text-xs font-medium"
+                style={{ color: accent, background: accentBg, border: `1px solid ${accentBorder}` }}
+              >
+                {project.role}
+              </span>
+            )}
+            {/* Company */}
+            {project.companyName && (
+              <span className="text-xs text-slate-600 font-mono">@ {project.companyName}</span>
+            )}
+            {/* NPM */}
+            {project.npm && (
+              <span
+                className="flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-semibold"
+                style={{ color: '#f59e0b', background: 'rgba(245,158,11,0.08)', border: '1px solid rgba(245,158,11,0.25)' }}
+              >
+                <Package size={9} aria-hidden="true" />
+                NPM Package
+              </span>
+            )}
+          </motion.div>
+
+          <motion.h1
+            {...fadeUp(0.08)}
+            className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-50 tracking-tight leading-tight mb-3"
+          >
+            {project.title}
+          </motion.h1>
+
+          <motion.p
+            {...fadeUp(0.11)}
+            className="text-lg text-slate-400 mb-6 max-w-2xl"
+          >
+            {project.tagline}
+          </motion.p>
+
+          {/* Tech stack */}
+          <motion.div
+            {...fadeUp(0.14)}
+            className="flex flex-wrap gap-2 mb-6"
+            aria-label="Technologies used"
+          >
+            {project.techStack.map((tech) => (
+              <span key={tech} className="tech-badge">
+                {tech}
+              </span>
+            ))}
+          </motion.div>
+
+          {/* Action buttons */}
+          <motion.div {...fadeUp(0.17)} className="flex flex-wrap gap-3">
+            {project.github && project.category !== 'company' && (
+              <a
+                href={project.github}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-glass text-sm"
+                aria-label={`View source code for ${project.title} on GitHub (opens in new tab)`}
+              >
+                <GithubIcon size={15} />
+                View Code
+              </a>
+            )}
+            {project.npm && (
+              <a
+                href={project.npm}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-medium transition-all"
+                style={{
+                  color: '#f59e0b',
+                  border: '1px solid rgba(245,158,11,0.3)',
+                  background: 'rgba(245,158,11,0.06)',
+                }}
+                aria-label={`View ${project.title} on NPM (opens in new tab)`}
+              >
+                <Package size={15} aria-hidden="true" />
+                NPM Package
+              </a>
+            )}
+            {project.demo && (
+              <a
+                href={project.demo}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-primary text-sm"
+                aria-label={`View live demo for ${project.title} (opens in new tab)`}
+              >
+                <ExternalLink size={15} aria-hidden="true" />
+                Live Demo
+              </a>
+            )}
+          </motion.div>
+        </header>
+
+        {/* Divider */}
+        <motion.div
+          {...fadeUp(0.2)}
+          className="my-10 divider-glow"
+          role="separator"
+        />
+
+        {/* ── 01 Problem & Overview ── */}
+        <motion.section
+          {...fadeUp(0.22)}
+          className="mb-14"
+          aria-labelledby="overview-heading"
+        >
+          <SectionHeading number="01" title="Problem & Overview" />
+          <p
+            id="overview-heading"
+            className="text-slate-400 leading-relaxed max-w-3xl"
+          >
+            {project.overview}
+          </p>
+        </motion.section>
+
+        {/* ── 02 Key Features ── */}
+        <motion.section
+          {...fadeUp(0.25)}
+          className="mb-14"
+          aria-labelledby="features-heading"
+        >
+          <SectionHeading number="02" title="Key Features" />
+          <ul
+            id="features-heading"
+            className="grid gap-3 sm:grid-cols-2"
+            aria-label="Key features"
+          >
+            {project.features.map((f, i) => (
+              <motion.li
+                key={f}
+                initial={{ opacity: 0, x: -10 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.06, duration: 0.4 }}
+                className="flex gap-3 items-start"
+              >
+                <CheckCircle2
+                  size={16}
+                  className="mt-0.5 flex-shrink-0"
+                  style={{ color: accent }}
+                  aria-hidden="true"
+                />
+                <span className="text-sm text-slate-400 leading-relaxed">{f}</span>
+              </motion.li>
+            ))}
+          </ul>
+        </motion.section>
+
+        {/* ── 03 Challenges & Solutions ── */}
+        <motion.section
+          {...fadeUp(0.28)}
+          className="mb-14"
+          aria-labelledby="challenges-heading"
+        >
+          <SectionHeading number="03" title="Challenges & Solutions" />
+          <ol
+            id="challenges-heading"
+            className="space-y-4"
+            aria-label="Technical challenges and solutions"
+          >
+            {project.challenges.map((c, i) => (
+              <motion.li
+                key={i}
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.08, duration: 0.5 }}
+              >
+                <GlassCard
+                  className="overflow-hidden transition-shadow duration-300"
+                  hover={false}
+                  onMouseEnter={(e) => {
+                    ;(e.currentTarget as HTMLElement).style.boxShadow = `0 0 30px ${accent}0f`
+                    ;(e.currentTarget as HTMLElement).style.borderColor = accent + '30'
+                  }}
+                  onMouseLeave={(e) => {
+                    ;(e.currentTarget as HTMLElement).style.boxShadow = ''
+                    ;(e.currentTarget as HTMLElement).style.borderColor = ''
+                  }}
+                >
+                  <div className="grid sm:grid-cols-2">
+                    {/* Problem */}
+                    <div
+                      className="p-5"
+                      style={{ borderRight: '1px solid rgba(255,255,255,0.06)' }}
+                    >
+                      <div className="flex items-center gap-2 mb-3">
+                        <AlertCircle size={13} className="text-rose-400" aria-hidden="true" />
+                        <span className="font-mono text-[10px] font-semibold uppercase tracking-wider text-rose-400">
+                          Problem
+                        </span>
+                      </div>
+                      <p className="text-sm text-slate-300 leading-relaxed">{c.problem}</p>
+                    </div>
+                    {/* Solution */}
+                    <div className="p-5">
+                      <div className="flex items-center gap-2 mb-3">
+                        <Lightbulb size={13} aria-hidden="true" style={{ color: accent }} />
+                        <span
+                          className="font-mono text-[10px] font-semibold uppercase tracking-wider"
+                          style={{ color: accent }}
+                        >
+                          Solution
+                        </span>
+                      </div>
+                      <p className="text-sm text-slate-400 leading-relaxed">{c.solution}</p>
+                    </div>
+                  </div>
+                </GlassCard>
+              </motion.li>
+            ))}
+          </ol>
+        </motion.section>
+
+        {/* ── 04 Tech Stack ── */}
+        <motion.section
+          {...fadeUp(0.3)}
+          className="mb-14"
+          aria-labelledby="techstack-heading"
+        >
+          <SectionHeading number="04" title="Tech Stack" />
+          <ul
+            id="techstack-heading"
+            className="flex flex-wrap gap-3"
+            aria-label="Complete list of technologies used"
+          >
+            {project.techStack.map((tech) => (
+              <li key={tech}>
+                <GlassCard
+                  className="px-4 py-3 cursor-default group"
+                  glow={isCompany ? 'violet' : 'cyan'}
+                  hover={false}
+                  onMouseEnter={(e) => {
+                    ;(e.currentTarget as HTMLElement).style.borderColor = accentBorder
+                  }}
+                  onMouseLeave={(e) => {
+                    ;(e.currentTarget as HTMLElement).style.borderColor = ''
+                  }}
+                >
+                  <span className="text-sm font-medium text-slate-300 group-hover:text-white transition-colors">
+                    {tech}
+                  </span>
+                </GlassCard>
+              </li>
+            ))}
+          </ul>
+        </motion.section>
+
+        {/* ── Bottom CTA ── */}
+        <motion.div {...fadeUp(0.32)}>
+          <div className="divider-glow mb-8" role="separator" />
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+            <Link
+              to="/projects"
+              className="inline-flex items-center gap-2 text-sm text-slate-500 hover:text-white transition-colors group"
+              aria-label="Back to all projects"
+            >
+              <ArrowLeft
+                size={15}
+                className="transition-transform group-hover:-translate-x-0.5"
+                aria-hidden="true"
+              />
+              Back to Projects
+            </Link>
+            <div className="flex flex-wrap gap-3">
+              {project.github && project.category !== 'company' && (
+                <a
+                  href={project.github}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn-glass text-sm"
+                  aria-label={`View source code for ${project.title} on GitHub (opens in new tab)`}
+                >
+                  <GithubIcon size={15} />
+                  View Code
+                </a>
+              )}
+              {project.npm && (
+                <a
+                  href={project.npm}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-medium transition-all"
+                  style={{
+                    color: '#f59e0b',
+                    border: '1px solid rgba(245,158,11,0.25)',
+                    background: 'rgba(245,158,11,0.05)',
+                  }}
+                  aria-label={`View ${project.title} on NPM (opens in new tab)`}
+                >
+                  <Package size={15} aria-hidden="true" />
+                  NPM
+                </a>
+              )}
+              {project.demo && (
+                <a
+                  href={project.demo}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn-primary text-sm"
+                  aria-label={`View live demo for ${project.title} (opens in new tab)`}
+                >
+                  <ExternalLink size={14} aria-hidden="true" />
+                  Live Demo
+                </a>
+              )}
+            </div>
+          </div>
+        </motion.div>
+      </div>
+    </AuroraBackground>
+  )
 }

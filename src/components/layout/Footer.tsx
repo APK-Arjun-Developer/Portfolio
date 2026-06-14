@@ -1,41 +1,96 @@
-import { Box, Typography, IconButton, Tooltip } from '@mui/material';
-import GitHubIcon from '@mui/icons-material/GitHub';
-import LinkedInIcon from '@mui/icons-material/LinkedIn';
-import EmailIcon from '@mui/icons-material/Email';
-import { personal } from '../../data/personal';
+import { motion } from 'framer-motion'
+import { Mail } from 'lucide-react'
+import { Link } from 'react-router-dom'
+import { personal } from '../../data/personal'
+import { GithubIcon, LinkedinIcon } from '../ui/BrandIcons'
+
+const socialLinks = [
+  { label: 'GitHub profile', href: personal.github, Icon: GithubIcon },
+  { label: 'LinkedIn profile', href: personal.linkedin, Icon: LinkedinIcon },
+  { label: 'Send email', href: `mailto:${personal.email}`, Icon: Mail },
+]
+
+const footerLinks = [
+  { label: 'Home', to: '/' },
+  { label: 'About', to: '/about' },
+  { label: 'Projects', to: '/projects' },
+]
 
 export default function Footer() {
   return (
-    <Box
-      component="footer"
-      sx={{
-        textAlign: 'center',
-        py: 4,
-        mt: 8,
-        borderTop: '1px solid rgba(100,255,218,0.1)',
-        color: 'text.secondary',
-      }}
+    <footer
+      className="relative mt-24"
+      style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}
     >
-      <Box sx={{ display: 'flex', justifyContent: 'center', gap: 1, mb: 1 }}>
-        <Tooltip title="GitHub">
-          <IconButton href={personal.github} target="_blank" sx={{ color: 'text.secondary', '&:hover': { color: 'primary.main' } }}>
-            <GitHubIcon />
-          </IconButton>
-        </Tooltip>
-        <Tooltip title="LinkedIn">
-          <IconButton href={personal.linkedin} target="_blank" sx={{ color: 'text.secondary', '&:hover': { color: 'primary.main' } }}>
-            <LinkedInIcon />
-          </IconButton>
-        </Tooltip>
-        <Tooltip title="Email">
-          <IconButton href={`mailto:${personal.email}`} sx={{ color: 'text.secondary', '&:hover': { color: 'primary.main' } }}>
-            <EmailIcon />
-          </IconButton>
-        </Tooltip>
-      </Box>
-      <Typography variant="body2">
-        Built by {personal.name} · {new Date().getFullYear()}
-      </Typography>
-    </Box>
-  );
+      <div
+        className="pointer-events-none absolute inset-x-0 -top-px h-px"
+        style={{
+          background:
+            'linear-gradient(90deg, transparent 0%, rgba(6,182,212,0.2) 30%, rgba(139,92,246,0.2) 70%, transparent 100%)',
+        }}
+        aria-hidden="true"
+      />
+      <div className="container-xl py-12">
+        <div className="flex flex-col items-center gap-8 md:flex-row md:justify-between">
+          {/* Brand */}
+          <Link
+            to="/"
+            className="group flex items-center gap-2.5"
+            aria-label="Back to home"
+          >
+            <div
+              className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md text-[9px] font-bold text-white"
+              style={{ background: 'linear-gradient(135deg, #06b6d4, #8b5cf6)' }}
+              aria-hidden="true"
+            >
+              AP
+            </div>
+            <div>
+              <p className="text-sm font-semibold text-slate-300 transition-colors group-hover:text-white">
+                {personal.name}
+              </p>
+              <p className="text-xs text-slate-600">{personal.role}</p>
+            </div>
+          </Link>
+
+          {/* Footer nav */}
+          <nav className="flex items-center gap-6" aria-label="Footer navigation">
+            {footerLinks.map((link) => (
+              <Link
+                key={link.to}
+                to={link.to}
+                className="text-xs text-slate-500 hover:text-slate-300 transition-colors"
+              >
+                {link.label}
+              </Link>
+            ))}
+          </nav>
+
+          {/* Social + copyright */}
+          <div className="flex flex-col items-center gap-4 sm:flex-row">
+            <div className="flex items-center gap-1" role="list">
+              {socialLinks.map(({ Icon, href, label }) => (
+                <motion.a
+                  key={label}
+                  href={href}
+                  target={href.startsWith('mailto') ? undefined : '_blank'}
+                  rel="noopener noreferrer"
+                  aria-label={label}
+                  role="listitem"
+                  whileHover={{ scale: 1.1, y: -2 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="flex items-center justify-center p-2 rounded-lg text-slate-500 hover:text-slate-200 transition-colors"
+                >
+                  <Icon size={15} />
+                </motion.a>
+              ))}
+            </div>
+            <p className="text-xs text-slate-600">
+              © {new Date().getFullYear()} {personal.name}
+            </p>
+          </div>
+        </div>
+      </div>
+    </footer>
+  )
 }

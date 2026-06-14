@@ -1,206 +1,372 @@
-import { Box, Typography, Grid, Paper, Chip, Button, Stack, Divider } from '@mui/material';
-import GitHubIcon from '@mui/icons-material/GitHub';
-import OpenInNewIcon from '@mui/icons-material/OpenInNew';
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import BusinessIcon from '@mui/icons-material/Business';
-import CodeIcon from '@mui/icons-material/Code';
-import { Link } from 'react-router-dom';
-import FadeIn from '../../components/ui/FadeIn';
-import SectionTitle from '../../components/ui/SectionTitle';
-import { projects, type Project } from '../../data/personal';
+import { useState } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
+import { Link } from 'react-router-dom'
+import {
+  ExternalLink, ArrowRight, Building2, Code2, Package, ChevronRight,
+} from 'lucide-react'
+import { GithubIcon } from '../../components/ui/BrandIcons'
+import { projects, type Project } from '../../data/personal'
+import AuroraBackground from '../../components/ui/AuroraBackground'
+import SectionTitle from '../../components/ui/SectionTitle'
+import GlassCard from '../../components/ui/GlassCard'
 
-const companyProjects = projects.filter((p) => p.category === 'company');
-const personalProjects = projects.filter((p) => p.category !== 'company');
+type FilterTab = 'all' | 'company' | 'personal'
 
-function ProjectCard({ project, idx }: { project: Project; idx: number }) {
+function LayersIcon({ size }: { size: number }) {
   return (
-    <FadeIn key={project.id} delay={idx * 100}>
-      <Paper
-        elevation={0}
-        sx={{
-          p: { xs: 3, md: 5 },
-          bgcolor: 'background.paper',
-          border: '1px solid',
-          borderColor: project.category === 'company' ? 'rgba(189,52,254,0.12)' : 'rgba(100,255,218,0.08)',
-          transition: 'border-color 0.2s',
-          '&:hover': {
-            borderColor: project.category === 'company' ? '#bd34fe' : 'primary.main',
-          },
-        }}
-      >
-        <Grid container spacing={4}>
-          <Grid size={{ xs: 12, md: 8 }}>
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 0.5, flexWrap: 'wrap' }}>
-              <Typography variant="caption" sx={{ color: project.category === 'company' ? '#bd34fe' : 'primary.main', fontFamily: 'monospace' }}>
-                {String(idx + 1).padStart(2, '0')}
-              </Typography>
-              {project.role && (
-                <Chip
-                  label={project.role}
-                  size="small"
-                  sx={{
-                    fontSize: '0.65rem',
-                    bgcolor: project.category === 'company' ? 'rgba(189,52,254,0.08)' : 'rgba(100,255,218,0.08)',
-                    color: project.category === 'company' ? '#bd34fe' : 'primary.main',
-                    border: '1px solid',
-                    borderColor: project.category === 'company' ? 'rgba(189,52,254,0.3)' : 'rgba(100,255,218,0.25)',
-                  }}
-                />
-              )}
-              {project.companyName && (
-                <Typography variant="caption" sx={{ color: 'text.disabled', fontFamily: 'monospace', fontSize: '0.7rem' }}>
-                  @ {project.companyName}
-                </Typography>
-              )}
-            </Box>
-
-            <Typography variant="h5" sx={{ color: 'text.primary', mb: 1, fontWeight: 700 }}>
-              {project.title}
-            </Typography>
-            <Typography variant="body2" sx={{ color: project.category === 'company' ? '#bd34fe' : 'primary.main', mb: 2, fontStyle: 'italic' }}>
-              {project.tagline}
-            </Typography>
-            <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.9, mb: 3 }}>
-              {project.description}
-            </Typography>
-
-            <Typography variant="subtitle2" sx={{ color: 'text.primary', mb: 1 }}>Key Features</Typography>
-            <Stack spacing={0.6} sx={{ mb: 3 }}>
-              {project.features.slice(0, 4).map((f) => (
-                <Box key={f} sx={{ display: 'flex', gap: 1.5, alignItems: 'flex-start' }}>
-                  <Typography sx={{ color: project.category === 'company' ? '#bd34fe' : 'primary.main', fontSize: '0.65rem', mt: 0.4, flexShrink: 0 }}>▹</Typography>
-                  <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.7, fontSize: '0.85rem' }}>{f}</Typography>
-                </Box>
-              ))}
-            </Stack>
-
-            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, mb: 3 }}>
-              {project.techStack.map((tech) => (
-                <Chip
-                  key={tech}
-                  label={tech}
-                  size="small"
-                  variant="outlined"
-                  sx={{
-                    color: project.category === 'company' ? '#bd34fe' : 'primary.main',
-                    borderColor: project.category === 'company' ? 'rgba(189,52,254,0.3)' : 'rgba(100,255,218,0.3)',
-                    fontSize: '0.7rem',
-                  }}
-                />
-              ))}
-            </Box>
-
-            <Stack direction="row" spacing={2} sx={{ flexWrap: 'wrap' }}>
-              <Button
-                component={Link}
-                to={`/projects/${project.id}`}
-                variant="contained"
-                size="small"
-                endIcon={<ArrowForwardIcon />}
-                sx={{
-                  bgcolor: project.category === 'company' ? '#bd34fe' : 'primary.main',
-                  color: '#0a192f',
-                  fontWeight: 700,
-                  borderRadius: 1,
-                  '&:hover': { bgcolor: project.category === 'company' ? '#a020e0' : 'primary.dark' },
-                }}
-              >
-                View Details
-              </Button>
-              {project.github && project.category !== 'company' && (
-                <Button size="small" href={project.github} target="_blank" startIcon={<GitHubIcon />} sx={{ color: 'text.secondary', '&:hover': { color: 'primary.main' } }}>
-                  Code
-                </Button>
-              )}
-              {project.npm && (
-                <Button size="small" href={project.npm} target="_blank" startIcon={<OpenInNewIcon />} sx={{ color: 'text.secondary', '&:hover': { color: 'primary.main' } }}>
-                  NPM
-                </Button>
-              )}
-            </Stack>
-          </Grid>
-
-          <Grid size={{ xs: 12, md: 4 }}>
-            <Paper sx={{ p: 2.5, bgcolor: 'rgba(0,0,0,0.2)', border: '1px solid rgba(255,255,255,0.05)', height: '100%' }}>
-              <Typography variant="subtitle2" sx={{ color: 'text.primary', mb: 2 }}>Challenges Solved</Typography>
-              <Stack spacing={1.5}>
-                {project.challenges.map((c, i) => (
-                  <Box key={i} sx={{ display: 'flex', gap: 1 }}>
-                    <Typography sx={{ color: project.category === 'company' ? '#bd34fe' : 'primary.main', fontFamily: 'monospace', fontSize: '0.75rem', mt: 0.2 }}>▹</Typography>
-                    <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.7, fontSize: '0.8rem' }}>
-                      {c.problem}
-                    </Typography>
-                  </Box>
-                ))}
-              </Stack>
-            </Paper>
-          </Grid>
-        </Grid>
-      </Paper>
-    </FadeIn>
-  );
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+      <polygon points="12 2 2 7 12 12 22 7 12 2" />
+      <polyline points="2 17 12 22 22 17" />
+      <polyline points="2 12 12 17 22 12" />
+    </svg>
+  )
 }
 
-function SectionHeading({ icon, title, subtitle, color }: { icon: React.ReactNode; title: string; subtitle: string; color: string }) {
+const tabs: { id: FilterTab; label: string; icon: React.ReactNode }[] = [
+  { id: 'all', label: 'All Projects', icon: <LayersIcon size={14} /> },
+  { id: 'company', label: 'Company Work', icon: <Building2 size={14} /> },
+  { id: 'personal', label: 'Personal', icon: <Code2 size={14} /> },
+]
+
+function ProjectCard({ project, index }: { project: Project; index: number }) {
+  const isCompany = project.category === 'company'
+  const accent = isCompany ? '#8b5cf6' : '#06b6d4'
+  const accentBg = isCompany ? 'rgba(139,92,246,0.07)' : 'rgba(6,182,212,0.07)'
+  const accentBorder = isCompany ? 'rgba(139,92,246,0.22)' : 'rgba(6,182,212,0.18)'
+
   return (
-    <Box sx={{ mb: 4 }}>
-      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 0.5 }}>
-        <Box sx={{ color }}>{icon}</Box>
-        <Typography variant="h5" sx={{ color: 'text.primary', fontWeight: 700 }}>
-          {title}
-        </Typography>
-      </Box>
-      <Typography variant="body2" sx={{ color: 'text.secondary', ml: 4 }}>
-        {subtitle}
-      </Typography>
-    </Box>
-  );
+    <motion.article
+      initial={{ opacity: 0, y: 24 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1], delay: index * 0.07 }}
+      whileHover={{ y: -4 }}
+      className="group"
+      aria-label={`Project: ${project.title}`}
+    >
+      <GlassCard
+        className="h-full flex flex-col p-6 transition-shadow duration-300"
+        hover={false}
+        style={{
+          border: `1px solid ${accentBorder}`,
+        }}
+        onMouseEnter={(e) => {
+          ;(e.currentTarget as HTMLElement).style.boxShadow = `0 20px 60px rgba(0,0,0,0.45), 0 0 40px ${accent}14`
+          ;(e.currentTarget as HTMLElement).style.borderColor = accent + '50'
+        }}
+        onMouseLeave={(e) => {
+          ;(e.currentTarget as HTMLElement).style.boxShadow = ''
+          ;(e.currentTarget as HTMLElement).style.borderColor = accentBorder
+        }}
+      >
+        {/* Card header */}
+        <div className="flex items-start justify-between gap-3 mb-4">
+          <div className="flex flex-wrap items-center gap-2">
+            <span
+              className="font-mono text-[10px] font-semibold"
+              style={{ color: accent }}
+              aria-hidden="true"
+            >
+              {String(index + 1).padStart(2, '0')}
+            </span>
+            {/* Category badge */}
+            <span
+              className="rounded-full px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider"
+              style={{ color: accent, background: accentBg, border: `1px solid ${accentBorder}` }}
+            >
+              {isCompany ? 'Company' : 'Personal'}
+            </span>
+            {/* Role badge (company projects) */}
+            {project.role && (
+              <span className="rounded-full px-2 py-0.5 text-[10px] text-slate-500 bg-white/[0.04] border border-white/[0.06]">
+                {project.role}
+              </span>
+            )}
+          </div>
+          {/* NPM badge */}
+          {project.npm && (
+            <span
+              className="flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-semibold"
+              style={{ color: '#f59e0b', background: 'rgba(245,158,11,0.08)', border: '1px solid rgba(245,158,11,0.25)' }}
+            >
+              <Package size={9} aria-hidden="true" />
+              NPM
+            </span>
+          )}
+        </div>
+
+        {/* Title */}
+        <h3 className="text-lg font-bold text-slate-100 mb-1 leading-snug">{project.title}</h3>
+
+        {/* Company attribution */}
+        {project.companyName && (
+          <p className="text-xs text-slate-600 mb-2 font-mono">@ {project.companyName}</p>
+        )}
+
+        {/* Tagline */}
+        <p className="text-sm mb-3" style={{ color: accent }}>
+          {project.tagline}
+        </p>
+
+        {/* Description */}
+        <p className="text-sm text-slate-400 leading-relaxed mb-5 flex-1">
+          {project.description}
+        </p>
+
+        {/* Key features */}
+        <div className="mb-5">
+          <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">
+            Key Features
+          </p>
+          <ul className="space-y-1.5" aria-label="Key features">
+            {project.features.slice(0, 4).map((f) => (
+              <li key={f} className="flex gap-2 items-start">
+                <ChevronRight
+                  size={12}
+                  className="mt-0.5 flex-shrink-0"
+                  style={{ color: accent }}
+                  aria-hidden="true"
+                />
+                <span className="text-xs text-slate-400 leading-relaxed">{f}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* Tech stack */}
+        <div className="flex flex-wrap gap-1.5 mb-5" aria-label="Technologies used">
+          {project.techStack.map((tech) => (
+            <span
+              key={tech}
+              className="tech-badge text-[10px]"
+            >
+              {tech}
+            </span>
+          ))}
+        </div>
+
+        {/* Actions */}
+        <div className="flex flex-wrap gap-2 pt-4" style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+          <Link
+            to={`/projects/${project.id}`}
+            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-semibold text-white transition-all duration-200"
+            style={{ background: `linear-gradient(135deg, ${accent}, ${isCompany ? '#6d28d9' : '#0284c7'})` }}
+            aria-label={`View details for ${project.title}`}
+          >
+            View Details
+            <ArrowRight size={12} aria-hidden="true" />
+          </Link>
+          {project.github && project.category !== 'company' && (
+            <a
+              href={project.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-medium text-slate-400 hover:text-white transition-colors"
+              style={{ border: '1px solid rgba(255,255,255,0.08)', background: 'rgba(255,255,255,0.03)' }}
+              aria-label={`View source code for ${project.title} on GitHub (opens in new tab)`}
+            >
+              <GithubIcon size={12} />
+              Code
+            </a>
+          )}
+          {project.npm && (
+            <a
+              href={project.npm}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-medium transition-colors"
+              style={{
+                color: '#f59e0b',
+                border: '1px solid rgba(245,158,11,0.2)',
+                background: 'rgba(245,158,11,0.05)',
+              }}
+              aria-label={`View ${project.title} on NPM (opens in new tab)`}
+            >
+              <Package size={12} aria-hidden="true" />
+              NPM
+            </a>
+          )}
+          {project.demo && (
+            <a
+              href={project.demo}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-medium text-slate-400 hover:text-white transition-colors"
+              style={{ border: '1px solid rgba(255,255,255,0.08)', background: 'rgba(255,255,255,0.03)' }}
+              aria-label={`View live demo for ${project.title} (opens in new tab)`}
+            >
+              <ExternalLink size={12} aria-hidden="true" />
+              Demo
+            </a>
+          )}
+        </div>
+      </GlassCard>
+    </motion.article>
+  )
 }
 
 export default function Projects() {
+  const [activeTab, setActiveTab] = useState<FilterTab>('all')
+
+  const filtered = projects.filter((p) => {
+    if (activeTab === 'all') return true
+    if (activeTab === 'company') return p.category === 'company'
+    return p.category !== 'company'
+  })
+
   return (
-    <Box sx={{ maxWidth: 1100, mx: 'auto', px: { xs: 3, md: 6 }, py: 8 }}>
-      <FadeIn>
+    <AuroraBackground className="min-h-screen">
+      <div className="container-xl section-py">
         <SectionTitle
           number="02"
           title="Projects"
           subtitle="Company work and personal projects — full stack, frontend, and open-source."
         />
-      </FadeIn>
 
-      {/* ── Company Projects ── */}
-      <FadeIn delay={100}>
-        <SectionHeading
-          icon={<BusinessIcon sx={{ fontSize: 22 }} />}
-          title="Company Work"
-          subtitle="Professional projects shipped at Techbumbles Software Solutions and PM Square Soft Services."
-          color="#bd34fe"
-        />
-      </FadeIn>
-      <Stack spacing={6} sx={{ mb: 10 }}>
-        {companyProjects.map((project, idx) => (
-          <ProjectCard key={project.id} project={project} idx={idx} />
-        ))}
-      </Stack>
+        {/* Filter tabs */}
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4 }}
+          className="mb-10 flex flex-wrap gap-2"
+          role="tablist"
+          aria-label="Filter projects by category"
+        >
+          {tabs.map((tab) => {
+            const isActive = activeTab === tab.id
+            return (
+              <button
+                key={tab.id}
+                role="tab"
+                aria-selected={isActive}
+                aria-controls="projects-grid"
+                onClick={() => setActiveTab(tab.id)}
+                className="flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-all duration-200"
+                style={isActive ? {
+                  background: 'linear-gradient(135deg, rgba(6,182,212,0.15), rgba(139,92,246,0.15))',
+                  border: '1px solid rgba(6,182,212,0.3)',
+                  color: '#06b6d4',
+                } : {
+                  background: 'rgba(255,255,255,0.04)',
+                  border: '1px solid rgba(255,255,255,0.07)',
+                  color: '#94a3b8',
+                }}
+              >
+                {tab.icon}
+                {tab.label}
+                <span
+                  className="ml-1 rounded-full px-1.5 py-0.5 text-[10px] font-semibold"
+                  style={isActive ? {
+                    background: 'rgba(6,182,212,0.2)',
+                    color: '#06b6d4',
+                  } : {
+                    background: 'rgba(255,255,255,0.06)',
+                    color: '#64748b',
+                  }}
+                  aria-label={`${projects.filter(p => tab.id === 'all' ? true : tab.id === 'company' ? p.category === 'company' : p.category !== 'company').length} projects`}
+                >
+                  {tab.id === 'all'
+                    ? projects.length
+                    : tab.id === 'company'
+                      ? projects.filter((p) => p.category === 'company').length
+                      : projects.filter((p) => p.category !== 'company').length}
+                </span>
+              </button>
+            )
+          })}
+        </motion.div>
 
-      <FadeIn>
-        <Divider sx={{ borderColor: 'rgba(255,255,255,0.06)', mb: 10 }} />
-      </FadeIn>
+        {/* Projects grid */}
+        <div
+          id="projects-grid"
+          role="tabpanel"
+          aria-label={`${activeTab === 'all' ? 'All' : activeTab === 'company' ? 'Company' : 'Personal'} projects`}
+        >
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={activeTab}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.25 }}
+              className="grid gap-6 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2"
+            >
+              {filtered.map((project, idx) => (
+                <ProjectCard key={project.id} project={project} index={idx} />
+              ))}
+            </motion.div>
+          </AnimatePresence>
+        </div>
 
-      {/* ── Personal Projects ── */}
-      <FadeIn delay={100}>
-        <SectionHeading
-          icon={<CodeIcon sx={{ fontSize: 22 }} />}
-          title="Personal Projects"
-          subtitle="Side projects and open-source work built independently."
-          color="#64ffda"
-        />
-      </FadeIn>
-      <Stack spacing={6}>
-        {personalProjects.map((project, idx) => (
-          <ProjectCard key={project.id} project={project} idx={idx} />
-        ))}
-      </Stack>
-    </Box>
-  );
+        {/* Open source spotlight */}
+        {(activeTab === 'all' || activeTab === 'personal') && (
+          <motion.section
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="mt-16"
+            aria-labelledby="opensource-heading"
+          >
+            <div
+              className="rounded-2xl p-6 sm:p-8"
+              style={{
+                background: 'linear-gradient(135deg, rgba(245,158,11,0.06) 0%, rgba(6,182,212,0.04) 100%)',
+                border: '1px solid rgba(245,158,11,0.2)',
+              }}
+            >
+              <div className="flex flex-col sm:flex-row gap-6 items-start sm:items-center justify-between">
+                <div>
+                  <div className="flex items-center gap-2 mb-2">
+                    <Package size={16} className="text-amber-400" aria-hidden="true" />
+                    <span
+                      id="opensource-heading"
+                      className="text-xs font-semibold uppercase tracking-wider text-amber-400"
+                    >
+                      Open Source · NPM Package
+                    </span>
+                  </div>
+                  <h3 className="text-lg font-bold text-slate-100 mb-1">
+                    mui-schema-form-builder
+                  </h3>
+                  <p className="text-sm text-slate-400 max-w-lg">
+                    Published NPM package that converts JSON schema definitions into fully validated, accessible
+                    Material UI forms with zero boilerplate. TypeScript-first. &lt;12 KB gzipped.
+                  </p>
+                </div>
+                <div className="flex flex-wrap gap-2 shrink-0">
+                  <a
+                    href="https://www.npmjs.com/package/mui-schema-form-builder"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-semibold"
+                    style={{
+                      color: '#f59e0b',
+                      border: '1px solid rgba(245,158,11,0.3)',
+                      background: 'rgba(245,158,11,0.08)',
+                    }}
+                    aria-label="View mui-schema-form-builder on NPM (opens in new tab)"
+                  >
+                    <Package size={12} aria-hidden="true" />
+                    View on NPM
+                  </a>
+                  <a
+                    href="https://github.com/APK-Arjun-Developer/mui-schema-form-builder"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-medium text-slate-400 hover:text-white transition-colors"
+                    style={{ border: '1px solid rgba(255,255,255,0.08)', background: 'rgba(255,255,255,0.04)' }}
+                    aria-label="View mui-schema-form-builder source code on GitHub (opens in new tab)"
+                  >
+                    <GithubIcon size={12} />
+                    GitHub
+                  </a>
+                </div>
+              </div>
+            </div>
+          </motion.section>
+        )}
+      </div>
+    </AuroraBackground>
+  )
 }
