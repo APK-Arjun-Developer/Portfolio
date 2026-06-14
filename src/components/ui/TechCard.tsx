@@ -45,7 +45,26 @@ export default function TechCard({ name, index = 0 }: TechCardProps) {
       viewport={{ once: true }}
       transition={{ delay: index * 0.04, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
       whileHover={{ y: -3, scale: 1.04 }}
-      className="group flex flex-col items-center gap-2.5 rounded-2xl border border-gray-200 bg-white p-4 shadow-card transition-all duration-200 hover:border-gray-300 hover:shadow-tech-hover"
+      className="group flex flex-col items-center gap-2.5 rounded-2xl p-4 transition-all duration-200"
+      style={{
+        background: 'rgba(255,255,255,0.65)',
+        backdropFilter: 'blur(12px)',
+        WebkitBackdropFilter: 'blur(12px)',
+        border: '1px solid rgba(148,163,184,0.25)',
+        boxShadow: '0 1px 4px rgba(37,56,100,0.05), 0 2px 8px rgba(37,56,100,0.04)',
+      }}
+      onMouseEnter={(e) => {
+        const el = e.currentTarget as HTMLElement
+        el.style.background = 'rgba(255,255,255,0.82)'
+        el.style.borderColor = 'rgba(148,163,184,0.38)'
+        el.style.boxShadow = '0 4px 16px rgba(37,56,100,0.08), 0 2px 6px rgba(0,0,0,0.04)'
+      }}
+      onMouseLeave={(e) => {
+        const el = e.currentTarget as HTMLElement
+        el.style.background = 'rgba(255,255,255,0.65)'
+        el.style.borderColor = 'rgba(148,163,184,0.25)'
+        el.style.boxShadow = '0 1px 4px rgba(37,56,100,0.05), 0 2px 8px rgba(37,56,100,0.04)'
+      }}
     >
       <div
         className="flex h-10 w-10 items-center justify-center rounded-xl transition-transform duration-200"

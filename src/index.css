@@ -14,7 +14,11 @@
   }
 
   body {
-    background-color: #FAFAFA;
+    background-color: #edf2fb;
+    background-image:
+      radial-gradient(ellipse 70% 55% at 8% 0%, rgba(37,99,235,0.06) 0%, transparent 65%),
+      radial-gradient(ellipse 55% 45% at 92% 5%, rgba(124,58,237,0.05) 0%, transparent 65%),
+      radial-gradient(ellipse 60% 40% at 50% 100%, rgba(16,185,129,0.04) 0%, transparent 65%);
     color: #374151;
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
     -webkit-font-smoothing: antialiased;
@@ -50,25 +54,26 @@
 @layer components {
   /* ── Glass — Light Theme ── */
   .glass {
-    background: rgba(255, 255, 255, 0.75);
-    backdrop-filter: blur(14px) saturate(180%);
-    -webkit-backdrop-filter: blur(14px) saturate(180%);
-    border: 1px solid rgba(255, 255, 255, 0.8);
-    box-shadow: 0 4px 24px rgba(0,0,0,0.06), 0 1px 4px rgba(0,0,0,0.04), inset 0 1px 0 rgba(255,255,255,0.9);
+    background: rgba(255, 255, 255, 0.70);
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+    border: 1px solid rgba(148, 163, 184, 0.28);
+    box-shadow: 0 4px 24px rgba(37,56,100,0.06), 0 1px 4px rgba(0,0,0,0.04), inset 0 1px 0 rgba(255,255,255,0.85);
   }
 
   .glass-strong {
-    background: rgba(255, 255, 255, 0.88);
+    background: rgba(255, 255, 255, 0.84);
     backdrop-filter: blur(20px) saturate(200%);
     -webkit-backdrop-filter: blur(20px) saturate(200%);
-    border: 1px solid rgba(255, 255, 255, 0.95);
-    box-shadow: 0 8px 32px rgba(0,0,0,0.08), 0 2px 8px rgba(0,0,0,0.04), inset 0 1px 0 rgba(255,255,255,1);
+    border: 1px solid rgba(148, 163, 184, 0.22);
+    box-shadow: 0 8px 32px rgba(37,56,100,0.08), 0 2px 8px rgba(0,0,0,0.04), inset 0 1px 0 rgba(255,255,255,0.95);
   }
 
   .glass-hover { transition: background 0.25s, box-shadow 0.25s, border-color 0.25s; }
   .glass-hover:hover {
-    background: rgba(255, 255, 255, 0.92) !important;
-    box-shadow: 0 12px 40px rgba(0,0,0,0.10), 0 4px 12px rgba(0,0,0,0.06), inset 0 1px 0 rgba(255,255,255,1) !important;
+    background: rgba(255, 255, 255, 0.88) !important;
+    border-color: rgba(148, 163, 184, 0.38) !important;
+    box-shadow: 0 12px 40px rgba(37,56,100,0.10), 0 4px 12px rgba(0,0,0,0.06), inset 0 1px 0 rgba(255,255,255,0.95) !important;
   }
 
   /* ── Gradient text ── */
@@ -194,14 +199,14 @@
 
   /* ── Card surface ── */
   .card-surface {
-    background: #FFFFFF;
-    border: 1px solid #E5E7EB;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.04);
+    background: rgba(255, 255, 255, 0.80);
+    border: 1px solid rgba(148, 163, 184, 0.25);
+    box-shadow: 0 1px 3px rgba(37,56,100,0.06), 0 4px 16px rgba(37,56,100,0.04);
     border-radius: 1rem;
     transition: box-shadow 0.25s, transform 0.25s;
   }
   .card-surface:hover {
-    box-shadow: 0 8px 32px rgba(0,0,0,0.10), 0 2px 8px rgba(0,0,0,0.06);
+    box-shadow: 0 8px 28px rgba(37,56,100,0.09), 0 2px 8px rgba(0,0,0,0.05);
     transform: translateY(-2px);
   }
 }

@@ -23,10 +23,6 @@ export default function Navbar() {
   }, [])
 
   useEffect(() => {
-    setMobileOpen(false)
-  }, [location.pathname])
-
-  useEffect(() => {
     document.body.style.overflow = mobileOpen ? 'hidden' : ''
     return () => { document.body.style.overflow = '' }
   }, [mobileOpen])
@@ -42,9 +38,10 @@ export default function Navbar() {
           scrolled ? 'py-3 border-b border-gray-200' : 'py-5',
         )}
         style={scrolled ? {
-          backdropFilter: 'blur(20px) saturate(180%)',
-          WebkitBackdropFilter: 'blur(20px) saturate(180%)',
-          background: 'rgba(250,250,250,0.92)',
+          backdropFilter: 'blur(20px) saturate(200%)',
+          WebkitBackdropFilter: 'blur(20px) saturate(200%)',
+          background: 'rgba(237,242,251,0.88)',
+          borderColor: 'rgba(148,163,184,0.25)',
         } : {}}
       >
         <nav
@@ -83,7 +80,7 @@ export default function Navbar() {
                   className={cn(
                     'relative px-4 py-2 text-sm rounded-lg transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500',
                     active
-                      ? 'text-text-heading font-medium'
+                      ? 'text-blue-700 font-semibold'
                       : 'text-text-secondary hover:text-text-heading hover:bg-gray-100',
                   )}
                   aria-current={active ? 'page' : undefined}
@@ -91,7 +88,8 @@ export default function Navbar() {
                   {active && (
                     <motion.span
                       layoutId="nav-pill"
-                      className="absolute inset-0 rounded-lg bg-gray-100"
+                      className="absolute inset-0 rounded-lg"
+                      style={{ background: 'rgba(37,99,235,0.10)', border: '1px solid rgba(37,99,235,0.22)' }}
                       transition={{ type: 'spring', bounce: 0.2, duration: 0.55 }}
                     />
                   )}
@@ -187,10 +185,11 @@ export default function Navbar() {
                     >
                       <Link
                         to={link.to}
+                        onClick={() => setMobileOpen(false)}
                         className={cn(
                           'block px-4 py-3 rounded-xl text-sm font-medium transition-all',
                           active
-                            ? 'bg-gray-100 text-text-heading'
+                            ? 'bg-blue-50 text-blue-700 font-semibold'
                             : 'text-text-secondary hover:text-text-heading hover:bg-gray-50',
                         )}
                         aria-current={active ? 'page' : undefined}
@@ -209,6 +208,7 @@ export default function Navbar() {
                   <a
                     href={personal.resumeUrl}
                     download="arjun-p-resume.pdf"
+                    onClick={() => setMobileOpen(false)}
                     className="flex items-center gap-2 rounded-xl px-4 py-3 text-sm font-medium text-blue-600 transition-all hover:bg-blue-50"
                     aria-label="Download resume PDF"
                   >
