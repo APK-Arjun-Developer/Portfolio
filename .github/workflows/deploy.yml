@@ -19,6 +19,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - uses: actions/configure-pages@v5
+        id: pages
+
       - uses: oven-sh/setup-bun@v2
         with:
           bun-version: latest
@@ -26,6 +29,8 @@ jobs:
       - run: bun install
 
       - run: bun run build
+        env:
+          BASE_PATH: ${{ steps.pages.outputs.base_path }}/
 
       - run: touch dist/.nojekyll
 
