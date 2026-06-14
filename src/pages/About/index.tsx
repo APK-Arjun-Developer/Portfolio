@@ -6,29 +6,29 @@ import { skills } from '../../data/personal';
 const skillSections = [
   { label: 'Backend', items: skills.backend, color: '#64ffda' },
   { label: 'Frontend', items: skills.frontend, color: '#bd34fe' },
-  { label: 'Architecture', items: skills.architecture, color: '#f7c948' },
-  { label: 'DevOps', items: skills.devops, color: '#ff6b6b' },
+  { label: 'Databases', items: skills.databases, color: '#f7c948' },
+  { label: 'Tools', items: skills.tools, color: '#ff6b6b' },
 ];
 
 const timeline = [
   {
-    period: '2024 – Present',
+    period: 'Feb 2025 – Present',
     role: 'Full Stack Developer',
-    company: 'Independent / Open Source',
+    company: 'Techbumbles Software Solutions Pvt Ltd · Erode, TN',
     highlights: [
-      'Built and published mui-schema-form-builder NPM package',
-      'Designed multi-tenant SaaS API with per-tenant DB isolation',
-      'Implemented dynamic RBAC system with policy-based authorization',
+      'Building scalable full-stack web and mobile applications with React, Node.js, and PostgreSQL',
+      'Collaborating with cross-functional teams to deliver new features and improve system architecture',
+      'Implementing best practices in performance optimisation, security, and maintainability',
     ],
   },
   {
-    period: '2022 – 2024',
-    role: 'Backend Developer',
-    company: 'Professional Experience',
+    period: 'Aug 2023 – Jan 2025',
+    role: 'Full Stack Developer',
+    company: 'PM Square Soft Services Pvt Ltd · Coimbatore, TN',
     highlights: [
-      'Developed REST APIs with ASP.NET Core and EF Core',
-      'Worked with SQL Server, Docker, and CI/CD pipelines',
-      'Contributed to clean architecture and domain-driven design patterns',
+      'Developed high-performance web apps using React, React Native, Node.js, and .NET Core',
+      'Designed and optimised databases with MySQL, MongoDB, SQLite, and SQL Server',
+      'Conducted code reviews, debugging, and maintained architecture and user-guide documentation',
     ],
   },
 ];
@@ -45,18 +45,17 @@ export default function About() {
         <Grid size={{ xs: 12, md: 7 }}>
           <FadeIn delay={100}>
             <Typography variant="body1" sx={{ color: 'text.secondary', lineHeight: 2, mb: 2 }}>
-              I'm a Full Stack Developer with hands-on experience building scalable, production-ready
-              systems. My primary focus is backend architecture with <Box component="span" sx={{ color: 'primary.main' }}>ASP.NET Core</Box>, but
-              I'm equally comfortable crafting modern <Box component="span" sx={{ color: 'primary.main' }}>React</Box> frontends and
-              publishing open-source packages.
+              I'm a Full Stack Developer with experience building production web and mobile applications
+              using <Box component="span" sx={{ color: 'primary.main' }}>React</Box>, <Box component="span" sx={{ color: 'primary.main' }}>Node.js</Box>, and <Box component="span" sx={{ color: 'primary.main' }}>.NET Core</Box>.
+              I work across the full stack — from database design to responsive UI.
             </Typography>
             <Typography variant="body1" sx={{ color: 'text.secondary', lineHeight: 2, mb: 2 }}>
-              I specialize in <Box component="span" sx={{ color: 'primary.main' }}>multi-tenant SaaS architecture</Box>, role-based access control,
-              and clean domain-driven design — systems where correctness and data isolation matter at scale.
+              I've shipped multi-role SaaS platforms in healthcare, food delivery, and parking — systems
+              where data integrity, real-time updates, and role-based access control matter.
             </Typography>
             <Typography variant="body1" sx={{ color: 'text.secondary', lineHeight: 2, mb: 6 }}>
-              Outside of work I enjoy contributing to open source, writing technical articles, and exploring
-              system design problems.
+              I graduated with a B.E. in Aeronautical Engineering from Excel Engineering College (CGPA 8.0)
+              and transitioned into software through the NxtWave MERN programme in 2023.
             </Typography>
           </FadeIn>
 
@@ -154,9 +153,9 @@ export default function About() {
             <Divider sx={{ my: 3, borderColor: 'rgba(255,255,255,0.06)' }} />
             <Box sx={{ display: 'flex', gap: 4 }}>
               {[
-                { value: '3+', label: 'Featured Projects' },
-                { value: '1', label: 'NPM Package' },
+                { value: '6+', label: 'Projects Shipped' },
                 { value: '2+', label: 'Years Experience' },
+                { value: '2', label: 'Companies' },
               ].map((stat) => (
                 <Box key={stat.label} sx={{ textAlign: 'center' }}>
                   <Typography variant="h4" sx={{ color: 'primary.main', fontWeight: 800, fontFamily: 'monospace' }}>

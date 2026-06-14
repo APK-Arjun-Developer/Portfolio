@@ -2,22 +2,20 @@ export const personal = {
   name: 'Arjun P',
   role: 'Full Stack Developer',
   email: 'arjun.p@techbumbles.com',
-  github: 'https://github.com/arjunp',
-  linkedin: 'https://linkedin.com/in/arjunp',
+  github: 'https://github.com/APK-Arjun-Developer',
+  linkedin: 'https://www.linkedin.com/in/arjun-prakash-full-stack-developer',
   resumeUrl: '/resume.pdf',
-  // Get a free endpoint at formspree.io → New Form → copy the ID here
-  // Leave empty to fall back to a mailto: link
-  formspreeId: '',
+  formspreeId: 'xqeogbbw',
   available: true,
   summary:
-    'Full Stack Developer specializing in ASP.NET Core, React, and scalable cloud-ready architectures. Passionate about multi-tenant systems, clean code, and developer tooling.',
+    'Full Stack Developer with experience building scalable web and mobile applications using React, Node.js, and .NET Core. Passionate about clean architecture, multi-role SaaS platforms, and end-to-end product delivery.',
 };
 
 export const skills = {
-  backend: ['ASP.NET Core', 'Entity Framework Core', 'SQL Server', 'REST APIs', 'SignalR'],
-  frontend: ['React', 'TypeScript', 'Material UI', 'Vite', 'Redux'],
-  architecture: ['Multi-Tenant Systems', 'RBAC', 'Clean Architecture', 'Microservices'],
-  devops: ['Docker', 'GitHub Actions', 'Azure', 'Vercel'],
+  backend: ['Node.js', '.NET Core', 'C#', 'REST APIs'],
+  frontend: ['React', 'React Native', 'JavaScript', 'HTML', 'CSS'],
+  databases: ['PostgreSQL', 'MySQL', 'MongoDB', 'SQLite', 'SQL Server'],
+  tools: ['Git'],
 };
 
 export interface Project {
@@ -33,6 +31,9 @@ export interface Project {
   github: string;
   npm?: string;
   demo: string | null;
+  category?: 'personal' | 'company';
+  role?: string;
+  companyName?: string;
 }
 
 export const projects: Project[] = [
@@ -101,8 +102,8 @@ export const projects: Project[] = [
       explanation:
         'The TenantMiddleware runs first in the pipeline, resolves the tenant from the subdomain (or X-Tenant-ID header as fallback), and populates a scoped ITenantContext. The AppDbContext reads the connection string and applies a global query filter from that context, so every query is automatically tenant-scoped. Auth, domain services, and repositories all operate within the same scope — tenant identity flows through DI, never through method parameters.',
     },
-    github: 'https://github.com/arjunp/multi-tenant-api',
-    demo: null,
+    github: 'https://github.com/APK-Arjun-Developer/MultiTenantPlatform',
+    demo: 'https://multi-tenant-api.runasp.net',
   },
   {
     id: 'rbac-mvc',
@@ -164,8 +165,8 @@ export const projects: Project[] = [
       explanation:
         'Authorization policies are registered at startup as "Resource:Action" strings. On each request the PermissionAuthorizationHandler reads the user\'s resolved permission set from cache (falling back to the DB on miss), checks membership, and either succeeds or fails the context. An ActionFilter writes an audit record after the authorization decision regardless of outcome.',
     },
-    github: 'https://github.com/arjunp/rbac-mvc',
-    demo: null,
+    github: 'https://github.com/APK-Arjun-Developer/AeroFuelHub.Web',
+    demo: 'https://aerofuelhub.runasp.net',
   },
   {
     id: 'schema-form-builder',
@@ -239,8 +240,161 @@ Package internals
       explanation:
         'SchemaForm owns all state via a single useFormState hook. On each field change it re-evaluates visibility rules and re-validates. The renderer lookup checks the consumer-supplied renderers map first, then falls back to built-in field components. FieldWrapper owns error display so custom renderers get error handling for free.',
     },
-    github: 'https://github.com/arjunp/mui-schema-form-builder',
+    github: 'https://github.com/APK-Arjun-Developer/mui-schema-form-builder',
     npm: 'https://www.npmjs.com/package/mui-schema-form-builder',
+    demo: 'https://apk-arjun-developer.github.io/mui-schema-form-builder',
+  },
+  {
+    id: 'runzo',
+    title: 'Runzo – Food Delivery & Catering',
+    tagline: 'Multi-role food delivery platform with a live rider bidding system',
+    description:
+      'A comprehensive food delivery management app supporting customers, restaurants, and delivery riders. Riders bid on delivery jobs with their own price; customers accept or reject offers in real time, creating a competitive and transparent delivery marketplace.',
+    overview:
+      'Most food delivery apps assign riders automatically — Runzo flips that model. Riders see available orders and submit bids with their offered price. Customers compare bids and pick the rider they want. This required a real-time event pipeline to push bid events instantly across all parties and a reliable state machine to prevent double-acceptance of bids.',
+    features: [
+      'Multi-role platform: customers, restaurants, and delivery riders',
+      'Live rider bidding — riders set delivery price, customers accept or reject',
+      'Real-time order and bid status updates across all roles',
+      'Restaurant menu management and order orchestration',
+      'Catering and bulk order booking support',
+    ],
+    techStack: ['React', 'Node.js', '.NET Core', 'PostgreSQL'],
+    challenges: [
+      {
+        problem: 'Bid events needed to reach all parties instantly without manual refresh.',
+        solution: 'Used WebSocket connections scoped per order so all active participants — customer, restaurant, and bidding riders — receive live push updates as bid state changes.',
+      },
+      {
+        problem: 'Multiple riders could accept the same order simultaneously, causing duplicate assignments.',
+        solution: 'Implemented a database-level bid state machine with optimistic locking so only the first accepted bid transitions to CONFIRMED; subsequent accepts are rejected atomically.',
+      },
+    ],
+    architecture: {
+      diagram: `
+  Customer / Restaurant / Rider (React)
+           │
+           │  REST + WebSocket
+           ▼
+  ┌─────────────────────────┐
+  │    Node.js API Gateway  │
+  │  + .NET Core Services   │
+  └────────────┬────────────┘
+               │
+  ┌────────────▼────────────┐
+  │   PostgreSQL Database   │
+  │  Orders / Bids / Users  │
+  └─────────────────────────┘`,
+      explanation:
+        'The Node.js gateway handles WebSocket connections and routes REST calls to .NET Core service modules. PostgreSQL stores orders, bids, and user profiles. The bid state machine lives in the .NET Core layer and enforces atomic transitions, while the Node.js layer fans out WebSocket events to all connected clients on each state change.',
+    },
+    github: '',
     demo: null,
+    category: 'company',
+    role: 'Full Stack Developer',
+    companyName: 'Techbumbles Software Solutions',
+  },
+  {
+    id: 'dr-carrot',
+    title: 'Dr.Carrot – Hospital Management SaaS',
+    tagline: 'Role-based hospital platform for appointments, records, and billing',
+    description:
+      'A responsive hospital management SaaS with dedicated dashboards for hospitals, doctors, receptionists, and patients. Centralises appointments, medical records, prescriptions, billing, and queue management in one platform.',
+    overview:
+      'Hospital workflows span multiple roles with very different information needs — a receptionist managing walk-in queues has nothing in common with a doctor reviewing prescriptions. Dr.Carrot delivers a unified data model with role-aware frontend views, so every user sees exactly what they need without seeing what they should not.',
+    features: [
+      'Role-based dashboards for hospitals, doctors, receptionists, and patients',
+      'Appointment scheduling and real-time queue management',
+      'Medical records, prescriptions, and billing in one platform',
+      'Responsive layout optimised for desktop and tablet use at reception desks',
+      'REST API integration across all modules for consistent data flow',
+    ],
+    techStack: ['React.js', 'JavaScript', 'HTML', 'CSS', 'REST APIs'],
+    challenges: [
+      {
+        problem: 'Four distinct roles needed completely different views of the same underlying data without duplicating component logic.',
+        solution: 'Built a role-aware layout layer that injects role-specific dashboard configurations into a shared component set, keeping UI logic DRY while delivering a tailored experience per role.',
+      },
+      {
+        problem: 'Queue status had to stay current across all receptionist and doctor screens without requiring manual refresh.',
+        solution: 'Implemented a polling strategy with optimistic UI updates — the frontend applies expected state changes immediately and reconciles with the server response, keeping visible latency near zero.',
+      },
+    ],
+    architecture: {
+      diagram: `
+  Patient / Doctor / Receptionist / Admin
+           │  (React SPA — role-aware routing)
+           │
+           │  REST API
+           ▼
+  ┌─────────────────────────┐
+  │     Backend API Layer   │
+  └────────────┬────────────┘
+               │
+  ┌────────────▼────────────┐
+  │        Database         │
+  │ Appointments / Records  │
+  │ Billing / Prescriptions │
+  └─────────────────────────┘`,
+      explanation:
+        'A single React SPA serves all roles. On login, the role claim from the API determines which layout and route set the user receives. All data flows through a shared REST API; the frontend never bypasses it to read data directly. Polling keeps queue and appointment states in sync across concurrent sessions.',
+    },
+    github: '',
+    demo: null,
+    category: 'company',
+    role: 'Frontend Developer',
+    companyName: 'Techbumbles Software Solutions',
+  },
+  {
+    id: 'autohive',
+    title: 'AutoHive – Parking Management SaaS',
+    tagline: 'Multi-role parking operations with real-time slot monitoring and billing',
+    description:
+      'A full-stack parking management SaaS for users, operators, and admins. Handles vehicle entry/exit tracking, slot allocation, automated billing by vehicle type and duration, and live monitoring across multiple parking facilities.',
+    overview:
+      'Managing a parking facility involves real-time coordination across physical entry/exit points, billing, and capacity monitoring. AutoHive digitises this end-to-end — from the moment a vehicle enters to the moment it pays and leaves — and gives operators a live dashboard to track every slot across every facility they manage.',
+    features: [
+      'Multi-role access: users, operators, and admins with separate dashboards',
+      'Real-time parking slot availability and vehicle entry/exit tracking',
+      'Automated billing based on vehicle type and duration',
+      'Admin dashboard for cross-facility monitoring and reporting',
+      'Slot pre-booking and reservation management',
+    ],
+    techStack: ['React', 'Node.js', '.NET Core', 'MySQL'],
+    challenges: [
+      {
+        problem: 'Concurrent booking requests for the same slot from different users could result in double-allocation.',
+        solution: 'Applied pessimistic row-level locking on slot records during the reservation transaction so concurrent requests are serialised at the database level, not the application layer.',
+      },
+      {
+        problem: 'Operators needed live visibility into entry/exit events without polling the page manually.',
+        solution: 'Used server-sent events to push vehicle entry/exit updates directly to the operator console as they occur, keeping the live feed current with no browser refresh.',
+      },
+    ],
+    architecture: {
+      diagram: `
+  Users / Operators / Admins (React)
+           │
+           │  REST + SSE
+           ▼
+  ┌─────────────────────────┐
+  │   Node.js + .NET Core   │
+  │   Entry/Exit / Billing  │
+  │   Slot Allocation API   │
+  └────────────┬────────────┘
+               │
+  ┌────────────▼────────────┐
+  │     MySQL Database      │
+  │ Slots / Vehicles /      │
+  │ Bookings / Payments     │
+  └─────────────────────────┘`,
+      explanation:
+        'Node.js handles the real-time SSE connections and fast event routing; .NET Core services own the business logic for slot allocation, billing calculations, and cross-facility reporting. MySQL stores all operational data. Pessimistic locks on slot rows ensure allocation integrity under concurrent load.',
+    },
+    github: '',
+    demo: null,
+    category: 'company',
+    role: 'Full Stack Developer',
+    companyName: 'PM Square Soft Services',
   },
 ];

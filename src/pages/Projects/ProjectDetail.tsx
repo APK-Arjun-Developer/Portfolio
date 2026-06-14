@@ -31,9 +31,19 @@ export default function ProjectDetail() {
 
       {/* ── Header ── */}
       <FadeIn delay={50}>
-        <Typography variant="caption" sx={{ color: 'primary.main', fontFamily: 'monospace', fontSize: '0.85rem' }}>
-          Featured Project
-        </Typography>
+        <Stack direction="row" spacing={1.5} alignItems="center" sx={{ flexWrap: 'wrap' }}>
+          <Typography variant="caption" sx={{ color: project.category === 'company' ? '#bd34fe' : 'primary.main', fontFamily: 'monospace', fontSize: '0.85rem' }}>
+            {project.category === 'company' ? 'Company Project' : 'Personal Project'}
+          </Typography>
+          {project.role && (
+            <Chip label={project.role} size="small" sx={{ fontSize: '0.65rem', bgcolor: project.category === 'company' ? 'rgba(189,52,254,0.08)' : 'rgba(100,255,218,0.08)', color: project.category === 'company' ? '#bd34fe' : 'primary.main', border: '1px solid', borderColor: project.category === 'company' ? 'rgba(189,52,254,0.3)' : 'rgba(100,255,218,0.25)' }} />
+          )}
+          {project.companyName && (
+            <Typography variant="caption" sx={{ color: 'text.disabled', fontFamily: 'monospace', fontSize: '0.75rem' }}>
+              @ {project.companyName}
+            </Typography>
+          )}
+        </Stack>
         <Typography variant="h3" sx={{ color: 'text.primary', fontWeight: 800, mt: 0.5, mb: 1, fontSize: { xs: '1.8rem', md: '2.6rem' } }}>
           {project.title}
         </Typography>
@@ -54,7 +64,7 @@ export default function ProjectDetail() {
         </Stack>
 
         <Stack direction="row" spacing={2} sx={{ mb: 6 }}>
-          {project.github && (
+          {project.github && project.category !== 'company' && (
             <Button variant="outlined" color="primary" href={project.github} target="_blank" startIcon={<GitHubIcon />} sx={{ borderRadius: 1 }}>
               View Code
             </Button>

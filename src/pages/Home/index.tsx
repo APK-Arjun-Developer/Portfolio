@@ -14,17 +14,17 @@ const buildAreas = [
   {
     icon: <StorageIcon sx={{ fontSize: 32, color: 'primary.main' }} />,
     title: 'Backend Systems',
-    description: 'Scalable ASP.NET Core APIs with multi-tenant isolation, clean architecture, and EF Core.',
+    description: 'Scalable REST APIs with Node.js and .NET Core, backed by PostgreSQL, MySQL, and MongoDB.',
   },
   {
     icon: <WebIcon sx={{ fontSize: 32, color: '#bd34fe' }} />,
     title: 'Frontend Apps',
-    description: 'React + TypeScript SPAs with Material UI, state management, and published NPM packages.',
+    description: 'React SPAs and React Native mobile apps with responsive UI and role-based access flows.',
   },
   {
     icon: <AccountTreeIcon sx={{ fontSize: 32, color: '#f7c948' }} />,
-    title: 'Architecture & Design',
-    description: 'Multi-tenant SaaS, RBAC systems, domain-driven design, and REST API standards.',
+    title: 'Multi-Role SaaS',
+    description: 'End-to-end SaaS platforms in healthcare, food delivery, and parking — from schema to UI.',
   },
 ];
 
@@ -45,7 +45,7 @@ export default function Home() {
       >
         <FadeIn delay={100}>
           <Typography variant="body1" sx={{ color: 'primary.main', fontFamily: 'monospace', mb: 2, fontSize: '1rem' }}>
-            Hi, my name is
+            Hi, I'm
           </Typography>
         </FadeIn>
 
@@ -90,7 +90,7 @@ export default function Home() {
 
         <FadeIn delay={500}>
           <Stack direction="row" spacing={1} sx={{ mb: 5, flexWrap: 'wrap' }}>
-            {['ASP.NET Core', 'React', 'TypeScript', 'Multi-Tenant', 'RBAC', 'Clean Architecture'].map((tag) => (
+            {['React', 'Node.js', '.NET Core', 'JavaScript', 'PostgreSQL', 'Full Stack'].map((tag) => (
               <Chip
                 key={tag}
                 label={tag}

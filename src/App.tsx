@@ -10,8 +10,6 @@ const About        = lazy(() => import('./pages/About'));
 const Projects     = lazy(() => import('./pages/Projects'));
 const ProjectDetail = lazy(() => import('./pages/Projects/ProjectDetail'));
 const Architecture = lazy(() => import('./pages/Architecture'));
-const Blog         = lazy(() => import('./pages/Blog'));
-const BlogPost     = lazy(() => import('./pages/Blog/BlogPost'));
 const Contact      = lazy(() => import('./pages/Contact'));
 
 function PageLoader() {
@@ -37,9 +35,7 @@ export default function App() {
                 <Route path="/projects"       element={<Projects />} />
                 <Route path="/projects/:id"   element={<ProjectDetail />} />
                 <Route path="/architecture"   element={<Architecture />} />
-                <Route path="/blog"           element={<Blog />} />
-                <Route path="/blog/:slug"     element={<BlogPost />} />
-                <Route path="/contact"        element={<Contact />} />
+<Route path="/contact"        element={<Contact />} />
               </Routes>
             </Suspense>
           </Box>
