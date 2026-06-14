@@ -1,20 +1,18 @@
 export const personal = {
   name: 'Arjun P',
   role: 'Full Stack Developer',
-  email: 'arjun.p@techbumbles.com',
+  email: 'apkarjundeveloper@gmail.com',
   github: 'https://github.com/APK-Arjun-Developer',
   linkedin: 'https://www.linkedin.com/in/arjun-prakash-full-stack-developer',
   resumeUrl: '/resume.pdf',
-  formspreeId: 'xqeogbbw',
-  available: true,
   summary:
-    'Full Stack Developer with experience building scalable web and mobile applications using React, Node.js, and .NET Core. Passionate about clean architecture, multi-role SaaS platforms, and end-to-end product delivery.',
+    'Full Stack Developer with experience building scalable web applications using React, Node.js, and .NET Core. Passionate about clean architecture, multi-role SaaS platforms, and end-to-end product delivery.',
 };
 
 export const skills = {
-  backend: ['Node.js', '.NET Core', 'C#', 'REST APIs'],
-  frontend: ['React', 'React Native', 'JavaScript', 'HTML', 'CSS'],
-  databases: ['PostgreSQL', 'MySQL', 'MongoDB', 'SQLite', 'SQL Server'],
+  backend: ['Node.js', '.NET Core', 'REST APIs'],
+  frontend: ['React', 'JavaScript', 'HTML', 'CSS'],
+  databases: ['PostgreSQL', 'MySQL', 'SQL Server', 'SQLite'],
   tools: ['Git'],
 };
 
@@ -27,7 +25,6 @@ export interface Project {
   features: string[];
   techStack: string[];
   challenges: { problem: string; solution: string }[];
-  architecture: { diagram: string; explanation: string };
   github: string;
   npm?: string;
   demo: string | null;
@@ -68,40 +65,6 @@ export const projects: Project[] = [
         solution: 'Built a MigrationService that iterates registered tenants and applies pending migrations in sequence during app startup, with a distributed lock to prevent concurrent runs in scaled deployments.',
       },
     ],
-    architecture: {
-      diagram: `
-┌──────────────────────────────────────────────────────────┐
-│                     Client Request                        │
-│           Host: tenant-a.yoursaas.com/api/...            │
-└───────────────────────────┬──────────────────────────────┘
-                            │
-                ┌───────────▼────────────┐
-                │    TenantMiddleware    │
-                │  resolves slug from    │
-                │  subdomain or header   │
-                └───────────┬────────────┘
-                            │
-                ┌───────────▼────────────┐
-                │     TenantContext      │  (scoped)
-                │   TenantId = "a"       │
-                │   ConnectionString     │
-                └───────────┬────────────┘
-                            │
-           ┌────────────────┼────────────────┐
-           │                │                │
-  ┌────────▼───────┐ ┌──────▼──────┐ ┌──────▼──────┐
-  │  AuthService   │ │ AppDbContext │ │  Domain     │
-  │  JWT + Refresh │ │ GlobalFilter │ │  Services   │
-  └────────────────┘ │ WHERE        │ └─────────────┘
-                     │ TenantId='a' │
-                     └──────┬───────┘
-                            │
-              ┌─────────────▼─────────────┐
-              │   Tenant A — SQL Server   │
-              └───────────────────────────┘`,
-      explanation:
-        'The TenantMiddleware runs first in the pipeline, resolves the tenant from the subdomain (or X-Tenant-ID header as fallback), and populates a scoped ITenantContext. The AppDbContext reads the connection string and applies a global query filter from that context, so every query is automatically tenant-scoped. Auth, domain services, and repositories all operate within the same scope — tenant identity flows through DI, never through method parameters.',
-    },
     github: 'https://github.com/APK-Arjun-Developer/MultiTenantPlatform',
     demo: 'https://multi-tenant-api.runasp.net',
   },
@@ -136,35 +99,6 @@ export const projects: Project[] = [
         solution: 'On role save, a depth-first cycle check runs before committing. Permission resolution walks the ancestry tree and unions all permission sets.',
       },
     ],
-    architecture: {
-      diagram: `
-  HTTP Request
-       │
-       ▼
-[AuthenticationMiddleware]
-       │  JWT validated → ClaimsPrincipal set
-       ▼
-[AuthorizationMiddleware]
-       │
-       │  [Authorize(Policy = "Invoice:Edit")]
-       ▼
-[PermissionAuthorizationHandler]
-       │
-       ├─── Read from IMemoryCache
-       │       ├── HIT  → set of (Resource,Action)
-       │       └── MISS → query DB (UserRoles → RolePermissions)
-       │                  → cache result for 5 min
-       │
-       ├── Does set contain "Invoice:Edit"?
-       │       ├── YES → context.Succeed()  → Controller runs
-       │       └── NO  → context.Fail()     → 403 Forbidden
-       │
-       ▼
-[AuditLogger]  (ActionFilter)
-  logs: user, resource, action, allow/deny, timestamp`,
-      explanation:
-        'Authorization policies are registered at startup as "Resource:Action" strings. On each request the PermissionAuthorizationHandler reads the user\'s resolved permission set from cache (falling back to the DB on miss), checks membership, and either succeeds or fails the context. An ActionFilter writes an audit record after the authorization decision regardless of outcome.',
-    },
     github: 'https://github.com/APK-Arjun-Developer/AeroFuelHub.Web',
     demo: 'https://aerofuelhub.runasp.net',
   },
@@ -199,59 +133,18 @@ export const projects: Project[] = [
         solution: 'Each field\'s "visibleWhen" is evaluated by a pure function against the current form values object on every render. No subscriptions or side effects — React re-renders propagate visibility changes naturally.',
       },
     ],
-    architecture: {
-      diagram: `
-Consumer code
-─────────────────────────────────────────
-  const schema = {
-    fields: [
-      { name: "email",    type: "email",
-        required: true },
-      { name: "role",     type: "select",
-        options: ["admin","user"] },
-      { name: "bio",      type: "textarea",
-        visibleWhen: { field:"role", eq:"admin" } },
-    ]
-  };
-
-  <SchemaForm
-    schema={schema}
-    onSubmit={(values) => save(values)}
-    renderers={{ email: MyEmailInput }}
-  />
-
-─────────────────────────────────────────
-Package internals
-─────────────────────────────────────────
-  SchemaForm
-    │
-    ├── useFormState(schema)
-    │     ├── values: Record<string, unknown>
-    │     ├── errors: Record<string, string>
-    │     └── validate() → runs per-field rules
-    │
-    └── schema.fields.map(field =>
-          ├── evalVisibility(field, values) → show/hide
-          ├── renderers[field.type] ?? DefaultField
-          └── <FieldWrapper error={errors[field.name]}>
-                <FieldComponent ... />
-              </FieldWrapper>
-        )`,
-      explanation:
-        'SchemaForm owns all state via a single useFormState hook. On each field change it re-evaluates visibility rules and re-validates. The renderer lookup checks the consumer-supplied renderers map first, then falls back to built-in field components. FieldWrapper owns error display so custom renderers get error handling for free.',
-    },
     github: 'https://github.com/APK-Arjun-Developer/mui-schema-form-builder',
     npm: 'https://www.npmjs.com/package/mui-schema-form-builder',
     demo: 'https://apk-arjun-developer.github.io/mui-schema-form-builder',
   },
   {
-    id: 'runzo',
-    title: 'Runzo – Food Delivery & Catering',
+    id: 'food-delivery',
+    title: 'Food Delivery & Catering',
     tagline: 'Multi-role food delivery platform with a live rider bidding system',
     description:
       'A comprehensive food delivery management app supporting customers, restaurants, and delivery riders. Riders bid on delivery jobs with their own price; customers accept or reject offers in real time, creating a competitive and transparent delivery marketplace.',
     overview:
-      'Most food delivery apps assign riders automatically — Runzo flips that model. Riders see available orders and submit bids with their offered price. Customers compare bids and pick the rider they want. This required a real-time event pipeline to push bid events instantly across all parties and a reliable state machine to prevent double-acceptance of bids.',
+      'Most food delivery apps assign riders automatically — Flips that model. Riders see available orders and submit bids with their offered price. Customers compare bids and pick the rider they want. This required a real-time event pipeline to push bid events instantly across all parties and a reliable state machine to prevent double-acceptance of bids.',
     features: [
       'Multi-role platform: customers, restaurants, and delivery riders',
       'Live rider bidding — riders set delivery price, customers accept or reject',
@@ -270,24 +163,6 @@ Package internals
         solution: 'Implemented a database-level bid state machine with optimistic locking so only the first accepted bid transitions to CONFIRMED; subsequent accepts are rejected atomically.',
       },
     ],
-    architecture: {
-      diagram: `
-  Customer / Restaurant / Rider (React)
-           │
-           │  REST + WebSocket
-           ▼
-  ┌─────────────────────────┐
-  │    Node.js API Gateway  │
-  │  + .NET Core Services   │
-  └────────────┬────────────┘
-               │
-  ┌────────────▼────────────┐
-  │   PostgreSQL Database   │
-  │  Orders / Bids / Users  │
-  └─────────────────────────┘`,
-      explanation:
-        'The Node.js gateway handles WebSocket connections and routes REST calls to .NET Core service modules. PostgreSQL stores orders, bids, and user profiles. The bid state machine lives in the .NET Core layer and enforces atomic transitions, while the Node.js layer fans out WebSocket events to all connected clients on each state change.',
-    },
     github: '',
     demo: null,
     category: 'company',
@@ -320,25 +195,6 @@ Package internals
         solution: 'Implemented a polling strategy with optimistic UI updates — the frontend applies expected state changes immediately and reconciles with the server response, keeping visible latency near zero.',
       },
     ],
-    architecture: {
-      diagram: `
-  Patient / Doctor / Receptionist / Admin
-           │  (React SPA — role-aware routing)
-           │
-           │  REST API
-           ▼
-  ┌─────────────────────────┐
-  │     Backend API Layer   │
-  └────────────┬────────────┘
-               │
-  ┌────────────▼────────────┐
-  │        Database         │
-  │ Appointments / Records  │
-  │ Billing / Prescriptions │
-  └─────────────────────────┘`,
-      explanation:
-        'A single React SPA serves all roles. On login, the role claim from the API determines which layout and route set the user receives. All data flows through a shared REST API; the frontend never bypasses it to read data directly. Polling keeps queue and appointment states in sync across concurrent sessions.',
-    },
     github: '',
     demo: null,
     category: 'company',
@@ -371,26 +227,6 @@ Package internals
         solution: 'Used server-sent events to push vehicle entry/exit updates directly to the operator console as they occur, keeping the live feed current with no browser refresh.',
       },
     ],
-    architecture: {
-      diagram: `
-  Users / Operators / Admins (React)
-           │
-           │  REST + SSE
-           ▼
-  ┌─────────────────────────┐
-  │   Node.js + .NET Core   │
-  │   Entry/Exit / Billing  │
-  │   Slot Allocation API   │
-  └────────────┬────────────┘
-               │
-  ┌────────────▼────────────┐
-  │     MySQL Database      │
-  │ Slots / Vehicles /      │
-  │ Bookings / Payments     │
-  └─────────────────────────┘`,
-      explanation:
-        'Node.js handles the real-time SSE connections and fast event routing; .NET Core services own the business logic for slot allocation, billing calculations, and cross-facility reporting. MySQL stores all operational data. Pessimistic locks on slot rows ensure allocation integrity under concurrent load.',
-    },
     github: '',
     demo: null,
     category: 'company',

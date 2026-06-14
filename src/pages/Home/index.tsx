@@ -1,32 +1,11 @@
-import { Box, Typography, Button, Stack, Chip, Grid, Paper, Divider } from '@mui/material';
+import { Box, Typography, Button, Stack, Chip, Divider } from '@mui/material';
 import DownloadIcon from '@mui/icons-material/Download';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import StorageIcon from '@mui/icons-material/Storage';
-import WebIcon from '@mui/icons-material/Web';
-import AccountTreeIcon from '@mui/icons-material/AccountTree';
 import { Link } from 'react-router-dom';
 import FadeIn from '../../components/ui/FadeIn';
-import { personal, projects } from '../../data/personal';
-
-const buildAreas = [
-  {
-    icon: <StorageIcon sx={{ fontSize: 32, color: 'primary.main' }} />,
-    title: 'Backend Systems',
-    description: 'Scalable REST APIs with Node.js and .NET Core, backed by PostgreSQL, MySQL, and MongoDB.',
-  },
-  {
-    icon: <WebIcon sx={{ fontSize: 32, color: '#bd34fe' }} />,
-    title: 'Frontend Apps',
-    description: 'React SPAs and React Native mobile apps with responsive UI and role-based access flows.',
-  },
-  {
-    icon: <AccountTreeIcon sx={{ fontSize: 32, color: '#f7c948' }} />,
-    title: 'Multi-Role SaaS',
-    description: 'End-to-end SaaS platforms in healthcare, food delivery, and parking — from schema to UI.',
-  },
-];
+import { personal } from '../../data/personal';
 
 export default function Home() {
   return (
@@ -59,7 +38,7 @@ export default function Home() {
               fontWeight: 800,
             }}
           >
-            {personal.name}.
+            {personal.name}
           </Typography>
         </FadeIn>
 
@@ -90,7 +69,7 @@ export default function Home() {
 
         <FadeIn delay={500}>
           <Stack direction="row" spacing={1} sx={{ mb: 5, flexWrap: 'wrap' }}>
-            {['React', 'Node.js', '.NET Core', 'JavaScript', 'PostgreSQL', 'Full Stack'].map((tag) => (
+            {['React', 'Node.js', '.NET Core', 'SQL'].map((tag) => (
               <Chip
                 key={tag}
                 label={tag}
@@ -149,111 +128,6 @@ export default function Home() {
               LinkedIn
             </Button>
           </Stack>
-        </FadeIn>
-      </Box>
-
-      {/* ── What I Build ── */}
-      <Box sx={{ px: { xs: 3, sm: 6, md: 12 }, py: 10, maxWidth: 1100, mx: 'auto' }}>
-        <FadeIn>
-          <Typography variant="overline" sx={{ color: 'primary.main', fontFamily: 'monospace', letterSpacing: 2 }}>
-            What I Build
-          </Typography>
-          <Typography variant="h4" sx={{ color: 'text.primary', fontWeight: 700, mt: 0.5, mb: 5 }}>
-            End-to-end full stack development
-          </Typography>
-        </FadeIn>
-
-        <Grid container spacing={3}>
-          {buildAreas.map((area, i) => (
-            <Grid key={area.title} size={{ xs: 12, md: 4 }}>
-              <FadeIn delay={i * 120}>
-                <Paper
-                  sx={{
-                    p: 4,
-                    height: '100%',
-                    bgcolor: 'background.paper',
-                    border: '1px solid rgba(255,255,255,0.05)',
-                    transition: 'border-color 0.2s, transform 0.2s',
-                    '&:hover': { borderColor: 'primary.main', transform: 'translateY(-4px)' },
-                  }}
-                >
-                  <Box sx={{ mb: 2 }}>{area.icon}</Box>
-                  <Typography variant="h6" sx={{ color: 'text.primary', fontWeight: 700, mb: 1.5 }}>
-                    {area.title}
-                  </Typography>
-                  <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.8 }}>
-                    {area.description}
-                  </Typography>
-                </Paper>
-              </FadeIn>
-            </Grid>
-          ))}
-        </Grid>
-      </Box>
-
-      {/* ── Featured Projects Preview ── */}
-      <Box sx={{ px: { xs: 3, sm: 6, md: 12 }, pb: 12, maxWidth: 1100, mx: 'auto' }}>
-        <FadeIn>
-          <Typography variant="overline" sx={{ color: 'primary.main', fontFamily: 'monospace', letterSpacing: 2 }}>
-            Featured Work
-          </Typography>
-          <Typography variant="h4" sx={{ color: 'text.primary', fontWeight: 700, mt: 0.5, mb: 5 }}>
-            Selected projects
-          </Typography>
-        </FadeIn>
-
-        <Grid container spacing={3}>
-          {projects.map((project, i) => (
-            <Grid key={project.id} size={{ xs: 12, sm: 6, md: 4 }}>
-              <FadeIn delay={i * 100}>
-                <Paper
-                  component={Link}
-                  to="/projects"
-                  sx={{
-                    p: 3.5,
-                    height: '100%',
-                    bgcolor: 'background.paper',
-                    border: '1px solid rgba(255,255,255,0.05)',
-                    textDecoration: 'none',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    transition: 'border-color 0.2s, transform 0.2s',
-                    '&:hover': { borderColor: 'primary.main', transform: 'translateY(-4px)' },
-                  }}
-                >
-                  <Typography variant="caption" sx={{ color: 'primary.main', fontFamily: 'monospace', mb: 1 }}>
-                    {String(i + 1).padStart(2, '0')}
-                  </Typography>
-                  <Typography variant="h6" sx={{ color: 'text.primary', fontWeight: 700, mb: 1, fontSize: '1rem' }}>
-                    {project.title}
-                  </Typography>
-                  <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.7, mb: 2, flex: 1, fontSize: '0.8rem' }}>
-                    {project.tagline}
-                  </Typography>
-                  <Stack direction="row" spacing={0.5} sx={{ flexWrap: 'wrap' }}>
-                    {project.techStack.slice(0, 3).map((tech) => (
-                      <Chip key={tech} label={tech} size="small" sx={{ bgcolor: 'rgba(100,255,218,0.07)', color: 'text.secondary', fontSize: '0.65rem', mb: 0.5 }} />
-                    ))}
-                  </Stack>
-                </Paper>
-              </FadeIn>
-            </Grid>
-          ))}
-        </Grid>
-
-        <FadeIn delay={300}>
-          <Box sx={{ textAlign: 'center', mt: 5 }}>
-            <Button
-              component={Link}
-              to="/projects"
-              variant="outlined"
-              color="primary"
-              endIcon={<ArrowForwardIcon />}
-              sx={{ borderRadius: 1 }}
-            >
-              View All Projects
-            </Button>
-          </Box>
         </FadeIn>
       </Box>
     </Box>

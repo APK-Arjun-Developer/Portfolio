@@ -9,8 +9,6 @@ const Home         = lazy(() => import('./pages/Home'));
 const About        = lazy(() => import('./pages/About'));
 const Projects     = lazy(() => import('./pages/Projects'));
 const ProjectDetail = lazy(() => import('./pages/Projects/ProjectDetail'));
-const Architecture = lazy(() => import('./pages/Architecture'));
-const Contact      = lazy(() => import('./pages/Contact'));
 
 function PageLoader() {
   return (
@@ -34,8 +32,6 @@ export default function App() {
                 <Route path="/about"          element={<About />} />
                 <Route path="/projects"       element={<Projects />} />
                 <Route path="/projects/:id"   element={<ProjectDetail />} />
-                <Route path="/architecture"   element={<Architecture />} />
-<Route path="/contact"        element={<Contact />} />
               </Routes>
             </Suspense>
           </Box>

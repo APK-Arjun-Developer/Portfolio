@@ -31,7 +31,7 @@ export default function ProjectDetail() {
 
       {/* ── Header ── */}
       <FadeIn delay={50}>
-        <Stack direction="row" spacing={1.5} alignItems="center" sx={{ flexWrap: 'wrap' }}>
+        <Stack direction="row" spacing={1.5} sx={{ flexWrap: 'wrap', alignItems: 'center' }}>
           <Typography variant="caption" sx={{ color: project.category === 'company' ? '#bd34fe' : 'primary.main', fontFamily: 'monospace', fontSize: '0.85rem' }}>
             {project.category === 'company' ? 'Company Project' : 'Personal Project'}
           </Typography>
@@ -109,31 +109,9 @@ export default function ProjectDetail() {
         </Grid>
       </FadeIn>
 
-      {/* ── Architecture ── */}
-      <FadeIn delay={140}>
-        <SectionHeading label="03" title="Architecture" />
-        <Grid container spacing={4} sx={{ mb: 8, alignItems: 'flex-start' }}>
-          <Grid size={{ xs: 12, md: 6 }}>
-            <Paper sx={{ p: 3, bgcolor: '#0d1b2e', border: '1px solid rgba(100,255,218,0.15)', overflow: 'auto' }}>
-              <Box
-                component="pre"
-                sx={{ m: 0, fontFamily: 'monospace', fontSize: '0.68rem', color: '#64ffda', lineHeight: 1.7, whiteSpace: 'pre' }}
-              >
-                {project.architecture.diagram.trim()}
-              </Box>
-            </Paper>
-          </Grid>
-          <Grid size={{ xs: 12, md: 6 }}>
-            <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 2 }}>
-              {project.architecture.explanation}
-            </Typography>
-          </Grid>
-        </Grid>
-      </FadeIn>
-
       {/* ── Challenges ── */}
-      <FadeIn delay={160}>
-        <SectionHeading label="04" title="Challenges & Solutions" />
+      <FadeIn delay={140}>
+        <SectionHeading label="03" title="Challenges & Solutions" />
         <Stack spacing={3} sx={{ mb: 8 }}>
           {project.challenges.map((c, i) => (
             <FadeIn key={i} delay={i * 80}>
@@ -171,8 +149,8 @@ export default function ProjectDetail() {
       </FadeIn>
 
       {/* ── Tech Stack detail ── */}
-      <FadeIn delay={180}>
-        <SectionHeading label="05" title="Tech Stack" />
+      <FadeIn delay={160}>
+        <SectionHeading label="04" title="Tech Stack" />
         <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1.5, mb: 8 }}>
           {project.techStack.map((tech) => (
             <Paper

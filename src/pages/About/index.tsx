@@ -10,13 +10,23 @@ const skillSections = [
   { label: 'Tools', items: skills.tools, color: '#ff6b6b' },
 ];
 
+const careerStart = new Date('2023-08-01');
+function getDynamicExperience() {
+  const now = new Date();
+  const months =
+    (now.getFullYear() - careerStart.getFullYear()) * 12 +
+    (now.getMonth() - careerStart.getMonth());
+  const years = months / 12;
+  return years % 1 === 0 ? `${years}` : years.toFixed(1);
+}
+
 const timeline = [
   {
     period: 'Feb 2025 – Present',
     role: 'Full Stack Developer',
     company: 'Techbumbles Software Solutions Pvt Ltd · Erode, TN',
     highlights: [
-      'Building scalable full-stack web and mobile applications with React, Node.js, and PostgreSQL',
+      'Building scalable full-stack web applications with React, Node.js, .NET Core and PostgreSQL',
       'Collaborating with cross-functional teams to deliver new features and improve system architecture',
       'Implementing best practices in performance optimisation, security, and maintainability',
     ],
@@ -26,8 +36,8 @@ const timeline = [
     role: 'Full Stack Developer',
     company: 'PM Square Soft Services Pvt Ltd · Coimbatore, TN',
     highlights: [
-      'Developed high-performance web apps using React, React Native, Node.js, and .NET Core',
-      'Designed and optimised databases with MySQL, MongoDB, SQLite, and SQL Server',
+      'Developed high-performance web apps using React, Node.js, and .NET Core',
+      'Designed and optimised databases with MySQL, SQLite, and SQL Server',
       'Conducted code reviews, debugging, and maintained architecture and user-guide documentation',
     ],
   },
@@ -45,8 +55,8 @@ export default function About() {
         <Grid size={{ xs: 12, md: 7 }}>
           <FadeIn delay={100}>
             <Typography variant="body1" sx={{ color: 'text.secondary', lineHeight: 2, mb: 2 }}>
-              I'm a Full Stack Developer with experience building production web and mobile applications
-              using <Box component="span" sx={{ color: 'primary.main' }}>React</Box>, <Box component="span" sx={{ color: 'primary.main' }}>Node.js</Box>, and <Box component="span" sx={{ color: 'primary.main' }}>.NET Core</Box>.
+              I'm a Full Stack Developer with experience building production web applications
+              using <Box component="span" sx={{ color: 'primary.main' }}>React, Node.js, and .NET Core</Box>.
               I work across the full stack — from database design to responsive UI.
             </Typography>
             <Typography variant="body1" sx={{ color: 'text.secondary', lineHeight: 2, mb: 2 }}>
@@ -153,8 +163,7 @@ export default function About() {
             <Divider sx={{ my: 3, borderColor: 'rgba(255,255,255,0.06)' }} />
             <Box sx={{ display: 'flex', gap: 4 }}>
               {[
-                { value: '6+', label: 'Projects Shipped' },
-                { value: '2+', label: 'Years Experience' },
+                { value: `${getDynamicExperience()}`, label: 'Years Experience' },
                 { value: '2', label: 'Companies' },
               ].map((stat) => (
                 <Box key={stat.label} sx={{ textAlign: 'center' }}>
