@@ -30,11 +30,12 @@ const tabs: { id: FilterTab; label: string; icon: React.ReactNode }[] = [
 
 function ProjectCard({ project, index }: { project: Project; index: number }) {
   const isCompany = project.category === 'company'
-  const accent = isCompany ? '#7C3AED' : '#2563EB'
-  const accentBg = isCompany ? 'rgba(124,58,237,0.06)' : 'rgba(37,99,235,0.06)'
-  const accentBorder = isCompany ? 'rgba(124,58,237,0.18)' : 'rgba(37,99,235,0.15)'
-  const gradientFrom = isCompany ? '#7C3AED' : '#2563EB'
-  const gradientTo = isCompany ? '#4F46E5' : '#0284C7'
+  const accent = isCompany ? '#a78bfa' : '#60a5fa'
+  const accentBase = isCompany ? '#8b5cf6' : '#3b82f6'
+  const accentBg = isCompany ? 'rgba(139,92,246,0.10)' : 'rgba(59,130,246,0.10)'
+  const accentBorder = isCompany ? 'rgba(139,92,246,0.25)' : 'rgba(59,130,246,0.25)'
+  const gradientFrom = isCompany ? '#8b5cf6' : '#3b82f6'
+  const gradientTo = isCompany ? '#4f46e5' : '#06b6d4'
 
   return (
     <motion.article
@@ -52,8 +53,8 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
         style={{ border: `1px solid ${accentBorder}` }}
         onMouseEnter={(e) => {
           const el = e.currentTarget as HTMLElement
-          el.style.boxShadow = `0 12px 40px rgba(0,0,0,0.10), 0 0 0 1px ${accent}30`
-          el.style.borderColor = `${accent}40`
+          el.style.boxShadow = `0 16px 48px rgba(0,0,0,0.45), 0 0 0 1px ${accentBase}45`
+          el.style.borderColor = `${accentBase}50`
         }}
         onMouseLeave={(e) => {
           const el = e.currentTarget as HTMLElement
@@ -61,9 +62,9 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
           el.style.borderColor = accentBorder
         }}
       >
-        {/* Gradient thumbnail header */}
+        {/* Gradient header stripe */}
         <div
-          className="h-2 w-full"
+          className="h-1 w-full flex-shrink-0"
           style={{ background: `linear-gradient(90deg, ${gradientFrom}, ${gradientTo})` }}
           aria-hidden="true"
         />
@@ -73,8 +74,8 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
           <div className="flex items-start justify-between gap-3 mb-4">
             <div className="flex flex-wrap items-center gap-2">
               <span
-                className="font-mono text-[10px] font-semibold"
-                style={{ color: accent }}
+                className="font-mono text-[10px] font-bold"
+                style={{ color: accent, opacity: 0.7 }}
                 aria-hidden="true"
               >
                 {String(index + 1).padStart(2, '0')}
@@ -86,7 +87,14 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
                 {isCompany ? 'Company' : 'Personal'}
               </span>
               {project.role && (
-                <span className="rounded-full px-2 py-0.5 text-[10px] text-text-secondary bg-gray-100 border border-gray-200">
+                <span
+                  className="rounded-full px-2 py-0.5 text-[10px] font-medium"
+                  style={{
+                    color: '#64748b',
+                    background: 'rgba(255,255,255,0.04)',
+                    border: '1px solid rgba(255,255,255,0.08)',
+                  }}
+                >
                   {project.role}
                 </span>
               )}
@@ -94,7 +102,11 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
             {project.npm && (
               <span
                 className="flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-semibold"
-                style={{ color: '#d97706', background: 'rgba(245,158,11,0.08)', border: '1px solid rgba(245,158,11,0.25)' }}
+                style={{
+                  color: '#fb923c',
+                  background: 'rgba(251,146,60,0.10)',
+                  border: '1px solid rgba(251,146,60,0.25)',
+                }}
               >
                 <Package size={9} aria-hidden="true" />
                 NPM
@@ -103,26 +115,42 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
           </div>
 
           {/* Title */}
-          <h3 className="text-lg font-bold text-text-heading mb-1 leading-snug">{project.title}</h3>
+          <h3
+            className="text-lg font-bold mb-1 leading-snug"
+            style={{ color: '#f8fafc' }}
+          >
+            {project.title}
+          </h3>
 
           {/* Company attribution */}
           {project.companyName && (
-            <p className="text-xs text-text-secondary mb-2 font-mono">@ {project.companyName}</p>
+            <p
+              className="text-xs mb-2 font-mono"
+              style={{ color: '#64748b' }}
+            >
+              @ {project.companyName}
+            </p>
           )}
 
           {/* Tagline */}
-          <p className="text-sm mb-3 font-medium" style={{ color: accent }}>
+          <p className="text-sm mb-3 font-semibold" style={{ color: accent }}>
             {project.tagline}
           </p>
 
           {/* Description */}
-          <p className="text-sm text-text-body leading-relaxed mb-5 flex-1">
+          <p
+            className="text-sm leading-relaxed mb-5 flex-1"
+            style={{ color: '#94a3b8' }}
+          >
             {project.description}
           </p>
 
           {/* Key features */}
           <div className="mb-5">
-            <p className="text-xs font-semibold text-text-secondary uppercase tracking-wider mb-2">
+            <p
+              className="text-[10px] font-bold uppercase tracking-widest mb-2.5"
+              style={{ color: '#475569' }}
+            >
               Key Features
             </p>
             <ul className="space-y-1.5" aria-label="Key features">
@@ -134,7 +162,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
                     style={{ color: accent }}
                     aria-hidden="true"
                   />
-                  <span className="text-xs text-text-body leading-relaxed">{f}</span>
+                  <span className="text-xs leading-relaxed" style={{ color: '#94a3b8' }}>{f}</span>
                 </li>
               ))}
             </ul>
@@ -150,10 +178,13 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
           </div>
 
           {/* Actions */}
-          <div className="flex flex-wrap gap-2 pt-4 border-t border-gray-100">
+          <div
+            className="flex flex-wrap gap-2 pt-4"
+            style={{ borderTop: '1px solid rgba(255,255,255,0.07)' }}
+          >
             <Link
               to={`/projects/${project.id}`}
-              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-semibold text-white transition-all duration-200 hover:opacity-90"
+              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-semibold text-white transition-all duration-200 hover:opacity-90 hover:scale-[1.02]"
               style={{ background: `linear-gradient(135deg, ${gradientFrom}, ${gradientTo})` }}
               aria-label={`View details for ${project.title}`}
             >
@@ -165,7 +196,24 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
                 href={project.github}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-medium text-text-secondary hover:text-text-heading transition-colors border border-gray-200 hover:border-gray-300 bg-white hover:bg-gray-50"
+                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-medium transition-all"
+                style={{
+                  color: '#94a3b8',
+                  border: '1px solid rgba(255,255,255,0.10)',
+                  background: 'rgba(255,255,255,0.04)',
+                }}
+                onMouseEnter={(e) => {
+                  const el = e.currentTarget as HTMLElement
+                  el.style.color = '#f8fafc'
+                  el.style.background = 'rgba(255,255,255,0.08)'
+                  el.style.borderColor = 'rgba(255,255,255,0.18)'
+                }}
+                onMouseLeave={(e) => {
+                  const el = e.currentTarget as HTMLElement
+                  el.style.color = '#94a3b8'
+                  el.style.background = 'rgba(255,255,255,0.04)'
+                  el.style.borderColor = 'rgba(255,255,255,0.10)'
+                }}
                 aria-label={`View source code for ${project.title} on GitHub (opens in new tab)`}
               >
                 <GithubIcon size={12} />
@@ -177,11 +225,21 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
                 href={project.npm}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-medium transition-colors"
+                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-medium transition-all"
                 style={{
-                  color: '#d97706',
-                  border: '1px solid rgba(245,158,11,0.25)',
-                  background: 'rgba(245,158,11,0.06)',
+                  color: '#fb923c',
+                  border: '1px solid rgba(251,146,60,0.25)',
+                  background: 'rgba(251,146,60,0.08)',
+                }}
+                onMouseEnter={(e) => {
+                  const el = e.currentTarget as HTMLElement
+                  el.style.background = 'rgba(251,146,60,0.14)'
+                  el.style.borderColor = 'rgba(251,146,60,0.40)'
+                }}
+                onMouseLeave={(e) => {
+                  const el = e.currentTarget as HTMLElement
+                  el.style.background = 'rgba(251,146,60,0.08)'
+                  el.style.borderColor = 'rgba(251,146,60,0.25)'
                 }}
                 aria-label={`View ${project.title} on NPM (opens in new tab)`}
               >
@@ -194,7 +252,24 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
                 href={project.demo}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-medium text-text-secondary hover:text-text-heading transition-colors border border-gray-200 hover:border-gray-300 bg-white hover:bg-gray-50"
+                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-medium transition-all"
+                style={{
+                  color: '#94a3b8',
+                  border: '1px solid rgba(255,255,255,0.10)',
+                  background: 'rgba(255,255,255,0.04)',
+                }}
+                onMouseEnter={(e) => {
+                  const el = e.currentTarget as HTMLElement
+                  el.style.color = '#f8fafc'
+                  el.style.background = 'rgba(255,255,255,0.08)'
+                  el.style.borderColor = 'rgba(255,255,255,0.18)'
+                }}
+                onMouseLeave={(e) => {
+                  const el = e.currentTarget as HTMLElement
+                  el.style.color = '#94a3b8'
+                  el.style.background = 'rgba(255,255,255,0.04)'
+                  el.style.borderColor = 'rgba(255,255,255,0.10)'
+                }}
                 aria-label={`View live demo for ${project.title} (opens in new tab)`}
               >
                 <ExternalLink size={12} aria-hidden="true" />
@@ -252,13 +327,28 @@ export default function Projects() {
                 onClick={() => setActiveTab(tab.id)}
                 className="flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-all duration-200"
                 style={isActive ? {
-                  background: 'linear-gradient(135deg, rgba(37,99,235,0.08), rgba(124,58,237,0.08))',
-                  border: '1px solid rgba(37,99,235,0.25)',
-                  color: '#2563EB',
+                  background: 'rgba(59,130,246,0.14)',
+                  border: '1px solid rgba(59,130,246,0.35)',
+                  color: '#60a5fa',
+                  boxShadow: '0 2px 12px rgba(59,130,246,0.20)',
                 } : {
-                  background: 'white',
-                  border: '1px solid #E5E7EB',
-                  color: '#6B7280',
+                  background: 'rgba(255,255,255,0.04)',
+                  border: '1px solid rgba(255,255,255,0.10)',
+                  color: '#64748b',
+                }}
+                onMouseEnter={(e) => {
+                  if (!isActive) {
+                    const el = e.currentTarget as HTMLElement
+                    el.style.color = '#94a3b8'
+                    el.style.background = 'rgba(255,255,255,0.07)'
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  if (!isActive) {
+                    const el = e.currentTarget as HTMLElement
+                    el.style.color = '#64748b'
+                    el.style.background = 'rgba(255,255,255,0.04)'
+                  }
                 }}
               >
                 {tab.icon}
@@ -266,11 +356,11 @@ export default function Projects() {
                 <span
                   className="ml-1 rounded-full px-1.5 py-0.5 text-[10px] font-semibold"
                   style={isActive ? {
-                    background: 'rgba(37,99,235,0.12)',
-                    color: '#2563EB',
+                    background: 'rgba(59,130,246,0.20)',
+                    color: '#60a5fa',
                   } : {
-                    background: '#F3F4F6',
-                    color: '#6B7280',
+                    background: 'rgba(255,255,255,0.06)',
+                    color: '#64748b',
                   }}
                   aria-label={`${count} projects`}
                 >

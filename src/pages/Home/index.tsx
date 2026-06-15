@@ -49,31 +49,43 @@ export default function Home() {
             {/* Status badge */}
             <motion.div variants={item}>
               <div
-                className="mb-8 inline-flex items-center gap-2 rounded-full px-3.5 py-1.5 text-xs font-medium text-blue-600"
+                className="mb-8 inline-flex items-center gap-2.5 rounded-full px-4 py-1.5 text-xs font-semibold"
                 style={{
-                  background: 'rgba(37,99,235,0.07)',
-                  border: '1px solid rgba(37,99,235,0.18)',
+                  background: 'rgba(34,197,94,0.10)',
+                  border: '1px solid rgba(34,197,94,0.25)',
+                  color: '#4ade80',
                 }}
                 role="status"
                 aria-label="Currently available for new opportunities"
               >
-                <span
-                  className="h-1.5 w-1.5 rounded-full bg-blue-500 animate-pulse-slow"
-                  aria-hidden="true"
-                />
+                <span className="relative flex h-2 w-2" aria-hidden="true">
+                  <span
+                    className="animate-beacon absolute inline-flex h-full w-full rounded-full opacity-75"
+                    style={{ background: '#4ade80' }}
+                  />
+                  <span
+                    className="relative inline-flex h-2 w-2 rounded-full"
+                    style={{ background: '#22c55e' }}
+                  />
+                </span>
                 Available for opportunities
               </div>
             </motion.div>
 
             {/* Greeting */}
-            <motion.p variants={item} className="mb-2 font-mono text-sm text-text-secondary">
+            <motion.p
+              variants={item}
+              className="mb-2 font-mono text-sm"
+              style={{ color: '#64748b' }}
+            >
               Hi, I'm
             </motion.p>
 
             {/* Name */}
             <motion.h1
               variants={item}
-              className="mb-4 font-heading text-5xl font-extrabold tracking-tight text-text-heading sm:text-6xl lg:text-7xl"
+              className="mb-4 font-heading text-5xl font-extrabold tracking-tight sm:text-6xl lg:text-7xl"
+              style={{ color: '#f8fafc' }}
             >
               {personal.name}
             </motion.h1>
@@ -83,13 +95,19 @@ export default function Home() {
               <span className="text-2xl font-bold sm:text-3xl lg:text-4xl gradient-text">
                 {personal.role}
               </span>
-              <span className="text-2xl font-bold text-text-secondary sm:text-3xl lg:text-4xl">.</span>
+              <span
+                className="text-2xl font-bold sm:text-3xl lg:text-4xl"
+                style={{ color: '#334155' }}
+              >
+                .
+              </span>
             </motion.div>
 
             {/* Summary */}
             <motion.p
               variants={item}
-              className="mb-8 max-w-2xl text-base leading-relaxed text-text-body sm:text-lg"
+              className="mb-8 max-w-2xl text-base leading-relaxed sm:text-lg"
+              style={{ color: '#94a3b8' }}
             >
               {personal.summary}
             </motion.p>
@@ -141,29 +159,38 @@ export default function Home() {
                 href={personal.github}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-2 text-sm text-text-secondary transition-colors hover:text-text-heading"
+                className="flex items-center gap-2 text-sm transition-colors"
+                style={{ color: '#64748b' }}
+                onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.color = '#f8fafc' }}
+                onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.color = '#64748b' }}
                 aria-label="Visit my GitHub profile (opens in new tab)"
               >
                 <GithubIcon size={16} />
                 GitHub
                 <ExternalLink size={11} className="opacity-40" aria-hidden="true" />
               </a>
-              <div className="h-1 w-1 rounded-full bg-gray-300" aria-hidden="true" />
+              <span className="h-1 w-1 rounded-full" style={{ background: '#1e293b' }} aria-hidden="true" />
               <a
                 href={personal.linkedin}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-2 text-sm text-text-secondary transition-colors hover:text-text-heading"
+                className="flex items-center gap-2 text-sm transition-colors"
+                style={{ color: '#64748b' }}
+                onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.color = '#f8fafc' }}
+                onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.color = '#64748b' }}
                 aria-label="Visit my LinkedIn profile (opens in new tab)"
               >
                 <LinkedinIcon size={16} />
                 LinkedIn
                 <ExternalLink size={11} className="opacity-40" aria-hidden="true" />
               </a>
-              <div className="h-1 w-1 rounded-full bg-gray-300" aria-hidden="true" />
+              <span className="h-1 w-1 rounded-full" style={{ background: '#1e293b' }} aria-hidden="true" />
               <a
                 href={`mailto:${personal.email}`}
-                className="text-sm text-text-secondary transition-colors hover:text-text-heading"
+                className="text-sm transition-colors"
+                style={{ color: '#64748b' }}
+                onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.color = '#f8fafc' }}
+                onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.color = '#64748b' }}
                 aria-label={`Email me at ${personal.email}`}
               >
                 {personal.email}
@@ -178,26 +205,53 @@ export default function Home() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.9, duration: 0.5 }}
-        className="border-t border-gray-200"
         aria-label="Career statistics"
       >
-        <div className="container-xl py-8">
-          <dl className="grid grid-cols-2 gap-6 sm:grid-cols-4">
-            {heroStats.map(({ value, label, Icon }) => (
-              <div key={label} className="group flex flex-col items-center gap-1 text-center">
-                <Icon
-                  size={14}
-                  className="mb-1 text-text-secondary transition-colors group-hover:text-blue-500"
-                  aria-hidden="true"
-                />
-                <dt className="sr-only">{label}</dt>
-                <dd className="text-2xl font-bold gradient-text" aria-label={`${value} ${label}`}>
-                  {value}
-                </dd>
-                <dd className="text-xs text-text-secondary" aria-hidden="true">{label}</dd>
-              </div>
-            ))}
-          </dl>
+        <div
+          className="border-t"
+          style={{ borderColor: 'rgba(255,255,255,0.07)' }}
+        >
+          <div className="container-xl py-8">
+            <dl className="grid grid-cols-2 gap-6 sm:grid-cols-4">
+              {heroStats.map(({ value, label, Icon }) => (
+                <div
+                  key={label}
+                  className="group flex flex-col items-center gap-1 text-center py-4 px-3 rounded-2xl transition-all duration-200 cursor-default"
+                  style={{
+                    background: 'rgba(255,255,255,0.02)',
+                    border: '1px solid rgba(255,255,255,0.05)',
+                  }}
+                  onMouseEnter={(e) => {
+                    const el = e.currentTarget as HTMLElement
+                    el.style.background = 'rgba(255,255,255,0.05)'
+                    el.style.borderColor = 'rgba(255,255,255,0.10)'
+                  }}
+                  onMouseLeave={(e) => {
+                    const el = e.currentTarget as HTMLElement
+                    el.style.background = 'rgba(255,255,255,0.02)'
+                    el.style.borderColor = 'rgba(255,255,255,0.05)'
+                  }}
+                >
+                  <Icon
+                    size={14}
+                    className="mb-1 transition-colors group-hover:text-blue-400"
+                    style={{ color: '#475569' }}
+                    aria-hidden="true"
+                  />
+                  <dt className="sr-only">{label}</dt>
+                  <dd
+                    className="text-2xl font-bold gradient-text"
+                    aria-label={`${value} ${label}`}
+                  >
+                    {value}
+                  </dd>
+                  <dd className="text-xs" style={{ color: '#64748b' }} aria-hidden="true">
+                    {label}
+                  </dd>
+                </div>
+              ))}
+            </dl>
+          </div>
         </div>
       </motion.section>
 
@@ -212,7 +266,7 @@ export default function Home() {
         <motion.div
           animate={{ y: [0, 6, 0] }}
           transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
-          className="text-text-secondary"
+          style={{ color: '#334155' }}
         >
           <ChevronDown size={20} />
         </motion.div>

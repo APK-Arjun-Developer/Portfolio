@@ -1,5 +1,5 @@
 export const personal = {
-  name: 'Arjun P',
+  name: 'Arjun Prakash',
   role: 'Full Stack Developer',
   email: 'apkarjundeveloper@gmail.com',
   github: 'https://github.com/APK-Arjun-Developer',

@@ -35,14 +35,14 @@ export default function Navbar() {
         transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
         className={cn(
           'fixed inset-x-0 top-0 z-50 transition-all duration-500',
-          scrolled ? 'py-3 border-b border-gray-200' : 'py-5',
+          scrolled ? 'py-3' : 'py-5',
         )}
         style={scrolled ? {
-          backdropFilter: 'blur(20px) saturate(200%)',
-          WebkitBackdropFilter: 'blur(20px) saturate(200%)',
-          background: 'rgba(237,242,251,0.88)',
-          borderColor: 'rgba(148,163,184,0.25)',
-        } : {}}
+          backdropFilter: 'blur(20px) saturate(180%)',
+          WebkitBackdropFilter: 'blur(20px) saturate(180%)',
+          background: 'rgba(11,17,32,0.92)',
+          borderBottom: '1px solid rgba(255,255,255,0.08)',
+        } : { }}
       >
         <nav
           className="container-xl flex items-center justify-between"
@@ -51,18 +51,24 @@ export default function Navbar() {
           {/* Logo */}
           <Link
             to="/"
-            className="group flex items-center gap-2.5 rounded-lg focus-visible:ring-2 focus-visible:ring-blue-500"
+            className="group flex items-center gap-2.5 rounded-lg"
             aria-label="Home"
           >
             <motion.div whileHover={{ scale: 1.05 }} className="flex items-center gap-2.5">
               <div
                 className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg text-[10px] font-bold text-white"
-                style={{ background: 'linear-gradient(135deg, #2563EB, #7C3AED)' }}
+                style={{
+                  background: 'linear-gradient(135deg, #3b82f6, #8b5cf6)',
+                  boxShadow: '0 2px 8px rgba(59,130,246,0.40)',
+                }}
                 aria-hidden="true"
               >
                 AP
               </div>
-              <span className="text-sm font-semibold text-text-heading transition-colors group-hover:text-blue-600">
+              <span
+                className="text-sm font-semibold transition-colors"
+                style={{ color: '#f8fafc' }}
+              >
                 {personal.name}
               </span>
             </motion.div>
@@ -80,16 +86,28 @@ export default function Navbar() {
                   className={cn(
                     'relative px-4 py-2 text-sm rounded-lg transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500',
                     active
-                      ? 'text-blue-700 font-semibold'
-                      : 'text-text-secondary hover:text-text-heading hover:bg-gray-100',
+                      ? 'font-semibold'
+                      : 'font-medium',
                   )}
+                  style={{
+                    color: active ? '#60a5fa' : '#94a3b8',
+                  }}
                   aria-current={active ? 'page' : undefined}
+                  onMouseEnter={(e) => {
+                    if (!active) (e.currentTarget as HTMLElement).style.color = '#f8fafc'
+                  }}
+                  onMouseLeave={(e) => {
+                    if (!active) (e.currentTarget as HTMLElement).style.color = '#94a3b8'
+                  }}
                 >
                   {active && (
                     <motion.span
                       layoutId="nav-pill"
                       className="absolute inset-0 rounded-lg"
-                      style={{ background: 'rgba(37,99,235,0.10)', border: '1px solid rgba(37,99,235,0.22)' }}
+                      style={{
+                        background: 'rgba(59,130,246,0.12)',
+                        border: '1px solid rgba(59,130,246,0.28)',
+                      }}
                       transition={{ type: 'spring', bounce: 0.2, duration: 0.55 }}
                     />
                   )}
@@ -104,7 +122,24 @@ export default function Navbar() {
             <a
               href={personal.resumeUrl}
               download="arjun-p-resume.pdf"
-              className="flex items-center gap-1.5 rounded-lg border border-blue-200 px-3.5 py-1.5 text-xs font-medium text-blue-600 transition-all hover:bg-blue-50 hover:border-blue-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
+              className="inline-flex items-center gap-1.5 rounded-lg px-3.5 py-1.5 text-xs font-semibold transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
+              style={{
+                color: '#60a5fa',
+                background: 'rgba(59,130,246,0.10)',
+                border: '1px solid rgba(59,130,246,0.28)',
+              }}
+              onMouseEnter={(e) => {
+                const el = e.currentTarget as HTMLElement
+                el.style.background = 'rgba(59,130,246,0.18)'
+                el.style.borderColor = 'rgba(59,130,246,0.50)'
+                el.style.boxShadow = '0 2px 12px rgba(59,130,246,0.25)'
+              }}
+              onMouseLeave={(e) => {
+                const el = e.currentTarget as HTMLElement
+                el.style.background = 'rgba(59,130,246,0.10)'
+                el.style.borderColor = 'rgba(59,130,246,0.28)'
+                el.style.boxShadow = ''
+              }}
               aria-label="Download resume PDF"
             >
               <Download size={13} aria-hidden="true" />
@@ -115,7 +150,18 @@ export default function Navbar() {
           {/* Mobile toggle */}
           <button
             onClick={() => setMobileOpen((o) => !o)}
-            className="flex md:hidden items-center justify-center p-2 rounded-lg text-text-secondary hover:text-text-heading hover:bg-gray-100 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
+            className="flex md:hidden items-center justify-center p-2 rounded-lg transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
+            style={{ color: '#94a3b8' }}
+            onMouseEnter={(e) => {
+              const el = e.currentTarget as HTMLElement
+              el.style.color = '#f8fafc'
+              el.style.background = 'rgba(255,255,255,0.07)'
+            }}
+            onMouseLeave={(e) => {
+              const el = e.currentTarget as HTMLElement
+              el.style.color = '#94a3b8'
+              el.style.background = 'transparent'
+            }}
             aria-label={mobileOpen ? 'Close navigation menu' : 'Open navigation menu'}
             aria-expanded={mobileOpen}
             aria-controls="mobile-menu"
@@ -157,7 +203,8 @@ export default function Navbar() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.2 }}
-              className="fixed inset-0 z-40 md:hidden bg-black/20 backdrop-blur-sm"
+              className="fixed inset-0 z-40 md:hidden"
+              style={{ background: 'rgba(0,0,0,0.60)', backdropFilter: 'blur(4px)' }}
               onClick={() => setMobileOpen(false)}
               aria-hidden="true"
             />
@@ -168,7 +215,12 @@ export default function Navbar() {
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: -8, scale: 0.98 }}
               transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
-              className="fixed inset-x-4 top-20 z-50 rounded-2xl border border-gray-200 bg-white p-4 shadow-xl md:hidden"
+              className="fixed inset-x-4 top-20 z-50 rounded-2xl p-4 shadow-2xl md:hidden"
+              style={{
+                background: '#0f1929',
+                border: '1px solid rgba(255,255,255,0.12)',
+                boxShadow: '0 20px 60px rgba(0,0,0,0.60)',
+              }}
               role="dialog"
               aria-modal="true"
               aria-label="Navigation menu"
@@ -186,12 +238,29 @@ export default function Navbar() {
                       <Link
                         to={link.to}
                         onClick={() => setMobileOpen(false)}
-                        className={cn(
-                          'block px-4 py-3 rounded-xl text-sm font-medium transition-all',
-                          active
-                            ? 'bg-blue-50 text-blue-700 font-semibold'
-                            : 'text-text-secondary hover:text-text-heading hover:bg-gray-50',
-                        )}
+                        className="block px-4 py-3 rounded-xl text-sm font-medium transition-all"
+                        style={active ? {
+                          background: 'rgba(59,130,246,0.14)',
+                          color: '#60a5fa',
+                          border: '1px solid rgba(59,130,246,0.25)',
+                          fontWeight: '600',
+                        } : {
+                          color: '#94a3b8',
+                        }}
+                        onMouseEnter={(e) => {
+                          if (!active) {
+                            const el = e.currentTarget as HTMLElement
+                            el.style.color = '#f8fafc'
+                            el.style.background = 'rgba(255,255,255,0.06)'
+                          }
+                        }}
+                        onMouseLeave={(e) => {
+                          if (!active) {
+                            const el = e.currentTarget as HTMLElement
+                            el.style.color = '#94a3b8'
+                            el.style.background = 'transparent'
+                          }
+                        }}
                         aria-current={active ? 'page' : undefined}
                       >
                         {link.label}
@@ -203,13 +272,23 @@ export default function Navbar() {
                   initial={{ opacity: 0, x: -10 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: navLinks.length * 0.05 }}
-                  className="mt-1 border-t border-gray-100 pt-2"
+                  className="mt-1 pt-2"
+                  style={{ borderTop: '1px solid rgba(255,255,255,0.08)' }}
                 >
                   <a
                     href={personal.resumeUrl}
                     download="arjun-p-resume.pdf"
                     onClick={() => setMobileOpen(false)}
-                    className="flex items-center gap-2 rounded-xl px-4 py-3 text-sm font-medium text-blue-600 transition-all hover:bg-blue-50"
+                    className="flex items-center gap-2 rounded-xl px-4 py-3 text-sm font-medium transition-all"
+                    style={{ color: '#60a5fa' }}
+                    onMouseEnter={(e) => {
+                      const el = e.currentTarget as HTMLElement
+                      el.style.background = 'rgba(59,130,246,0.10)'
+                    }}
+                    onMouseLeave={(e) => {
+                      const el = e.currentTarget as HTMLElement
+                      el.style.background = 'transparent'
+                    }}
                     aria-label="Download resume PDF"
                   >
                     <Download size={14} aria-hidden="true" />

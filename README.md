@@ -1,4 +1,4 @@
-# Arjun P — Portfolio
+# Arjun Prakash — Portfolio
 
 Personal portfolio built with React + Vite + Material UI. Showcases projects, skills, and experience as a Full Stack Developer.
 

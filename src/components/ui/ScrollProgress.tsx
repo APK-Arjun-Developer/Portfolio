@@ -18,7 +18,10 @@ export default function ScrollProgress() {
     >
       <div
         className="h-full w-full"
-        style={{ background: 'linear-gradient(90deg, #2563EB, #7C3AED)' }}
+        style={{
+          background: 'linear-gradient(90deg, #3b82f6, #8b5cf6, #22d3ee)',
+          boxShadow: '0 0 8px rgba(59,130,246,0.6)',
+        }}
       />
     </motion.div>
   )

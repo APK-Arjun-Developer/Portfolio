@@ -28,6 +28,15 @@ function PageLoader() {
   )
 }
 
+function ScrollToTop() {
+  const { pathname } = useLocation()
+  useEffect(() => {
+    document.documentElement.scrollTop = 0
+    document.body.scrollTop = 0
+  }, [pathname])
+  return null
+}
+
 function AnimatedRoutes() {
   const location = useLocation()
 
@@ -80,6 +89,7 @@ function SmoothScrollProvider({ children }: { children: React.ReactNode }) {
 export default function App() {
   return (
     <BrowserRouter>
+      <ScrollToTop />
       <SmoothScrollProvider>
         <div className="flex min-h-screen flex-col text-text-body">
           <ScrollProgress />
