@@ -6,6 +6,7 @@ import {
 } from 'lucide-react'
 import { GithubIcon } from '../../components/ui/BrandIcons'
 import { projects, type Project } from '../../data/personal'
+import { analytics } from '../../lib/analytics'
 import AuroraBackground from '../../components/ui/AuroraBackground'
 import SectionTitle from '../../components/ui/SectionTitle'
 import GlassCard from '../../components/ui/GlassCard'
@@ -187,6 +188,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
               className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-semibold text-white transition-all duration-200 hover:opacity-90 hover:scale-[1.02]"
               style={{ background: `linear-gradient(135deg, ${gradientFrom}, ${gradientTo})` }}
               aria-label={`View details for ${project.title}`}
+              onClick={() => analytics.projectViewDetails(project.title)}
             >
               View Details
               <ArrowRight size={12} aria-hidden="true" />
@@ -215,6 +217,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
                   el.style.borderColor = 'rgba(255,255,255,0.10)'
                 }}
                 aria-label={`View source code for ${project.title} on GitHub (opens in new tab)`}
+                onClick={() => analytics.projectGithubClick(project.title)}
               >
                 <GithubIcon size={12} />
                 Code
@@ -242,6 +245,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
                   el.style.borderColor = 'rgba(251,146,60,0.25)'
                 }}
                 aria-label={`View ${project.title} on NPM (opens in new tab)`}
+                onClick={() => analytics.projectNpmClick(project.title)}
               >
                 <Package size={12} aria-hidden="true" />
                 NPM
@@ -271,6 +275,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
                   el.style.borderColor = 'rgba(255,255,255,0.10)'
                 }}
                 aria-label={`View live demo for ${project.title} (opens in new tab)`}
+                onClick={() => analytics.projectDemoClick(project.title)}
               >
                 <ExternalLink size={12} aria-hidden="true" />
                 Demo
@@ -324,7 +329,7 @@ export default function Projects() {
                 role="tab"
                 aria-selected={isActive}
                 aria-controls="projects-grid"
-                onClick={() => setActiveTab(tab.id)}
+                onClick={() => { setActiveTab(tab.id); analytics.projectFilterClick(tab.id) }}
                 className="flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-all duration-200"
                 style={isActive ? {
                   background: 'rgba(59,130,246,0.14)',

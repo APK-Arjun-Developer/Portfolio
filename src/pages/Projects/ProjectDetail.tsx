@@ -6,6 +6,7 @@ import {
 } from 'lucide-react'
 import { GithubIcon } from '../../components/ui/BrandIcons'
 import { projects } from '../../data/personal'
+import { analytics } from '../../lib/analytics'
 import AuroraBackground from '../../components/ui/AuroraBackground'
 import GlassCard from '../../components/ui/GlassCard'
 
@@ -157,6 +158,7 @@ export default function ProjectDetail() {
                 rel="noopener noreferrer"
                 className="btn-glass text-sm"
                 aria-label={`View source code for ${project.title} on GitHub (opens in new tab)`}
+                onClick={() => analytics.projectGithubClick(project.title)}
               >
                 <GithubIcon size={15} />
                 View Code
@@ -184,6 +186,7 @@ export default function ProjectDetail() {
                   el.style.borderColor = 'rgba(251,146,60,0.30)'
                 }}
                 aria-label={`View ${project.title} on NPM (opens in new tab)`}
+                onClick={() => analytics.projectNpmClick(project.title)}
               >
                 <Package size={15} aria-hidden="true" />
                 NPM Package
@@ -196,6 +199,7 @@ export default function ProjectDetail() {
                 rel="noopener noreferrer"
                 className="btn-primary text-sm"
                 aria-label={`View live demo for ${project.title} (opens in new tab)`}
+                onClick={() => analytics.projectDemoClick(project.title)}
               >
                 <ExternalLink size={15} aria-hidden="true" />
                 Live Demo
@@ -398,6 +402,7 @@ export default function ProjectDetail() {
                   rel="noopener noreferrer"
                   className="btn-glass text-sm"
                   aria-label={`View source code for ${project.title} on GitHub (opens in new tab)`}
+                  onClick={() => analytics.projectGithubClick(project.title)}
                 >
                   <GithubIcon size={15} />
                   View Code
@@ -425,6 +430,7 @@ export default function ProjectDetail() {
                     el.style.borderColor = 'rgba(251,146,60,0.25)'
                   }}
                   aria-label={`View ${project.title} on NPM (opens in new tab)`}
+                  onClick={() => analytics.projectNpmClick(project.title)}
                 >
                   <Package size={15} aria-hidden="true" />
                   NPM
@@ -437,6 +443,7 @@ export default function ProjectDetail() {
                   rel="noopener noreferrer"
                   className="btn-primary text-sm"
                   aria-label={`View live demo for ${project.title} (opens in new tab)`}
+                  onClick={() => analytics.projectDemoClick(project.title)}
                 >
                   <ExternalLink size={14} aria-hidden="true" />
                   Live Demo

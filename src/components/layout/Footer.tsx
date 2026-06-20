@@ -3,11 +3,12 @@ import { Mail } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { personal } from '../../data/personal'
 import { GithubIcon, LinkedinIcon } from '../ui/BrandIcons'
+import { analytics } from '../../lib/analytics'
 
 const socialLinks = [
-  { label: 'GitHub profile', href: personal.github, Icon: GithubIcon },
-  { label: 'LinkedIn profile', href: personal.linkedin, Icon: LinkedinIcon },
-  { label: 'Send email', href: `mailto:${personal.email}`, Icon: Mail },
+  { label: 'GitHub profile', href: personal.github, Icon: GithubIcon, platform: 'github' as const },
+  { label: 'LinkedIn profile', href: personal.linkedin, Icon: LinkedinIcon, platform: 'linkedin' as const },
+  { label: 'Send email', href: `mailto:${personal.email}`, Icon: Mail, platform: 'email' as const },
 ]
 
 const footerLinks = [
@@ -79,7 +80,7 @@ export default function Footer() {
             {/* Social + copyright */}
             <div className="flex flex-col items-center gap-4 sm:flex-row">
               <div className="flex items-center gap-1" role="list">
-                {socialLinks.map(({ Icon, href, label }) => (
+                {socialLinks.map(({ Icon, href, label, platform }) => (
                   <motion.a
                     key={label}
                     href={href}
@@ -87,6 +88,7 @@ export default function Footer() {
                     rel="noopener noreferrer"
                     aria-label={label}
                     role="listitem"
+                    onClick={() => analytics.socialClick(platform, 'footer')}
                     whileHover={{ scale: 1.1, y: -2 }}
                     whileTap={{ scale: 0.95 }}
                     className="flex items-center justify-center p-2 rounded-lg transition-all"

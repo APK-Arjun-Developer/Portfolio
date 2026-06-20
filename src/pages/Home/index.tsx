@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom'
 import { personal } from '../../data/personal'
 import AuroraBackground from '../../components/ui/AuroraBackground'
 import { GithubIcon, LinkedinIcon } from '../../components/ui/BrandIcons'
+import { analytics } from '../../lib/analytics'
 
 const techStack = ['React', 'Node.js', '.NET Core', 'SQL'] as const
 
@@ -131,6 +132,7 @@ export default function Home() {
                 to="/projects"
                 className="btn-primary group"
                 aria-label="View my projects"
+                onClick={() => analytics.ctaClick('view_projects')}
               >
                 View Projects
                 <ArrowRight
@@ -143,6 +145,7 @@ export default function Home() {
                 href={`mailto:${personal.email}`}
                 className="btn-glass"
                 aria-label={`Email me at ${personal.email}`}
+                onClick={() => analytics.ctaClick('contact_me')}
               >
                 <Mail size={15} aria-hidden="true" />
                 Contact Me
@@ -164,6 +167,7 @@ export default function Home() {
                 onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.color = '#f8fafc' }}
                 onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.color = '#64748b' }}
                 aria-label="Visit my GitHub profile (opens in new tab)"
+                onClick={() => analytics.socialClick('github', 'home_hero')}
               >
                 <GithubIcon size={16} />
                 GitHub
@@ -179,6 +183,7 @@ export default function Home() {
                 onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.color = '#f8fafc' }}
                 onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.color = '#64748b' }}
                 aria-label="Visit my LinkedIn profile (opens in new tab)"
+                onClick={() => analytics.socialClick('linkedin', 'home_hero')}
               >
                 <LinkedinIcon size={16} />
                 LinkedIn
@@ -192,6 +197,7 @@ export default function Home() {
                 onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.color = '#f8fafc' }}
                 onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.color = '#64748b' }}
                 aria-label={`Email me at ${personal.email}`}
+                onClick={() => analytics.socialClick('email', 'home_hero')}
               >
                 {personal.email}
               </a>

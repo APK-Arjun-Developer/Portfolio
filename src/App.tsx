@@ -2,9 +2,14 @@ import { lazy, Suspense, useEffect } from 'react'
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom'
 import { AnimatePresence, motion } from 'framer-motion'
 import Lenis from 'lenis'
+import ReactGA from 'react-ga4'
 import Navbar from './components/layout/Navbar'
 import Footer from './components/layout/Footer'
 import ScrollProgress from './components/ui/ScrollProgress'
+
+const GA_ID = import.meta.env.VITE_GA_MEASUREMENT_ID
+const GA_ENABLED = import.meta.env.VITE_GA_ENABLED === 'true'
+if (GA_ENABLED && GA_ID) ReactGA.initialize(GA_ID)
 
 const Home = lazy(() => import('./pages/Home'))
 const About = lazy(() => import('./pages/About'))
@@ -39,6 +44,10 @@ function ScrollToTop() {
 
 function AnimatedRoutes() {
   const location = useLocation()
+
+  useEffect(() => {
+    if (GA_ID) ReactGA.send({ hitType: 'pageview', page: location.pathname + location.search })
+  }, [location])
 
   return (
     <AnimatePresence mode="wait" initial={false}>

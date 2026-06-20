@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { Menu, X, Download } from 'lucide-react'
 import { personal } from '../../data/personal'
 import { cn } from '../../lib/utils'
+import { analytics } from '../../lib/analytics'
 
 const navLinks = [
   { label: 'Home', to: '/' },
@@ -122,6 +123,7 @@ export default function Navbar() {
             <a
               href={personal.resumeUrl}
               download="arjun-p-resume.pdf"
+              onClick={() => analytics.resumeDownload('desktop_navbar')}
               className="inline-flex items-center gap-1.5 rounded-lg px-3.5 py-1.5 text-xs font-semibold transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
               style={{
                 color: '#60a5fa',
@@ -278,7 +280,7 @@ export default function Navbar() {
                   <a
                     href={personal.resumeUrl}
                     download="arjun-p-resume.pdf"
-                    onClick={() => setMobileOpen(false)}
+                    onClick={() => { setMobileOpen(false); analytics.resumeDownload('mobile_menu') }}
                     className="flex items-center gap-2 rounded-xl px-4 py-3 text-sm font-medium transition-all"
                     style={{ color: '#60a5fa' }}
                     onMouseEnter={(e) => {
