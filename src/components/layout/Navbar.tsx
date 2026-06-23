@@ -1,32 +1,34 @@
-import { useState, useEffect } from 'react'
-import { Link, useLocation } from 'react-router-dom'
-import { motion, AnimatePresence } from 'framer-motion'
-import { Menu, X, Download } from 'lucide-react'
-import { personal } from '../../data/personal'
-import { cn } from '../../lib/utils'
-import { analytics } from '../../lib/analytics'
+import { useState, useEffect } from 'react';
+import { Link, useLocation } from 'react-router-dom';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Menu, X, Download } from 'lucide-react';
+import { personal } from '../../data/personal';
+import { cn } from '../../lib/utils';
+import { analytics } from '../../lib/analytics';
 
 const navLinks = [
   { label: 'Home', to: '/' },
   { label: 'About', to: '/about' },
   { label: 'Projects', to: '/projects' },
-]
+];
 
 export default function Navbar() {
-  const [scrolled, setScrolled] = useState(false)
-  const [mobileOpen, setMobileOpen] = useState(false)
-  const location = useLocation()
+  const [scrolled, setScrolled] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const location = useLocation();
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 24)
-    window.addEventListener('scroll', onScroll, { passive: true })
-    return () => window.removeEventListener('scroll', onScroll)
-  }, [])
+    const onScroll = () => setScrolled(window.scrollY > 24);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
 
   useEffect(() => {
-    document.body.style.overflow = mobileOpen ? 'hidden' : ''
-    return () => { document.body.style.overflow = '' }
-  }, [mobileOpen])
+    document.body.style.overflow = mobileOpen ? 'hidden' : '';
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [mobileOpen]);
 
   return (
     <>
@@ -38,23 +40,23 @@ export default function Navbar() {
           'fixed inset-x-0 top-0 z-50 transition-all duration-500',
           scrolled ? 'py-3' : 'py-5',
         )}
-        style={scrolled ? {
-          backdropFilter: 'blur(20px) saturate(180%)',
-          WebkitBackdropFilter: 'blur(20px) saturate(180%)',
-          background: 'rgba(11,17,32,0.92)',
-          borderBottom: '1px solid rgba(255,255,255,0.08)',
-        } : { }}
+        style={
+          scrolled
+            ? {
+                backdropFilter: 'blur(20px) saturate(180%)',
+                WebkitBackdropFilter: 'blur(20px) saturate(180%)',
+                background: 'rgba(11,17,32,0.92)',
+                borderBottom: '1px solid rgba(255,255,255,0.08)',
+              }
+            : {}
+        }
       >
         <nav
           className="container-xl flex items-center justify-between"
           aria-label="Main navigation"
         >
           {/* Logo */}
-          <Link
-            to="/"
-            className="group flex items-center gap-2.5 rounded-lg"
-            aria-label="Home"
-          >
+          <Link to="/" className="group flex items-center gap-2.5 rounded-lg" aria-label="Home">
             <motion.div whileHover={{ scale: 1.05 }} className="flex items-center gap-2.5">
               <div
                 className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg text-[10px] font-bold text-white"
@@ -78,7 +80,7 @@ export default function Navbar() {
           {/* Desktop nav */}
           <div className="hidden items-center gap-1 md:flex" role="list">
             {navLinks.map((link) => {
-              const active = location.pathname === link.to
+              const active = location.pathname === link.to;
               return (
                 <Link
                   key={link.to}
@@ -86,19 +88,17 @@ export default function Navbar() {
                   role="listitem"
                   className={cn(
                     'relative px-4 py-2 text-sm rounded-lg transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500',
-                    active
-                      ? 'font-semibold'
-                      : 'font-medium',
+                    active ? 'font-semibold' : 'font-medium',
                   )}
                   style={{
                     color: active ? '#60a5fa' : '#94a3b8',
                   }}
                   aria-current={active ? 'page' : undefined}
                   onMouseEnter={(e) => {
-                    if (!active) (e.currentTarget as HTMLElement).style.color = '#f8fafc'
+                    if (!active) (e.currentTarget as HTMLElement).style.color = '#f8fafc';
                   }}
                   onMouseLeave={(e) => {
-                    if (!active) (e.currentTarget as HTMLElement).style.color = '#94a3b8'
+                    if (!active) (e.currentTarget as HTMLElement).style.color = '#94a3b8';
                   }}
                 >
                   {active && (
@@ -114,7 +114,7 @@ export default function Navbar() {
                   )}
                   <span className="relative z-10">{link.label}</span>
                 </Link>
-              )
+              );
             })}
           </div>
 
@@ -131,16 +131,16 @@ export default function Navbar() {
                 border: '1px solid rgba(59,130,246,0.28)',
               }}
               onMouseEnter={(e) => {
-                const el = e.currentTarget as HTMLElement
-                el.style.background = 'rgba(59,130,246,0.18)'
-                el.style.borderColor = 'rgba(59,130,246,0.50)'
-                el.style.boxShadow = '0 2px 12px rgba(59,130,246,0.25)'
+                const el = e.currentTarget as HTMLElement;
+                el.style.background = 'rgba(59,130,246,0.18)';
+                el.style.borderColor = 'rgba(59,130,246,0.50)';
+                el.style.boxShadow = '0 2px 12px rgba(59,130,246,0.25)';
               }}
               onMouseLeave={(e) => {
-                const el = e.currentTarget as HTMLElement
-                el.style.background = 'rgba(59,130,246,0.10)'
-                el.style.borderColor = 'rgba(59,130,246,0.28)'
-                el.style.boxShadow = ''
+                const el = e.currentTarget as HTMLElement;
+                el.style.background = 'rgba(59,130,246,0.10)';
+                el.style.borderColor = 'rgba(59,130,246,0.28)';
+                el.style.boxShadow = '';
               }}
               aria-label="Download resume PDF"
             >
@@ -155,14 +155,14 @@ export default function Navbar() {
             className="flex md:hidden items-center justify-center p-2 rounded-lg transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
             style={{ color: '#94a3b8' }}
             onMouseEnter={(e) => {
-              const el = e.currentTarget as HTMLElement
-              el.style.color = '#f8fafc'
-              el.style.background = 'rgba(255,255,255,0.07)'
+              const el = e.currentTarget as HTMLElement;
+              el.style.color = '#f8fafc';
+              el.style.background = 'rgba(255,255,255,0.07)';
             }}
             onMouseLeave={(e) => {
-              const el = e.currentTarget as HTMLElement
-              el.style.color = '#94a3b8'
-              el.style.background = 'transparent'
+              const el = e.currentTarget as HTMLElement;
+              el.style.color = '#94a3b8';
+              el.style.background = 'transparent';
             }}
             aria-label={mobileOpen ? 'Close navigation menu' : 'Open navigation menu'}
             aria-expanded={mobileOpen}
@@ -229,7 +229,7 @@ export default function Navbar() {
             >
               <nav className="flex flex-col gap-1">
                 {navLinks.map((link, i) => {
-                  const active = location.pathname === link.to
+                  const active = location.pathname === link.to;
                   return (
                     <motion.div
                       key={link.to}
@@ -241,26 +241,30 @@ export default function Navbar() {
                         to={link.to}
                         onClick={() => setMobileOpen(false)}
                         className="block px-4 py-3 rounded-xl text-sm font-medium transition-all"
-                        style={active ? {
-                          background: 'rgba(59,130,246,0.14)',
-                          color: '#60a5fa',
-                          border: '1px solid rgba(59,130,246,0.25)',
-                          fontWeight: '600',
-                        } : {
-                          color: '#94a3b8',
-                        }}
+                        style={
+                          active
+                            ? {
+                                background: 'rgba(59,130,246,0.14)',
+                                color: '#60a5fa',
+                                border: '1px solid rgba(59,130,246,0.25)',
+                                fontWeight: '600',
+                              }
+                            : {
+                                color: '#94a3b8',
+                              }
+                        }
                         onMouseEnter={(e) => {
                           if (!active) {
-                            const el = e.currentTarget as HTMLElement
-                            el.style.color = '#f8fafc'
-                            el.style.background = 'rgba(255,255,255,0.06)'
+                            const el = e.currentTarget as HTMLElement;
+                            el.style.color = '#f8fafc';
+                            el.style.background = 'rgba(255,255,255,0.06)';
                           }
                         }}
                         onMouseLeave={(e) => {
                           if (!active) {
-                            const el = e.currentTarget as HTMLElement
-                            el.style.color = '#94a3b8'
-                            el.style.background = 'transparent'
+                            const el = e.currentTarget as HTMLElement;
+                            el.style.color = '#94a3b8';
+                            el.style.background = 'transparent';
                           }
                         }}
                         aria-current={active ? 'page' : undefined}
@@ -268,7 +272,7 @@ export default function Navbar() {
                         {link.label}
                       </Link>
                     </motion.div>
-                  )
+                  );
                 })}
                 <motion.div
                   initial={{ opacity: 0, x: -10 }}
@@ -280,16 +284,19 @@ export default function Navbar() {
                   <a
                     href={personal.resumeUrl}
                     download="arjun-p-resume.pdf"
-                    onClick={() => { setMobileOpen(false); analytics.resumeDownload('mobile_menu') }}
+                    onClick={() => {
+                      setMobileOpen(false);
+                      analytics.resumeDownload('mobile_menu');
+                    }}
                     className="flex items-center gap-2 rounded-xl px-4 py-3 text-sm font-medium transition-all"
                     style={{ color: '#60a5fa' }}
                     onMouseEnter={(e) => {
-                      const el = e.currentTarget as HTMLElement
-                      el.style.background = 'rgba(59,130,246,0.10)'
+                      const el = e.currentTarget as HTMLElement;
+                      el.style.background = 'rgba(59,130,246,0.10)';
                     }}
                     onMouseLeave={(e) => {
-                      const el = e.currentTarget as HTMLElement
-                      el.style.background = 'transparent'
+                      const el = e.currentTarget as HTMLElement;
+                      el.style.background = 'transparent';
                     }}
                     aria-label="Download resume PDF"
                   >
@@ -303,5 +310,5 @@ export default function Navbar() {
         )}
       </AnimatePresence>
     </>
-  )
+  );
 }

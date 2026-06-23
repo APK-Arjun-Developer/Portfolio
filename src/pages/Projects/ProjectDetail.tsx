@@ -1,20 +1,25 @@
-import { useParams, Link, Navigate } from 'react-router-dom'
-import { motion } from 'framer-motion'
+import { useParams, Link, Navigate } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import {
-  ArrowLeft, ExternalLink, Package, CheckCircle2,
-  AlertCircle, Lightbulb, Code2,
-} from 'lucide-react'
-import { GithubIcon } from '../../components/ui/BrandIcons'
-import { projects } from '../../data/personal'
-import { analytics } from '../../lib/analytics'
-import AuroraBackground from '../../components/ui/AuroraBackground'
-import GlassCard from '../../components/ui/GlassCard'
+  ArrowLeft,
+  ExternalLink,
+  Package,
+  CheckCircle2,
+  AlertCircle,
+  Lightbulb,
+  Code2,
+} from 'lucide-react';
+import { GithubIcon } from '../../components/ui/BrandIcons';
+import { projects } from '../../data/personal';
+import { analytics } from '../../lib/analytics';
+import AuroraBackground from '../../components/ui/AuroraBackground';
+import GlassCard from '../../components/ui/GlassCard';
 
 const fadeUp = (delay = 0) => ({
   initial: { opacity: 0, y: 20 },
   animate: { opacity: 1, y: 0 },
   transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] as const, delay },
-})
+});
 
 function SectionHeading({ number, title }: { number: string; title: string }) {
   return (
@@ -33,37 +38,42 @@ function SectionHeading({ number, title }: { number: string; title: string }) {
           aria-hidden="true"
         />
       </div>
-      <h2 className="text-xl font-bold" style={{ color: '#f8fafc' }}>{title}</h2>
+      <h2 className="text-xl font-bold" style={{ color: '#f8fafc' }}>
+        {title}
+      </h2>
     </div>
-  )
+  );
 }
 
 export default function ProjectDetail() {
-  const { id } = useParams<{ id: string }>()
-  const project = projects.find((p) => p.id === id)
+  const { id } = useParams<{ id: string }>();
+  const project = projects.find((p) => p.id === id);
 
-  if (!project) return <Navigate to="/projects" replace />
+  if (!project) return <Navigate to="/projects" replace />;
 
-  const isCompany = project.category === 'company'
-  const accent = isCompany ? '#a78bfa' : '#60a5fa'
-  const accentBase = isCompany ? '#8b5cf6' : '#3b82f6'
-  const accentBg = isCompany ? 'rgba(139,92,246,0.10)' : 'rgba(59,130,246,0.10)'
-  const accentBorder = isCompany ? 'rgba(139,92,246,0.28)' : 'rgba(59,130,246,0.28)'
-  const gradientFrom = isCompany ? '#8b5cf6' : '#3b82f6'
-  const gradientTo = isCompany ? '#4f46e5' : '#06b6d4'
+  const isCompany = project.category === 'company';
+  const accent = isCompany ? '#a78bfa' : '#60a5fa';
+  const accentBase = isCompany ? '#8b5cf6' : '#3b82f6';
+  const accentBg = isCompany ? 'rgba(139,92,246,0.10)' : 'rgba(59,130,246,0.10)';
+  const accentBorder = isCompany ? 'rgba(139,92,246,0.28)' : 'rgba(59,130,246,0.28)';
+  const gradientFrom = isCompany ? '#8b5cf6' : '#3b82f6';
+  const gradientTo = isCompany ? '#4f46e5' : '#06b6d4';
 
   return (
     <AuroraBackground className="min-h-screen">
       <div className="container-xl py-28 sm:py-32" style={{ maxWidth: '60rem' }}>
-
         {/* ── Back ── */}
         <motion.div {...fadeUp(0)} className="mb-8">
           <Link
             to="/projects"
             className="inline-flex items-center gap-2 text-sm font-medium transition-colors group"
             style={{ color: '#64748b' }}
-            onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.color = '#f8fafc' }}
-            onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.color = '#64748b' }}
+            onMouseEnter={(e) => {
+              (e.currentTarget as HTMLElement).style.color = '#f8fafc';
+            }}
+            onMouseLeave={(e) => {
+              (e.currentTarget as HTMLElement).style.color = '#64748b';
+            }}
             aria-label="Back to all projects"
           >
             <ArrowLeft
@@ -176,14 +186,14 @@ export default function ProjectDetail() {
                   background: 'rgba(251,146,60,0.08)',
                 }}
                 onMouseEnter={(e) => {
-                  const el = e.currentTarget as HTMLElement
-                  el.style.background = 'rgba(251,146,60,0.14)'
-                  el.style.borderColor = 'rgba(251,146,60,0.45)'
+                  const el = e.currentTarget as HTMLElement;
+                  el.style.background = 'rgba(251,146,60,0.14)';
+                  el.style.borderColor = 'rgba(251,146,60,0.45)';
                 }}
                 onMouseLeave={(e) => {
-                  const el = e.currentTarget as HTMLElement
-                  el.style.background = 'rgba(251,146,60,0.08)'
-                  el.style.borderColor = 'rgba(251,146,60,0.30)'
+                  const el = e.currentTarget as HTMLElement;
+                  el.style.background = 'rgba(251,146,60,0.08)';
+                  el.style.borderColor = 'rgba(251,146,60,0.30)';
                 }}
                 aria-label={`View ${project.title} on NPM (opens in new tab)`}
                 onClick={() => analytics.projectNpmClick(project.title)}
@@ -215,11 +225,7 @@ export default function ProjectDetail() {
         <motion.section {...fadeUp(0.22)} className="mb-14" aria-labelledby="overview-heading">
           <SectionHeading number="01" title="Problem & Overview" />
           <GlassCard className="p-6">
-            <p
-              id="overview-heading"
-              className="leading-relaxed"
-              style={{ color: '#94a3b8' }}
-            >
+            <p id="overview-heading" className="leading-relaxed" style={{ color: '#94a3b8' }}>
               {project.overview}
             </p>
           </GlassCard>
@@ -228,11 +234,7 @@ export default function ProjectDetail() {
         {/* ── 02 Key Features ── */}
         <motion.section {...fadeUp(0.25)} className="mb-14" aria-labelledby="features-heading">
           <SectionHeading number="02" title="Key Features" />
-          <ul
-            id="features-heading"
-            className="grid gap-3 sm:grid-cols-2"
-            aria-label="Key features"
-          >
+          <ul id="features-heading" className="grid gap-3 sm:grid-cols-2" aria-label="Key features">
             {project.features.map((f, i) => (
               <motion.li
                 key={f}
@@ -252,7 +254,9 @@ export default function ProjectDetail() {
                   style={{ color: accent }}
                   aria-hidden="true"
                 />
-                <span className="text-sm leading-relaxed" style={{ color: '#94a3b8' }}>{f}</span>
+                <span className="text-sm leading-relaxed" style={{ color: '#94a3b8' }}>
+                  {f}
+                </span>
               </motion.li>
             ))}
           </ul>
@@ -278,14 +282,14 @@ export default function ProjectDetail() {
                   className="overflow-hidden transition-shadow duration-300"
                   hover={false}
                   onMouseEnter={(e) => {
-                    const el = e.currentTarget as HTMLElement
-                    el.style.boxShadow = `0 8px 32px rgba(0,0,0,0.40), 0 0 0 1px ${accentBase}30`
-                    el.style.borderColor = `${accentBase}35`
+                    const el = e.currentTarget as HTMLElement;
+                    el.style.boxShadow = `0 8px 32px rgba(0,0,0,0.40), 0 0 0 1px ${accentBase}30`;
+                    el.style.borderColor = `${accentBase}35`;
                   }}
                   onMouseLeave={(e) => {
-                    const el = e.currentTarget as HTMLElement
-                    el.style.boxShadow = ''
-                    el.style.borderColor = ''
+                    const el = e.currentTarget as HTMLElement;
+                    el.style.boxShadow = '';
+                    el.style.borderColor = '';
                   }}
                 >
                   <div className="grid sm:grid-cols-2">
@@ -294,21 +298,30 @@ export default function ProjectDetail() {
                       className="p-5"
                       style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}
                     >
-                      <div className="sm:border-b-0 sm:border-r"
-                        style={{ borderColor: 'rgba(255,255,255,0.06)' }}>
-                      </div>
+                      <div
+                        className="sm:border-b-0 sm:border-r"
+                        style={{ borderColor: 'rgba(255,255,255,0.06)' }}
+                      ></div>
                       <div className="flex items-center gap-2 mb-3">
                         <div
                           className="flex h-6 w-6 items-center justify-center rounded-md"
-                          style={{ background: 'rgba(248,113,113,0.12)', border: '1px solid rgba(248,113,113,0.20)' }}
+                          style={{
+                            background: 'rgba(248,113,113,0.12)',
+                            border: '1px solid rgba(248,113,113,0.20)',
+                          }}
                         >
                           <AlertCircle size={12} style={{ color: '#f87171' }} aria-hidden="true" />
                         </div>
-                        <span className="font-mono text-[10px] font-bold uppercase tracking-wider" style={{ color: '#f87171' }}>
+                        <span
+                          className="font-mono text-[10px] font-bold uppercase tracking-wider"
+                          style={{ color: '#f87171' }}
+                        >
                           Problem
                         </span>
                       </div>
-                      <p className="text-sm leading-relaxed" style={{ color: '#94a3b8' }}>{c.problem}</p>
+                      <p className="text-sm leading-relaxed" style={{ color: '#94a3b8' }}>
+                        {c.problem}
+                      </p>
                     </div>
                     {/* Solution */}
                     <div className="p-5" style={{ borderLeft: '1px solid rgba(255,255,255,0.06)' }}>
@@ -326,7 +339,9 @@ export default function ProjectDetail() {
                           Solution
                         </span>
                       </div>
-                      <p className="text-sm leading-relaxed" style={{ color: '#94a3b8' }}>{c.solution}</p>
+                      <p className="text-sm leading-relaxed" style={{ color: '#94a3b8' }}>
+                        {c.solution}
+                      </p>
                     </div>
                   </div>
                 </GlassCard>
@@ -353,14 +368,14 @@ export default function ProjectDetail() {
                     border: `1px solid ${accentBorder}`,
                   }}
                   onMouseEnter={(e) => {
-                    const el = e.currentTarget as HTMLElement
-                    el.style.background = accentBg
-                    el.style.boxShadow = `0 4px 16px ${accentBase}20`
+                    const el = e.currentTarget as HTMLElement;
+                    el.style.background = accentBg;
+                    el.style.boxShadow = `0 4px 16px ${accentBase}20`;
                   }}
                   onMouseLeave={(e) => {
-                    const el = e.currentTarget as HTMLElement
-                    el.style.background = 'rgba(255,255,255,0.04)'
-                    el.style.boxShadow = ''
+                    const el = e.currentTarget as HTMLElement;
+                    el.style.background = 'rgba(255,255,255,0.04)';
+                    el.style.boxShadow = '';
                   }}
                 >
                   <div className="flex items-center gap-2">
@@ -383,8 +398,12 @@ export default function ProjectDetail() {
               to="/projects"
               className="inline-flex items-center gap-2 text-sm font-medium transition-colors group"
               style={{ color: '#64748b' }}
-              onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.color = '#f8fafc' }}
-              onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.color = '#64748b' }}
+              onMouseEnter={(e) => {
+                (e.currentTarget as HTMLElement).style.color = '#f8fafc';
+              }}
+              onMouseLeave={(e) => {
+                (e.currentTarget as HTMLElement).style.color = '#64748b';
+              }}
               aria-label="Back to all projects"
             >
               <ArrowLeft
@@ -420,14 +439,14 @@ export default function ProjectDetail() {
                     background: 'rgba(251,146,60,0.07)',
                   }}
                   onMouseEnter={(e) => {
-                    const el = e.currentTarget as HTMLElement
-                    el.style.background = 'rgba(251,146,60,0.14)'
-                    el.style.borderColor = 'rgba(251,146,60,0.40)'
+                    const el = e.currentTarget as HTMLElement;
+                    el.style.background = 'rgba(251,146,60,0.14)';
+                    el.style.borderColor = 'rgba(251,146,60,0.40)';
                   }}
                   onMouseLeave={(e) => {
-                    const el = e.currentTarget as HTMLElement
-                    el.style.background = 'rgba(251,146,60,0.07)'
-                    el.style.borderColor = 'rgba(251,146,60,0.25)'
+                    const el = e.currentTarget as HTMLElement;
+                    el.style.background = 'rgba(251,146,60,0.07)';
+                    el.style.borderColor = 'rgba(251,146,60,0.25)';
                   }}
                   aria-label={`View ${project.title} on NPM (opens in new tab)`}
                   onClick={() => analytics.projectNpmClick(project.title)}
@@ -454,5 +473,5 @@ export default function ProjectDetail() {
         </motion.div>
       </div>
     </AuroraBackground>
-  )
+  );
 }

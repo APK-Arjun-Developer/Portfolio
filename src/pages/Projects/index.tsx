@@ -1,42 +1,49 @@
-import { useState } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
-import { Link } from 'react-router-dom'
-import {
-  ExternalLink, ArrowRight, Building2, Code2, Package, ChevronRight,
-} from 'lucide-react'
-import { GithubIcon } from '../../components/ui/BrandIcons'
-import { projects, type Project } from '../../data/personal'
-import { analytics } from '../../lib/analytics'
-import AuroraBackground from '../../components/ui/AuroraBackground'
-import SectionTitle from '../../components/ui/SectionTitle'
-import GlassCard from '../../components/ui/GlassCard'
+import { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Link } from 'react-router-dom';
+import { ExternalLink, ArrowRight, Building2, Code2, Package, ChevronRight } from 'lucide-react';
+import { GithubIcon } from '../../components/ui/BrandIcons';
+import { projects, type Project } from '../../data/personal';
+import { analytics } from '../../lib/analytics';
+import AuroraBackground from '../../components/ui/AuroraBackground';
+import SectionTitle from '../../components/ui/SectionTitle';
+import GlassCard from '../../components/ui/GlassCard';
 
-type FilterTab = 'all' | 'company' | 'personal'
+type FilterTab = 'all' | 'company' | 'personal';
 
 function LayersIcon({ size }: { size: number }) {
   return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={2}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
       <polygon points="12 2 2 7 12 12 22 7 12 2" />
       <polyline points="2 17 12 22 22 17" />
       <polyline points="2 12 12 17 22 12" />
     </svg>
-  )
+  );
 }
 
 const tabs: { id: FilterTab; label: string; icon: React.ReactNode }[] = [
   { id: 'all', label: 'All Projects', icon: <LayersIcon size={14} /> },
   { id: 'company', label: 'Company Work', icon: <Building2 size={14} /> },
   { id: 'personal', label: 'Personal', icon: <Code2 size={14} /> },
-]
+];
 
 function ProjectCard({ project, index }: { project: Project; index: number }) {
-  const isCompany = project.category === 'company'
-  const accent = isCompany ? '#a78bfa' : '#60a5fa'
-  const accentBase = isCompany ? '#8b5cf6' : '#3b82f6'
-  const accentBg = isCompany ? 'rgba(139,92,246,0.10)' : 'rgba(59,130,246,0.10)'
-  const accentBorder = isCompany ? 'rgba(139,92,246,0.25)' : 'rgba(59,130,246,0.25)'
-  const gradientFrom = isCompany ? '#8b5cf6' : '#3b82f6'
-  const gradientTo = isCompany ? '#4f46e5' : '#06b6d4'
+  const isCompany = project.category === 'company';
+  const accent = isCompany ? '#a78bfa' : '#60a5fa';
+  const accentBase = isCompany ? '#8b5cf6' : '#3b82f6';
+  const accentBg = isCompany ? 'rgba(139,92,246,0.10)' : 'rgba(59,130,246,0.10)';
+  const accentBorder = isCompany ? 'rgba(139,92,246,0.25)' : 'rgba(59,130,246,0.25)';
+  const gradientFrom = isCompany ? '#8b5cf6' : '#3b82f6';
+  const gradientTo = isCompany ? '#4f46e5' : '#06b6d4';
 
   return (
     <motion.article
@@ -53,14 +60,14 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
         hover={false}
         style={{ border: `1px solid ${accentBorder}` }}
         onMouseEnter={(e) => {
-          const el = e.currentTarget as HTMLElement
-          el.style.boxShadow = `0 16px 48px rgba(0,0,0,0.45), 0 0 0 1px ${accentBase}45`
-          el.style.borderColor = `${accentBase}50`
+          const el = e.currentTarget as HTMLElement;
+          el.style.boxShadow = `0 16px 48px rgba(0,0,0,0.45), 0 0 0 1px ${accentBase}45`;
+          el.style.borderColor = `${accentBase}50`;
         }}
         onMouseLeave={(e) => {
-          const el = e.currentTarget as HTMLElement
-          el.style.boxShadow = ''
-          el.style.borderColor = accentBorder
+          const el = e.currentTarget as HTMLElement;
+          el.style.boxShadow = '';
+          el.style.borderColor = accentBorder;
         }}
       >
         {/* Gradient header stripe */}
@@ -116,19 +123,13 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
           </div>
 
           {/* Title */}
-          <h3
-            className="text-lg font-bold mb-1 leading-snug"
-            style={{ color: '#f8fafc' }}
-          >
+          <h3 className="text-lg font-bold mb-1 leading-snug" style={{ color: '#f8fafc' }}>
             {project.title}
           </h3>
 
           {/* Company attribution */}
           {project.companyName && (
-            <p
-              className="text-xs mb-2 font-mono"
-              style={{ color: '#64748b' }}
-            >
+            <p className="text-xs mb-2 font-mono" style={{ color: '#64748b' }}>
               @ {project.companyName}
             </p>
           )}
@@ -139,10 +140,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
           </p>
 
           {/* Description */}
-          <p
-            className="text-sm leading-relaxed mb-5 flex-1"
-            style={{ color: '#94a3b8' }}
-          >
+          <p className="text-sm leading-relaxed mb-5 flex-1" style={{ color: '#94a3b8' }}>
             {project.description}
           </p>
 
@@ -163,7 +161,9 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
                     style={{ color: accent }}
                     aria-hidden="true"
                   />
-                  <span className="text-xs leading-relaxed" style={{ color: '#94a3b8' }}>{f}</span>
+                  <span className="text-xs leading-relaxed" style={{ color: '#94a3b8' }}>
+                    {f}
+                  </span>
                 </li>
               ))}
             </ul>
@@ -205,16 +205,16 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
                   background: 'rgba(255,255,255,0.04)',
                 }}
                 onMouseEnter={(e) => {
-                  const el = e.currentTarget as HTMLElement
-                  el.style.color = '#f8fafc'
-                  el.style.background = 'rgba(255,255,255,0.08)'
-                  el.style.borderColor = 'rgba(255,255,255,0.18)'
+                  const el = e.currentTarget as HTMLElement;
+                  el.style.color = '#f8fafc';
+                  el.style.background = 'rgba(255,255,255,0.08)';
+                  el.style.borderColor = 'rgba(255,255,255,0.18)';
                 }}
                 onMouseLeave={(e) => {
-                  const el = e.currentTarget as HTMLElement
-                  el.style.color = '#94a3b8'
-                  el.style.background = 'rgba(255,255,255,0.04)'
-                  el.style.borderColor = 'rgba(255,255,255,0.10)'
+                  const el = e.currentTarget as HTMLElement;
+                  el.style.color = '#94a3b8';
+                  el.style.background = 'rgba(255,255,255,0.04)';
+                  el.style.borderColor = 'rgba(255,255,255,0.10)';
                 }}
                 aria-label={`View source code for ${project.title} on GitHub (opens in new tab)`}
                 onClick={() => analytics.projectGithubClick(project.title)}
@@ -235,14 +235,14 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
                   background: 'rgba(251,146,60,0.08)',
                 }}
                 onMouseEnter={(e) => {
-                  const el = e.currentTarget as HTMLElement
-                  el.style.background = 'rgba(251,146,60,0.14)'
-                  el.style.borderColor = 'rgba(251,146,60,0.40)'
+                  const el = e.currentTarget as HTMLElement;
+                  el.style.background = 'rgba(251,146,60,0.14)';
+                  el.style.borderColor = 'rgba(251,146,60,0.40)';
                 }}
                 onMouseLeave={(e) => {
-                  const el = e.currentTarget as HTMLElement
-                  el.style.background = 'rgba(251,146,60,0.08)'
-                  el.style.borderColor = 'rgba(251,146,60,0.25)'
+                  const el = e.currentTarget as HTMLElement;
+                  el.style.background = 'rgba(251,146,60,0.08)';
+                  el.style.borderColor = 'rgba(251,146,60,0.25)';
                 }}
                 aria-label={`View ${project.title} on NPM (opens in new tab)`}
                 onClick={() => analytics.projectNpmClick(project.title)}
@@ -263,16 +263,16 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
                   background: 'rgba(255,255,255,0.04)',
                 }}
                 onMouseEnter={(e) => {
-                  const el = e.currentTarget as HTMLElement
-                  el.style.color = '#f8fafc'
-                  el.style.background = 'rgba(255,255,255,0.08)'
-                  el.style.borderColor = 'rgba(255,255,255,0.18)'
+                  const el = e.currentTarget as HTMLElement;
+                  el.style.color = '#f8fafc';
+                  el.style.background = 'rgba(255,255,255,0.08)';
+                  el.style.borderColor = 'rgba(255,255,255,0.18)';
                 }}
                 onMouseLeave={(e) => {
-                  const el = e.currentTarget as HTMLElement
-                  el.style.color = '#94a3b8'
-                  el.style.background = 'rgba(255,255,255,0.04)'
-                  el.style.borderColor = 'rgba(255,255,255,0.10)'
+                  const el = e.currentTarget as HTMLElement;
+                  el.style.color = '#94a3b8';
+                  el.style.background = 'rgba(255,255,255,0.04)';
+                  el.style.borderColor = 'rgba(255,255,255,0.10)';
                 }}
                 aria-label={`View live demo for ${project.title} (opens in new tab)`}
                 onClick={() => analytics.projectDemoClick(project.title)}
@@ -285,17 +285,17 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
         </div>
       </GlassCard>
     </motion.article>
-  )
+  );
 }
 
 export default function Projects() {
-  const [activeTab, setActiveTab] = useState<FilterTab>('all')
+  const [activeTab, setActiveTab] = useState<FilterTab>('all');
 
   const filtered = projects.filter((p) => {
-    if (activeTab === 'all') return true
-    if (activeTab === 'company') return p.category === 'company'
-    return p.category !== 'company'
-  })
+    if (activeTab === 'all') return true;
+    if (activeTab === 'company') return p.category === 'company';
+    return p.category !== 'company';
+  });
 
   return (
     <AuroraBackground className="min-h-screen">
@@ -316,43 +316,50 @@ export default function Projects() {
           aria-label="Filter projects by category"
         >
           {tabs.map((tab) => {
-            const isActive = activeTab === tab.id
+            const isActive = activeTab === tab.id;
             const count =
               tab.id === 'all'
                 ? projects.length
                 : tab.id === 'company'
                   ? projects.filter((p) => p.category === 'company').length
-                  : projects.filter((p) => p.category !== 'company').length
+                  : projects.filter((p) => p.category !== 'company').length;
             return (
               <button
                 key={tab.id}
                 role="tab"
                 aria-selected={isActive}
                 aria-controls="projects-grid"
-                onClick={() => { setActiveTab(tab.id); analytics.projectFilterClick(tab.id) }}
-                className="flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-all duration-200"
-                style={isActive ? {
-                  background: 'rgba(59,130,246,0.14)',
-                  border: '1px solid rgba(59,130,246,0.35)',
-                  color: '#60a5fa',
-                  boxShadow: '0 2px 12px rgba(59,130,246,0.20)',
-                } : {
-                  background: 'rgba(255,255,255,0.04)',
-                  border: '1px solid rgba(255,255,255,0.10)',
-                  color: '#64748b',
+                onClick={() => {
+                  setActiveTab(tab.id);
+                  analytics.projectFilterClick(tab.id);
                 }}
+                className="flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-all duration-200"
+                style={
+                  isActive
+                    ? {
+                        background: 'rgba(59,130,246,0.14)',
+                        border: '1px solid rgba(59,130,246,0.35)',
+                        color: '#60a5fa',
+                        boxShadow: '0 2px 12px rgba(59,130,246,0.20)',
+                      }
+                    : {
+                        background: 'rgba(255,255,255,0.04)',
+                        border: '1px solid rgba(255,255,255,0.10)',
+                        color: '#64748b',
+                      }
+                }
                 onMouseEnter={(e) => {
                   if (!isActive) {
-                    const el = e.currentTarget as HTMLElement
-                    el.style.color = '#94a3b8'
-                    el.style.background = 'rgba(255,255,255,0.07)'
+                    const el = e.currentTarget as HTMLElement;
+                    el.style.color = '#94a3b8';
+                    el.style.background = 'rgba(255,255,255,0.07)';
                   }
                 }}
                 onMouseLeave={(e) => {
                   if (!isActive) {
-                    const el = e.currentTarget as HTMLElement
-                    el.style.color = '#64748b'
-                    el.style.background = 'rgba(255,255,255,0.04)'
+                    const el = e.currentTarget as HTMLElement;
+                    el.style.color = '#64748b';
+                    el.style.background = 'rgba(255,255,255,0.04)';
                   }
                 }}
               >
@@ -360,19 +367,23 @@ export default function Projects() {
                 {tab.label}
                 <span
                   className="ml-1 rounded-full px-1.5 py-0.5 text-[10px] font-semibold"
-                  style={isActive ? {
-                    background: 'rgba(59,130,246,0.20)',
-                    color: '#60a5fa',
-                  } : {
-                    background: 'rgba(255,255,255,0.06)',
-                    color: '#64748b',
-                  }}
+                  style={
+                    isActive
+                      ? {
+                          background: 'rgba(59,130,246,0.20)',
+                          color: '#60a5fa',
+                        }
+                      : {
+                          background: 'rgba(255,255,255,0.06)',
+                          color: '#64748b',
+                        }
+                  }
                   aria-label={`${count} projects`}
                 >
                   {count}
                 </span>
               </button>
-            )
+            );
           })}
         </motion.div>
 
@@ -397,8 +408,7 @@ export default function Projects() {
             </motion.div>
           </AnimatePresence>
         </div>
-
       </div>
     </AuroraBackground>
-  )
+  );
 }

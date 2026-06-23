@@ -1,20 +1,20 @@
-import { lazy, Suspense, useEffect } from 'react'
-import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom'
-import { AnimatePresence, motion } from 'framer-motion'
-import Lenis from 'lenis'
-import ReactGA from 'react-ga4'
-import Navbar from './components/layout/Navbar'
-import Footer from './components/layout/Footer'
-import ScrollProgress from './components/ui/ScrollProgress'
+import { lazy, Suspense, useEffect } from 'react';
+import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
+import { AnimatePresence, motion } from 'framer-motion';
+import Lenis from 'lenis';
+import ReactGA from 'react-ga4';
+import Navbar from './components/layout/Navbar';
+import Footer from './components/layout/Footer';
+import ScrollProgress from './components/ui/ScrollProgress';
 
-const GA_ID = import.meta.env.VITE_GA_MEASUREMENT_ID
-const GA_ENABLED = import.meta.env.VITE_GA_ENABLED === 'true'
-if (GA_ENABLED && GA_ID) ReactGA.initialize(GA_ID)
+const GA_ID = import.meta.env.VITE_GA_MEASUREMENT_ID;
+const GA_ENABLED = import.meta.env.VITE_GA_ENABLED === 'true';
+if (GA_ENABLED && GA_ID) ReactGA.initialize(GA_ID);
 
-const Home = lazy(() => import('./pages/Home'))
-const About = lazy(() => import('./pages/About'))
-const Projects = lazy(() => import('./pages/Projects'))
-const ProjectDetail = lazy(() => import('./pages/Projects/ProjectDetail'))
+const Home = lazy(() => import('./pages/Home'));
+const About = lazy(() => import('./pages/About'));
+const Projects = lazy(() => import('./pages/Projects'));
+const ProjectDetail = lazy(() => import('./pages/Projects/ProjectDetail'));
 
 function PageLoader() {
   return (
@@ -30,24 +30,24 @@ function PageLoader() {
         />
       </div>
     </div>
-  )
+  );
 }
 
 function ScrollToTop() {
-  const { pathname } = useLocation()
+  const { pathname } = useLocation();
   useEffect(() => {
-    document.documentElement.scrollTop = 0
-    document.body.scrollTop = 0
-  }, [pathname])
-  return null
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+  }, [pathname]);
+  return null;
 }
 
 function AnimatedRoutes() {
-  const location = useLocation()
+  const location = useLocation();
 
   useEffect(() => {
-    if (GA_ID) ReactGA.send({ hitType: 'pageview', page: location.pathname + location.search })
-  }, [location])
+    if (GA_ID) ReactGA.send({ hitType: 'pageview', page: location.pathname + location.search });
+  }, [location]);
 
   return (
     <AnimatePresence mode="wait" initial={false}>
@@ -68,7 +68,7 @@ function AnimatedRoutes() {
         </Suspense>
       </motion.div>
     </AnimatePresence>
-  )
+  );
 }
 
 function SmoothScrollProvider({ children }: { children: React.ReactNode }) {
@@ -77,22 +77,22 @@ function SmoothScrollProvider({ children }: { children: React.ReactNode }) {
       duration: 1.15,
       easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       smoothWheel: true,
-    })
+    });
 
-    let rafId: number
+    let rafId: number;
     function raf(time: number) {
-      lenis.raf(time)
-      rafId = requestAnimationFrame(raf)
+      lenis.raf(time);
+      rafId = requestAnimationFrame(raf);
     }
-    rafId = requestAnimationFrame(raf)
+    rafId = requestAnimationFrame(raf);
 
     return () => {
-      cancelAnimationFrame(rafId)
-      lenis.destroy()
-    }
-  }, [])
+      cancelAnimationFrame(rafId);
+      lenis.destroy();
+    };
+  }, []);
 
-  return <>{children}</>
+  return <>{children}</>;
 }
 
 export default function App() {
@@ -110,5 +110,5 @@ export default function App() {
         </div>
       </SmoothScrollProvider>
     </BrowserRouter>
-  )
+  );
 }

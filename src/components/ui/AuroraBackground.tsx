@@ -1,6 +1,6 @@
 interface AuroraBackgroundProps {
-  children?: React.ReactNode
-  className?: string
+  children?: React.ReactNode;
+  className?: string;
 }
 
 export default function AuroraBackground({ children, className = '' }: AuroraBackgroundProps) {
@@ -11,21 +11,24 @@ export default function AuroraBackground({ children, className = '' }: AuroraBac
         <div
           className="animate-aurora-1 absolute -left-56 -top-56 h-[800px] w-[800px] rounded-full"
           style={{
-            background: 'radial-gradient(circle at 40% 40%, rgba(59,130,246,0.22) 0%, rgba(37,99,235,0.10) 45%, transparent 70%)',
+            background:
+              'radial-gradient(circle at 40% 40%, rgba(59,130,246,0.22) 0%, rgba(37,99,235,0.10) 45%, transparent 70%)',
           }}
         />
         {/* Violet blob — top right */}
         <div
           className="animate-aurora-2 absolute -right-48 -top-24 h-[700px] w-[700px] rounded-full"
           style={{
-            background: 'radial-gradient(circle at 60% 40%, rgba(139,92,246,0.20) 0%, rgba(124,58,237,0.08) 45%, transparent 70%)',
+            background:
+              'radial-gradient(circle at 60% 40%, rgba(139,92,246,0.20) 0%, rgba(124,58,237,0.08) 45%, transparent 70%)',
           }}
         />
         {/* Cyan blob — bottom center */}
         <div
           className="animate-aurora-3 absolute -bottom-24 left-1/2 h-[500px] w-[900px] -translate-x-1/2 rounded-full"
           style={{
-            background: 'radial-gradient(ellipse at center, rgba(34,211,238,0.12) 0%, rgba(6,182,212,0.05) 45%, transparent 70%)',
+            background:
+              'radial-gradient(ellipse at center, rgba(34,211,238,0.12) 0%, rgba(6,182,212,0.05) 45%, transparent 70%)',
           }}
         />
         {/* Subtle dot grid */}
@@ -40,5 +43,5 @@ export default function AuroraBackground({ children, className = '' }: AuroraBac
 
       {children}
     </div>
-  )
+  );
 }

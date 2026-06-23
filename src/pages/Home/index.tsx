@@ -1,22 +1,30 @@
-import { motion } from 'framer-motion'
-import type { Variants } from 'framer-motion'
-import { ArrowRight, ExternalLink, ChevronDown, Package, Layers, Building2, Mail } from 'lucide-react'
-import { Link } from 'react-router-dom'
-import { personal } from '../../data/personal'
-import AuroraBackground from '../../components/ui/AuroraBackground'
-import { GithubIcon, LinkedinIcon } from '../../components/ui/BrandIcons'
-import { analytics } from '../../lib/analytics'
+import { motion } from 'framer-motion';
+import type { Variants } from 'framer-motion';
+import {
+  ArrowRight,
+  ExternalLink,
+  ChevronDown,
+  Package,
+  Layers,
+  Building2,
+  Mail,
+} from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { personal } from '../../data/personal';
+import AuroraBackground from '../../components/ui/AuroraBackground';
+import { GithubIcon, LinkedinIcon } from '../../components/ui/BrandIcons';
+import { analytics } from '../../lib/analytics';
 
-const techStack = ['React', 'Node.js', '.NET Core', 'SQL'] as const
+const techStack = ['React', 'Node.js', '.NET Core', 'SQL'] as const;
 
 const heroStats = [
   { value: '2+', label: 'Years Experience', Icon: Layers },
   { value: '6', label: 'Projects Shipped', Icon: Package },
   { value: '2', label: 'Companies', Icon: Building2 },
   { value: '1', label: 'NPM Package', Icon: Package },
-]
+];
 
-const easing: [number, number, number, number] = [0.22, 1, 0.36, 1]
+const easing: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
 const container: Variants = {
   hidden: { opacity: 0 },
@@ -24,7 +32,7 @@ const container: Variants = {
     opacity: 1,
     transition: { staggerChildren: 0.09, delayChildren: 0.15 },
   },
-}
+};
 
 const item: Variants = {
   hidden: { opacity: 0, y: 22 },
@@ -33,7 +41,7 @@ const item: Variants = {
     y: 0,
     transition: { duration: 0.55, ease: easing },
   },
-}
+};
 
 export default function Home() {
   return (
@@ -41,12 +49,7 @@ export default function Home() {
       {/* ── Hero ── */}
       <section className="flex flex-1 items-center pt-28 pb-20" aria-label="Introduction">
         <div className="container-xl w-full">
-          <motion.div
-            variants={container}
-            initial="hidden"
-            animate="show"
-            className="max-w-3xl"
-          >
+          <motion.div variants={container} initial="hidden" animate="show" className="max-w-3xl">
             {/* Status badge */}
             <motion.div variants={item}>
               <div
@@ -164,8 +167,12 @@ export default function Home() {
                 rel="noopener noreferrer"
                 className="flex items-center gap-2 text-sm transition-colors"
                 style={{ color: '#64748b' }}
-                onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.color = '#f8fafc' }}
-                onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.color = '#64748b' }}
+                onMouseEnter={(e) => {
+                  (e.currentTarget as HTMLElement).style.color = '#f8fafc';
+                }}
+                onMouseLeave={(e) => {
+                  (e.currentTarget as HTMLElement).style.color = '#64748b';
+                }}
                 aria-label="Visit my GitHub profile (opens in new tab)"
                 onClick={() => analytics.socialClick('github', 'home_hero')}
               >
@@ -173,15 +180,23 @@ export default function Home() {
                 GitHub
                 <ExternalLink size={11} className="opacity-40" aria-hidden="true" />
               </a>
-              <span className="h-1 w-1 rounded-full" style={{ background: '#1e293b' }} aria-hidden="true" />
+              <span
+                className="h-1 w-1 rounded-full"
+                style={{ background: '#1e293b' }}
+                aria-hidden="true"
+              />
               <a
                 href={personal.linkedin}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-2 text-sm transition-colors"
                 style={{ color: '#64748b' }}
-                onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.color = '#f8fafc' }}
-                onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.color = '#64748b' }}
+                onMouseEnter={(e) => {
+                  (e.currentTarget as HTMLElement).style.color = '#f8fafc';
+                }}
+                onMouseLeave={(e) => {
+                  (e.currentTarget as HTMLElement).style.color = '#64748b';
+                }}
                 aria-label="Visit my LinkedIn profile (opens in new tab)"
                 onClick={() => analytics.socialClick('linkedin', 'home_hero')}
               >
@@ -189,13 +204,21 @@ export default function Home() {
                 LinkedIn
                 <ExternalLink size={11} className="opacity-40" aria-hidden="true" />
               </a>
-              <span className="h-1 w-1 rounded-full" style={{ background: '#1e293b' }} aria-hidden="true" />
+              <span
+                className="h-1 w-1 rounded-full"
+                style={{ background: '#1e293b' }}
+                aria-hidden="true"
+              />
               <a
                 href={`mailto:${personal.email}`}
                 className="text-sm transition-colors"
                 style={{ color: '#64748b' }}
-                onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.color = '#f8fafc' }}
-                onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.color = '#64748b' }}
+                onMouseEnter={(e) => {
+                  (e.currentTarget as HTMLElement).style.color = '#f8fafc';
+                }}
+                onMouseLeave={(e) => {
+                  (e.currentTarget as HTMLElement).style.color = '#64748b';
+                }}
                 aria-label={`Email me at ${personal.email}`}
                 onClick={() => analytics.socialClick('email', 'home_hero')}
               >
@@ -213,10 +236,7 @@ export default function Home() {
         transition={{ delay: 0.9, duration: 0.5 }}
         aria-label="Career statistics"
       >
-        <div
-          className="border-t"
-          style={{ borderColor: 'rgba(255,255,255,0.07)' }}
-        >
+        <div className="border-t" style={{ borderColor: 'rgba(255,255,255,0.07)' }}>
           <div className="container-xl py-8">
             <dl className="grid grid-cols-2 gap-6 sm:grid-cols-4">
               {heroStats.map(({ value, label, Icon }) => (
@@ -228,14 +248,14 @@ export default function Home() {
                     border: '1px solid rgba(255,255,255,0.05)',
                   }}
                   onMouseEnter={(e) => {
-                    const el = e.currentTarget as HTMLElement
-                    el.style.background = 'rgba(255,255,255,0.05)'
-                    el.style.borderColor = 'rgba(255,255,255,0.10)'
+                    const el = e.currentTarget as HTMLElement;
+                    el.style.background = 'rgba(255,255,255,0.05)';
+                    el.style.borderColor = 'rgba(255,255,255,0.10)';
                   }}
                   onMouseLeave={(e) => {
-                    const el = e.currentTarget as HTMLElement
-                    el.style.background = 'rgba(255,255,255,0.02)'
-                    el.style.borderColor = 'rgba(255,255,255,0.05)'
+                    const el = e.currentTarget as HTMLElement;
+                    el.style.background = 'rgba(255,255,255,0.02)';
+                    el.style.borderColor = 'rgba(255,255,255,0.05)';
                   }}
                 >
                   <Icon
@@ -245,10 +265,7 @@ export default function Home() {
                     aria-hidden="true"
                   />
                   <dt className="sr-only">{label}</dt>
-                  <dd
-                    className="text-2xl font-bold gradient-text"
-                    aria-label={`${value} ${label}`}
-                  >
+                  <dd className="text-2xl font-bold gradient-text" aria-label={`${value} ${label}`}>
                     {value}
                   </dd>
                   <dd className="text-xs" style={{ color: '#64748b' }} aria-hidden="true">
@@ -278,5 +295,5 @@ export default function Home() {
         </motion.div>
       </motion.div>
     </AuroraBackground>
-  )
+  );
 }

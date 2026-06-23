@@ -22,17 +22,17 @@ export default {
         'accent-violet': '#8b5cf6',
       },
       animation: {
-        'float': 'float 6s ease-in-out infinite',
+        float: 'float 6s ease-in-out infinite',
         'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
         'gradient-x': 'gradient-x 8s ease infinite',
         'aurora-1': 'aurora-drift-1 14s ease-in-out infinite',
         'aurora-2': 'aurora-drift-2 18s ease-in-out infinite',
         'aurora-3': 'aurora-drift-3 22s ease-in-out infinite',
-        'shimmer': 'shimmer 2.5s linear infinite',
+        shimmer: 'shimmer 2.5s linear infinite',
         'fade-up': 'fade-up 0.5s ease-out forwards',
         'tech-pop': 'tech-pop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards',
         'glow-pulse': 'glow-pulse 2.5s ease-in-out infinite',
-        'beacon': 'beacon 2s ease-in-out infinite',
+        beacon: 'beacon 2s ease-in-out infinite',
       },
       keyframes: {
         float: {
@@ -73,7 +73,7 @@ export default {
           '0%, 100%': { opacity: '0.6', transform: 'scale(1)' },
           '50%': { opacity: '1', transform: 'scale(1.15)' },
         },
-        'beacon': {
+        beacon: {
           '0%': { transform: 'scale(1)', opacity: '1' },
           '100%': { transform: 'scale(2.5)', opacity: '0' },
         },
@@ -81,23 +81,24 @@ export default {
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
         'gradient-aurora': 'linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%)',
-        'grid-dark': 'linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px)',
+        'grid-dark':
+          'linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px)',
       },
       transitionTimingFunction: {
         spring: 'cubic-bezier(0.22, 1, 0.36, 1)',
         bounce: 'cubic-bezier(0.34, 1.56, 0.64, 1)',
       },
       boxShadow: {
-        'glass': '0 4px 24px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.05)',
+        glass: '0 4px 24px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.05)',
         'glass-hover': '0 12px 40px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.07)',
-        'card': '0 1px 3px rgba(0,0,0,0.25), 0 4px 16px rgba(0,0,0,0.20)',
+        card: '0 1px 3px rgba(0,0,0,0.25), 0 4px 16px rgba(0,0,0,0.20)',
         'card-hover': '0 8px 32px rgba(0,0,0,0.40), 0 2px 8px rgba(0,0,0,0.25)',
         'blue-glow': '0 4px 20px rgba(59,130,246,0.40)',
         'violet-glow': '0 4px 20px rgba(139,92,246,0.40)',
-        'tech': '0 1px 3px rgba(0,0,0,0.25)',
+        tech: '0 1px 3px rgba(0,0,0,0.25)',
         'tech-hover': '0 4px 12px rgba(0,0,0,0.40)',
       },
     },
   },
   plugins: [],
-}
+};

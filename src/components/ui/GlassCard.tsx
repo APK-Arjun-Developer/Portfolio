@@ -1,10 +1,10 @@
-import { forwardRef } from 'react'
-import { cn } from '../../lib/utils'
+import { forwardRef } from 'react';
+import { cn } from '../../lib/utils';
 
 interface GlassCardProps extends React.HTMLAttributes<HTMLDivElement> {
-  glow?: 'blue' | 'violet' | 'none'
-  hover?: boolean
-  strong?: boolean
+  glow?: 'blue' | 'violet' | 'none';
+  hover?: boolean;
+  strong?: boolean;
 }
 
 const GlassCard = forwardRef<HTMLDivElement, GlassCardProps>(
@@ -18,13 +18,13 @@ const GlassCard = forwardRef<HTMLDivElement, GlassCardProps>(
           hover && 'glass-hover',
           glow === 'blue' && 'hover:shadow-[0_0_30px_rgba(37,99,235,0.12)]',
           glow === 'violet' && 'hover:shadow-[0_0_30px_rgba(124,58,237,0.12)]',
-          className
+          className,
         )}
         {...props}
       />
-    )
-  }
-)
+    );
+  },
+);
 
-GlassCard.displayName = 'GlassCard'
-export default GlassCard
+GlassCard.displayName = 'GlassCard';
+export default GlassCard;

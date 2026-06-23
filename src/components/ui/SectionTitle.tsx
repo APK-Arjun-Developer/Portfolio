@@ -1,10 +1,10 @@
-import { motion } from 'framer-motion'
+import { motion } from 'framer-motion';
 
 interface SectionTitleProps {
-  number: string
-  title: string
-  subtitle?: string
-  id?: string
+  number: string;
+  title: string;
+  subtitle?: string;
+  id?: string;
 }
 
 export default function SectionTitle({ number, title, subtitle, id }: SectionTitleProps) {
@@ -26,7 +26,10 @@ export default function SectionTitle({ number, title, subtitle, id }: SectionTit
         </span>
         <div
           className="h-px flex-1 max-w-[80px]"
-          style={{ background: 'linear-gradient(90deg, rgba(96,165,250,0.7), rgba(167,139,250,0.3), transparent)' }}
+          style={{
+            background:
+              'linear-gradient(90deg, rgba(96,165,250,0.7), rgba(167,139,250,0.3), transparent)',
+          }}
           aria-hidden="true"
         />
       </div>
@@ -38,13 +41,10 @@ export default function SectionTitle({ number, title, subtitle, id }: SectionTit
         {title}
       </h2>
       {subtitle && (
-        <p
-          className="mt-3 text-base max-w-xl leading-relaxed"
-          style={{ color: '#94a3b8' }}
-        >
+        <p className="mt-3 text-base max-w-xl leading-relaxed" style={{ color: '#94a3b8' }}>
           {subtitle}
         </p>
       )}
     </motion.div>
-  )
+  );
 }
