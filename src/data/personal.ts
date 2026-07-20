@@ -41,7 +41,7 @@ export const projects: Project[] = [
     description:
       'A production-ready multi-tenant SaaS API built with ASP.NET Core on .NET 10, featuring shared-database tenant isolation via EF Core global query filters, JWT authentication with per-request permission checks, and a clean Domain/Application/Infrastructure/API architecture.',
     overview:
-      "SaaS applications need to serve multiple customers (tenants) from a single codebase while keeping their data completely isolated. A naive shared-schema approach — a TenantId column filtered manually in every query — is risky: one missed `.Where(x => x.TenantId == id)` and tenant A can read tenant B's data. This project closes that gap by resolving the tenant from the caller's JWT on every request and enforcing it through EF Core global query filters applied to every tenant-scoped entity, so isolation is structural rather than something a developer has to remember.",
+      "SaaS applications need to serve multiple customers (tenants) from a single codebase while keeping their data completely isolated. A naive shared-schema approach — a TenantId column filtered manually in every query — is risky: one missed `.Where(x => x.TenantId == id)` and tenant A can read tenant B's data. This project closes that gap by resolving the tenant from the caller's JWT on every request and enforcing it through EF Core global query filters applied to every tenant-scoped entity, so isolation is structural rather than something a developer has to remember. The same API powers a companion React 19 admin dashboard (see the Multi-Tenant SaaS Admin Dashboard project) that consumes it over cookie-based JWT auth.",
     features: [
       'Shared-database multi-tenancy enforced by EF Core global query filters — every tenant-scoped entity is filtered by the JWT tenant claim automatically, with no per-query filtering code to forget',
       'JWT access + refresh tokens (HttpOnly cookie or Bearer), with permissions checked fresh on every request — revoking a role takes effect immediately instead of waiting for the token to expire',
@@ -82,6 +82,57 @@ export const projects: Project[] = [
     ],
     github: 'https://github.com/APK-Arjun-Developer/MultiTenantPlatform',
     demo: 'https://multi-tenant-api.runasp.net',
+  },
+  {
+    id: 'multi-tenant-app',
+    title: 'Multi-Tenant SaaS Admin Dashboard',
+    tagline: 'React 19 front end with permission-driven UI and cross-tenant administration',
+    description:
+      'A production React 19 + TypeScript admin dashboard for the Multi-Tenant Platform API — role-aware navigation, permission-gated actions, and a SystemAdmin tenant switcher that lets one operator manage every tenant from a single UI. Built on Redux Toolkit Query with one unified API cache and cookie-based JWT auth.',
+    overview:
+      "This is the front end that consumes the Multi-Tenant ASP.NET Core API (see the Multi-Tenant ASP.NET Core API project) — a live React SPA on Vercel talking to the .NET 10 backend over cookie-based JWT auth. The hard part of a multi-tenant admin UI isn't the CRUD — it's that the same screens must behave differently for three very different actors: a SystemAdmin who operates across every tenant, a TenantAdmin scoped to one, and a TenantUser with only operational access. Rather than fork the UI per role, the app resolves the caller's permissions once from GET /auth/me and drives everything off that single set — sidebar links, route access, and individual Create/Edit/Delete buttons — so the interface reshapes itself to whoever is signed in.",
+    features: [
+      'Permission-driven UI: a single GET /auth/me call hydrates the permission set, and a PermissionGuard component plus usePermission() hook gate every route, nav item, and action button off it — no role-name checks scattered through components',
+      'Cross-tenant administration: a SystemAdmin tenant picker sets the active tenant, whose id is injected as an X-Tenant-Id header on every request by the RTK Query base query, with a TenantContextGuard forcing a tenant selection before tenant-scoped pages render',
+      'Cookie-based JWT auth with transparent refresh: the access token lives in an HttpOnly cookie and a mutex-guarded base query performs a single /auth/refresh on 401 even under concurrent requests, then retries the original call',
+      'Schema-driven forms via my own mui-schema-form-builder package — every create/edit form and filter bar is a FieldConfig array plus a Zod schema, so validation and typing are declared once instead of hand-wired per form',
+      'Full admin surface: users, roles & permissions, tenants, tenant admins, subscriptions, tenant settings, activity/audit logs, avatar & logo upload with client-side cropping, and a Recharts dashboard',
+      'SystemAdmin impersonation: start and stop an impersonation session for a tenant user, with the admin session restored afterward and a persistent impersonation banner while active',
+      'Single unified RTK Query cache: one createApi with tag-based invalidation across every feature, plus lazy-loaded routes and Rolldown manual vendor chunking for fast first loads',
+    ],
+    techStack: [
+      'React 19',
+      'TypeScript 6',
+      'Vite 8 (Rolldown)',
+      'Redux Toolkit + RTK Query',
+      'MUI v9',
+      'React Router v7',
+      'mui-schema-form-builder (Zod)',
+      'TanStack Table',
+      'Recharts',
+    ],
+    challenges: [
+      {
+        problem:
+          'Under a burst of parallel requests, an expired access token would trigger many simultaneous 401s — each firing its own /auth/refresh and racing to overwrite the session.',
+        solution:
+          'Wrapped the axios base query in an async-mutex: the first 401 acquires the lock and performs a single refresh while every other 401 waits on that same lock, then all of them retry with the refreshed cookie — one refresh per expiry, no thundering herd.',
+      },
+      {
+        problem:
+          'A SystemAdmin has no tenant of their own but must operate on tenant-scoped data, while a TenantAdmin/TenantUser must stay pinned to their own tenant and never be able to spoof another from the client.',
+        solution:
+          'Kept tenant selection in UI state and injected it as an X-Tenant-Id header only from the base query; the server ignores that header for non-SystemAdmin callers (the JWT tenant_id always wins), so the client stays simple and the trust boundary stays on the API. A TenantContextGuard blocks tenant-scoped pages until a SystemAdmin picks a tenant.',
+      },
+      {
+        problem:
+          'Permission-gated controls could flicker or briefly leak — rendering action buttons before permissions load and then hiding them, or the reverse.',
+        solution:
+          'Fetched permissions once per session into authSlice and made usePermission() optimistic while loading (returns true) so the layout never flashes empty, while PermissionGuard renders null the moment a permission is known to be absent — combined with route guards that redirect by role before the page mounts.',
+      },
+    ],
+    github: 'https://github.com/APK-Arjun-Developer/MultiTenantApp',
+    demo: 'https://multi-tenant-app-ashy.vercel.app',
   },
   {
     id: 'aerofuelhub',
