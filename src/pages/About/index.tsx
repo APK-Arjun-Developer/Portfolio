@@ -1,20 +1,10 @@
 import { motion } from 'framer-motion';
-import { skills } from '../../data/personal';
+import { skills, getYearsExperience } from '../../data/personal';
 import AuroraBackground from '../../components/ui/AuroraBackground';
 import SectionTitle from '../../components/ui/SectionTitle';
 import GlassCard from '../../components/ui/GlassCard';
 import TechCard from '../../components/ui/TechCard';
 import { MapPin, CalendarDays, Briefcase } from 'lucide-react';
-
-const careerStart = new Date('2023-08-01');
-function getDynamicExperience() {
-  const now = new Date();
-  const months =
-    (now.getFullYear() - careerStart.getFullYear()) * 12 +
-    (now.getMonth() - careerStart.getMonth());
-  const years = months / 12;
-  return years % 1 === 0 ? `${years}` : years.toFixed(1);
-}
 
 const timeline = [
   {
@@ -109,7 +99,7 @@ export default function About() {
               <GlassCard className="p-6 space-y-6" strong>
                 <dl className="grid grid-cols-2 gap-4">
                   {[
-                    { label: 'Years Experience', value: getDynamicExperience() },
+                    { label: 'Years Experience', value: getYearsExperience() },
                     { label: 'Companies', value: '2' },
                     { label: 'Projects Shipped', value: '6' },
                     { label: 'NPM Packages', value: '1' },

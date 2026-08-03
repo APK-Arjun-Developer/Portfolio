@@ -1,3 +1,13 @@
+const careerStart = new Date('2023-08-01');
+export function getYearsExperience(): string {
+  const now = new Date();
+  const months =
+    (now.getFullYear() - careerStart.getFullYear()) * 12 +
+    (now.getMonth() - careerStart.getMonth());
+  const years = months / 12;
+  return years % 1 === 0 ? `${years}` : years.toFixed(1);
+}
+
 export const personal = {
   name: 'Arjun Prakash',
   role: 'Full Stack Developer',

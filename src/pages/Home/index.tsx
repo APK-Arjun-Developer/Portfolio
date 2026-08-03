@@ -10,7 +10,7 @@ import {
   Mail,
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { personal } from '../../data/personal';
+import { personal, getYearsExperience } from '../../data/personal';
 import AuroraBackground from '../../components/ui/AuroraBackground';
 import { GithubIcon, LinkedinIcon } from '../../components/ui/BrandIcons';
 import { analytics } from '../../lib/analytics';
@@ -18,7 +18,7 @@ import { analytics } from '../../lib/analytics';
 const techStack = ['React', 'Node.js', '.NET Core', 'SQL'] as const;
 
 const heroStats = [
-  { value: '2+', label: 'Years Experience', Icon: Layers },
+  { value: getYearsExperience(), label: 'Years Experience', Icon: Layers },
   { value: '6', label: 'Projects Shipped', Icon: Package },
   { value: '2', label: 'Companies', Icon: Building2 },
   { value: '1', label: 'NPM Package', Icon: Package },
