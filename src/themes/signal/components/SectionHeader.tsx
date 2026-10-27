@@ -19,7 +19,7 @@ export default function SectionHeader({
   as: Heading = 'h2',
   action,
   className,
-}: SectionHeaderProps) {
+}: Readonly<SectionHeaderProps>) {
   return (
     <Reveal
       className={cn(

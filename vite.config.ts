@@ -62,7 +62,10 @@ function uiThemeHead(theme: UiTheme): Plugin {
 
 // https://vite.dev/config/
 export default defineConfig(({ mode }) => {
-  const theme = resolveTheme(loadEnv(mode, process.cwd(), 'VITE_').VITE_UI_THEME);
+  // `--mode signal` / `--mode classic` picks a theme explicitly (cross-platform, used by
+  // the build:* scripts); otherwise VITE_UI_THEME from the environment / .env decides.
+  const modeTheme = (THEMES as readonly string[]).includes(mode) ? mode : undefined;
+  const theme = resolveTheme(modeTheme ?? loadEnv(mode, process.cwd(), 'VITE_').VITE_UI_THEME);
   // Read by tailwind.config.js to scope content scanning to this theme.
   process.env.VITE_UI_THEME = theme;
 

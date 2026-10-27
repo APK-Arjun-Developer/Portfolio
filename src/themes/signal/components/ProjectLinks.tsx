@@ -16,7 +16,7 @@ export default function ProjectLinks({
   project,
   variant = 'inline',
   className,
-}: ProjectLinksProps) {
+}: Readonly<ProjectLinksProps>) {
   const showCode = Boolean(project.github) && project.category !== 'company';
   if (!showCode && !project.npm && !project.demo) return null;
 

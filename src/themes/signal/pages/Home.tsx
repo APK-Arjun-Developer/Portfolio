@@ -25,7 +25,7 @@ const enter = (delay: number) => ({
   transition: { duration: duration.section, ease: ease.out, delay },
 });
 
-function CompanyCard({ project }: { project: Project }) {
+function CompanyCard({ project }: Readonly<{ project: Project }>) {
   return (
     <RevealItem as="li">
       <Link

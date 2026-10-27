@@ -100,17 +100,6 @@
   #main-content:focus {
     outline: none;
   }
-
-  @media (prefers-reduced-motion: reduce) {
-    *,
-    *::before,
-    *::after {
-      animation-duration: 0.01ms !important;
-      animation-iteration-count: 1 !important;
-      transition-duration: 0.01ms !important;
-      scroll-behavior: auto !important;
-    }
-  }
 }
 
 /* ── Components ── */
@@ -186,7 +175,8 @@
 
 /* ── Ambient gradient mesh (hero only) ──
    Two radial blobs drifting on transform only. Paused off-screen by
-   SignalMesh via data-paused, and static under reduced motion.        */
+   SignalMesh via data-paused; only animated when the visitor has not
+   asked for reduced motion (framer-motion handles JS-driven motion).  */
 .sg-mesh {
   position: absolute;
   inset: 0;
@@ -207,7 +197,6 @@
   right: -28%;
   top: -55%;
   background: radial-gradient(circle, var(--sg-mesh-a) 0%, transparent 62%);
-  animation: sg-drift-a 16s cubic-bezier(0.65, 0, 0.35, 1) infinite alternate;
 }
 .sg-mesh::after {
   width: min(52rem, 110vw);
@@ -215,7 +204,14 @@
   right: 6%;
   top: 8%;
   background: radial-gradient(circle, var(--sg-mesh-b) 0%, transparent 60%);
-  animation: sg-drift-b 20s cubic-bezier(0.65, 0, 0.35, 1) infinite alternate;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .sg-mesh::before {
+    animation: sg-drift-a 16s cubic-bezier(0.65, 0, 0.35, 1) infinite alternate;
+  }
+  .sg-mesh::after {
+    animation: sg-drift-b 20s cubic-bezier(0.65, 0, 0.35, 1) infinite alternate;
+  }
 }
 .sg-mesh[data-paused='true']::before,
 .sg-mesh[data-paused='true']::after {
@@ -237,10 +233,12 @@
 .sg-packet {
   opacity: 0;
 }
-.group:hover .sg-flow .sg-packet,
-.group:focus-within .sg-flow .sg-packet,
-.sg-flow[data-live] .sg-packet {
-  animation: sg-packet 1.8s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+@media (prefers-reduced-motion: no-preference) {
+  .group:hover .sg-flow .sg-packet,
+  .group:focus-within .sg-flow .sg-packet,
+  .sg-flow[data-live] .sg-packet {
+    animation: sg-packet 1.8s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+  }
 }
 
 /* Pointer-following spotlight on project visuals (hover-capable devices only) */

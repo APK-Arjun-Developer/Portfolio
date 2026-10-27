@@ -73,10 +73,10 @@ export default function ContactFooter() {
         <Reveal className="lg:col-span-7">
           <p className="sg-kicker flex items-center gap-2.5">
             <span className="relative flex h-2 w-2" aria-hidden="true">
-              <span className="absolute inset-0 animate-ping rounded-full bg-sg-teal opacity-60 [animation-iteration-count:3]" />
+              <span className="absolute inset-0 rounded-full motion-safe:animate-ping bg-sg-teal opacity-60 [animation-iteration-count:3]" />
               <span className="relative h-2 w-2 rounded-full bg-sg-teal" />
             </span>
-            Available for opportunities
+            <span>Available for opportunities</span>
           </p>
           <h2
             id="contact-heading"

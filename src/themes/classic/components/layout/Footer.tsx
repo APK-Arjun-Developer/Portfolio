@@ -101,35 +101,35 @@ export default function Footer() {
 
             {/* Social + copyright */}
             <div className="flex flex-col items-center gap-4 sm:flex-row">
-              <div className="flex items-center gap-1" role="list">
+              <ul className="flex items-center gap-1">
                 {socialLinks.map(({ Icon, href, label, platform }) => (
-                  <motion.a
-                    key={label}
-                    href={href}
-                    target={href.startsWith('mailto') ? undefined : '_blank'}
-                    rel="noopener noreferrer"
-                    aria-label={label}
-                    role="listitem"
-                    onClick={() => analytics.socialClick(platform, 'footer')}
-                    whileHover={{ scale: 1.1, y: -2 }}
-                    whileTap={{ scale: 0.95 }}
-                    className="flex items-center justify-center p-2 rounded-lg transition-all"
-                    style={{ color: '#64748b' }}
-                    onMouseEnter={(e) => {
-                      const el = e.currentTarget as HTMLElement;
-                      el.style.color = '#60a5fa';
-                      el.style.background = 'rgba(59,130,246,0.10)';
-                    }}
-                    onMouseLeave={(e) => {
-                      const el = e.currentTarget as HTMLElement;
-                      el.style.color = '#64748b';
-                      el.style.background = 'transparent';
-                    }}
-                  >
-                    <Icon size={15} />
-                  </motion.a>
+                  <li key={label} className="flex">
+                    <motion.a
+                      href={href}
+                      target={href.startsWith('mailto') ? undefined : '_blank'}
+                      rel="noopener noreferrer"
+                      aria-label={label}
+                      onClick={() => analytics.socialClick(platform, 'footer')}
+                      whileHover={{ scale: 1.1, y: -2 }}
+                      whileTap={{ scale: 0.95 }}
+                      className="flex items-center justify-center p-2 rounded-lg transition-all"
+                      style={{ color: '#64748b' }}
+                      onMouseEnter={(e) => {
+                        const el = e.currentTarget as HTMLElement;
+                        el.style.color = '#60a5fa';
+                        el.style.background = 'rgba(59,130,246,0.10)';
+                      }}
+                      onMouseLeave={(e) => {
+                        const el = e.currentTarget as HTMLElement;
+                        el.style.color = '#64748b';
+                        el.style.background = 'transparent';
+                      }}
+                    >
+                      <Icon size={15} />
+                    </motion.a>
+                  </li>
                 ))}
-              </div>
+              </ul>
               <p className="text-xs" style={{ color: '#475569' }}>
                 © {new Date().getFullYear()} {personal.name}
               </p>

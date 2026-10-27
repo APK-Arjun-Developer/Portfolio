@@ -15,7 +15,11 @@ const enter = (delay: number) => ({
   transition: { duration: duration.section, ease: ease.out, delay },
 });
 
-function SectionTitle({ id, kicker, title }: { id: string; kicker: string; title: string }) {
+function SectionTitle({
+  id,
+  kicker,
+  title,
+}: Readonly<{ id: string; kicker: string; title: string }>) {
   return (
     <Reveal className="mb-8 md:mb-10">
       <p className="sg-kicker flex items-center gap-3">
@@ -164,7 +168,7 @@ export default function ProjectDetail() {
           {project.challenges.map((c, i) => (
             <RevealItem
               as="li"
-              key={i}
+              key={c.problem}
               className="grid overflow-hidden rounded-3xl border border-sg-line lg:grid-cols-2"
             >
               <div className="bg-sg-surface p-6 sm:p-8">
@@ -176,7 +180,7 @@ export default function ProjectDetail() {
               <div className="border-t border-sg-line p-6 sm:p-8 lg:border-l lg:border-t-0">
                 <p className="sg-kicker flex items-center gap-2 text-sg-ink">
                   <span className="h-2 w-2 rounded-full bg-sg-teal" aria-hidden="true" />
-                  Solution
+                  <span>Solution</span>
                 </p>
                 <p className="mt-4 text-[1.0625rem] leading-relaxed">{c.solution}</p>
               </div>

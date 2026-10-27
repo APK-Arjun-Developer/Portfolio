@@ -28,6 +28,9 @@ jobs:
       - name: Type check
         run: bunx tsc -b
 
+      - name: Run tests with coverage
+        run: bun run test:coverage
+
       - name: SonarCloud Scan
         uses: SonarSource/sonarqube-scan-action@v5
         env:

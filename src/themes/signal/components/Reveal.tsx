@@ -8,7 +8,7 @@ interface RevealProps {
 }
 
 /** A single block that rises in once when it scrolls into view. */
-export function Reveal({ children, className, delay = 0 }: RevealProps) {
+export function Reveal({ children, className, delay = 0 }: Readonly<RevealProps>) {
   return (
     <motion.div
       className={className}
@@ -40,7 +40,7 @@ export function RevealGroup({
   gap,
   delay,
   ...rest
-}: RevealGroupProps) {
+}: Readonly<RevealGroupProps>) {
   const Tag = groupTags[as];
   return (
     <Tag
@@ -62,7 +62,7 @@ interface RevealItemProps {
   className?: string;
 }
 
-export function RevealItem({ as = 'div', children, className }: RevealItemProps) {
+export function RevealItem({ as = 'div', children, className }: Readonly<RevealItemProps>) {
   const Tag = itemTags[as];
   return (
     <Tag className={className} variants={fadeUp}>

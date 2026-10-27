@@ -30,7 +30,7 @@ export default function ProjectPanel({
   index,
   flip,
   headingAs: Heading = 'h3',
-}: ProjectPanelProps) {
+}: Readonly<ProjectPanelProps>) {
   const flow = flows[project.id];
   const isCompany = project.category === 'company';
   const href = `/projects/${project.id}`;

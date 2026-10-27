@@ -78,45 +78,45 @@ export default function Navbar() {
           </Link>
 
           {/* Desktop nav */}
-          <div className="hidden items-center gap-1 md:flex" role="list">
+          <ul className="hidden items-center gap-1 md:flex">
             {navLinks.map((link) => {
               const active = location.pathname === link.to;
               return (
-                <Link
-                  key={link.to}
-                  to={link.to}
-                  role="listitem"
-                  className={cn(
-                    'relative px-4 py-2 text-sm rounded-lg transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500',
-                    active ? 'font-semibold' : 'font-medium',
-                  )}
-                  style={{
-                    color: active ? '#60a5fa' : '#94a3b8',
-                  }}
-                  aria-current={active ? 'page' : undefined}
-                  onMouseEnter={(e) => {
-                    if (!active) (e.currentTarget as HTMLElement).style.color = '#f8fafc';
-                  }}
-                  onMouseLeave={(e) => {
-                    if (!active) (e.currentTarget as HTMLElement).style.color = '#94a3b8';
-                  }}
-                >
-                  {active && (
-                    <motion.span
-                      layoutId="nav-pill"
-                      className="absolute inset-0 rounded-lg"
-                      style={{
-                        background: 'rgba(59,130,246,0.12)',
-                        border: '1px solid rgba(59,130,246,0.28)',
-                      }}
-                      transition={{ type: 'spring', bounce: 0.2, duration: 0.55 }}
-                    />
-                  )}
-                  <span className="relative z-10">{link.label}</span>
-                </Link>
+                <li key={link.to} className="flex">
+                  <Link
+                    to={link.to}
+                    className={cn(
+                      'relative px-4 py-2 text-sm rounded-lg transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500',
+                      active ? 'font-semibold' : 'font-medium',
+                    )}
+                    style={{
+                      color: active ? '#60a5fa' : '#94a3b8',
+                    }}
+                    aria-current={active ? 'page' : undefined}
+                    onMouseEnter={(e) => {
+                      if (!active) (e.currentTarget as HTMLElement).style.color = '#f8fafc';
+                    }}
+                    onMouseLeave={(e) => {
+                      if (!active) (e.currentTarget as HTMLElement).style.color = '#94a3b8';
+                    }}
+                  >
+                    {active && (
+                      <motion.span
+                        layoutId="nav-pill"
+                        className="absolute inset-0 rounded-lg"
+                        style={{
+                          background: 'rgba(59,130,246,0.12)',
+                          border: '1px solid rgba(59,130,246,0.28)',
+                        }}
+                        transition={{ type: 'spring', bounce: 0.2, duration: 0.55 }}
+                      />
+                    )}
+                    <span className="relative z-10">{link.label}</span>
+                  </Link>
+                </li>
               );
             })}
-          </div>
+          </ul>
 
           {/* Desktop CTA */}
           <div className="hidden md:flex items-center">

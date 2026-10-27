@@ -1,19 +1,10 @@
 import { useParams, Link, Navigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import {
-  ArrowLeft,
-  ExternalLink,
-  Package,
-  CheckCircle2,
-  AlertCircle,
-  Lightbulb,
-  Code2,
-} from 'lucide-react';
-import { GithubIcon } from '../../../../components/BrandIcons';
+import { ArrowLeft, Package, CheckCircle2, AlertCircle, Lightbulb, Code2 } from 'lucide-react';
 import { projects } from '../../../../data/personal';
-import { analytics } from '../../../../lib/analytics';
 import AuroraBackground from '../../components/ui/AuroraBackground';
 import GlassCard from '../../components/ui/GlassCard';
+import { DetailActionLinks } from '../../components/ui/ProjectActions';
 
 const fadeUp = (delay = 0) => ({
   initial: { opacity: 0, y: 20 },
@@ -161,60 +152,7 @@ export default function ProjectDetail() {
 
           {/* Action buttons */}
           <motion.div {...fadeUp(0.17)} className="flex flex-wrap gap-3">
-            {project.github && project.category !== 'company' && (
-              <a
-                href={project.github}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn-glass text-sm"
-                aria-label={`View source code for ${project.title} on GitHub (opens in new tab)`}
-                onClick={() => analytics.projectGithubClick(project.title)}
-              >
-                <GithubIcon size={15} />
-                View Code
-              </a>
-            )}
-            {project.npm && (
-              <a
-                href={project.npm}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-medium transition-all"
-                style={{
-                  color: '#fb923c',
-                  border: '1px solid rgba(251,146,60,0.30)',
-                  background: 'rgba(251,146,60,0.08)',
-                }}
-                onMouseEnter={(e) => {
-                  const el = e.currentTarget as HTMLElement;
-                  el.style.background = 'rgba(251,146,60,0.14)';
-                  el.style.borderColor = 'rgba(251,146,60,0.45)';
-                }}
-                onMouseLeave={(e) => {
-                  const el = e.currentTarget as HTMLElement;
-                  el.style.background = 'rgba(251,146,60,0.08)';
-                  el.style.borderColor = 'rgba(251,146,60,0.30)';
-                }}
-                aria-label={`View ${project.title} on NPM (opens in new tab)`}
-                onClick={() => analytics.projectNpmClick(project.title)}
-              >
-                <Package size={15} aria-hidden="true" />
-                NPM Package
-              </a>
-            )}
-            {project.demo && (
-              <a
-                href={project.demo}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn-primary text-sm"
-                aria-label={`View live demo for ${project.title} (opens in new tab)`}
-                onClick={() => analytics.projectDemoClick(project.title)}
-              >
-                <ExternalLink size={15} aria-hidden="true" />
-                Live Demo
-              </a>
-            )}
+            <DetailActionLinks project={project} />
           </motion.div>
         </header>
 
@@ -414,60 +352,7 @@ export default function ProjectDetail() {
               Back to Projects
             </Link>
             <div className="flex flex-wrap gap-3">
-              {project.github && project.category !== 'company' && (
-                <a
-                  href={project.github}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="btn-glass text-sm"
-                  aria-label={`View source code for ${project.title} on GitHub (opens in new tab)`}
-                  onClick={() => analytics.projectGithubClick(project.title)}
-                >
-                  <GithubIcon size={15} />
-                  View Code
-                </a>
-              )}
-              {project.npm && (
-                <a
-                  href={project.npm}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-medium transition-all"
-                  style={{
-                    color: '#fb923c',
-                    border: '1px solid rgba(251,146,60,0.25)',
-                    background: 'rgba(251,146,60,0.07)',
-                  }}
-                  onMouseEnter={(e) => {
-                    const el = e.currentTarget as HTMLElement;
-                    el.style.background = 'rgba(251,146,60,0.14)';
-                    el.style.borderColor = 'rgba(251,146,60,0.40)';
-                  }}
-                  onMouseLeave={(e) => {
-                    const el = e.currentTarget as HTMLElement;
-                    el.style.background = 'rgba(251,146,60,0.07)';
-                    el.style.borderColor = 'rgba(251,146,60,0.25)';
-                  }}
-                  aria-label={`View ${project.title} on NPM (opens in new tab)`}
-                  onClick={() => analytics.projectNpmClick(project.title)}
-                >
-                  <Package size={15} aria-hidden="true" />
-                  NPM
-                </a>
-              )}
-              {project.demo && (
-                <a
-                  href={project.demo}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="btn-primary text-sm"
-                  aria-label={`View live demo for ${project.title} (opens in new tab)`}
-                  onClick={() => analytics.projectDemoClick(project.title)}
-                >
-                  <ExternalLink size={14} aria-hidden="true" />
-                  Live Demo
-                </a>
-              )}
+              <DetailActionLinks project={project} npmLabel="NPM" />
             </div>
           </div>
         </motion.div>

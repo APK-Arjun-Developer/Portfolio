@@ -31,11 +31,8 @@ export default function Projects() {
         intro="Company work and personal projects — full stack, frontend, and open-source."
       />
 
-      <div
-        className="mb-16 inline-flex flex-wrap gap-1 rounded-full border border-sg-line p-1 md:mb-24"
-        role="group"
-        aria-label="Filter projects by category"
-      >
+      <fieldset className="mb-16 inline-flex flex-wrap gap-1 rounded-full border border-sg-line p-1 md:mb-24">
+        <legend className="sr-only">Filter projects by category</legend>
         {tabs.map((tab) => {
           const active = activeTab === tab.id;
           const count = projects.filter((p) => matches(tab.id, p.category)).length;
@@ -71,7 +68,7 @@ export default function Projects() {
             </button>
           );
         })}
-      </div>
+      </fieldset>
 
       <div id="projects-list" className="space-y-24 md:space-y-32">
         {filtered.map((project, i) => (

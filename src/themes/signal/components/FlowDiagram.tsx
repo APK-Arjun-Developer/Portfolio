@@ -13,7 +13,7 @@ interface FlowDiagramProps {
  * Vertical flow of a project's request/data path. Packets travel the connectors while
  * the enclosing `.group` is hovered or focused (or always when `live`).
  */
-export default function FlowDiagram({ flow, live, className }: FlowDiagramProps) {
+export default function FlowDiagram({ flow, live, className }: Readonly<FlowDiagramProps>) {
   return (
     <figure className={cn('sg-flow', className)} data-live={live || undefined}>
       <figcaption className="sg-kicker mb-4">{flow.caption}</figcaption>

@@ -160,7 +160,7 @@ export default function About() {
                     />
                   </div>
 
-                  <GlassCard className="flex-1 overflow-hidden" glow={i === 0 ? 'blue' : 'violet'}>
+                  <GlassCard className="flex-1 overflow-hidden">
                     {/* Accent top stripe */}
                     <div
                       className="h-0.5 w-full"

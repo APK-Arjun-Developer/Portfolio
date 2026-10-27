@@ -10,15 +10,12 @@ const options: { value: ThemePreference; label: string; Icon: typeof Sun }[] = [
   { value: 'dark', label: 'Dark theme', Icon: Moon },
 ];
 
-export default function ThemeToggle({ id = 'theme' }: { id?: string }) {
+export default function ThemeToggle({ id = 'theme' }: Readonly<{ id?: string }>) {
   const { preference, setPreference } = useTheme();
 
   return (
-    <div
-      role="group"
-      aria-label="Colour theme"
-      className="inline-flex items-center rounded-full border border-sg-line p-0.5"
-    >
+    <fieldset className="inline-flex items-center rounded-full border border-sg-line p-0.5">
+      <legend className="sr-only">Colour theme</legend>
       {options.map(({ value, label, Icon }) => {
         const active = preference === value;
         return (
@@ -45,6 +42,6 @@ export default function ThemeToggle({ id = 'theme' }: { id?: string }) {
           </button>
         );
       })}
-    </div>
+    </fieldset>
   );
 }

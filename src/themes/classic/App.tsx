@@ -14,18 +14,14 @@ const ProjectDetail = lazy(() => import('./pages/Projects/ProjectDetail'));
 
 function PageLoader() {
   return (
-    <div
-      className="flex min-h-[60vh] items-center justify-center"
-      role="status"
-      aria-label="Loading page"
-    >
+    <output className="flex min-h-[60vh] items-center justify-center" aria-label="Loading page">
       <div className="relative h-10 w-10">
         <div
           className="h-full w-full animate-spin rounded-full border-2 border-transparent"
           style={{ borderTopColor: '#06b6d4', borderRightColor: 'rgba(6,182,212,0.2)' }}
         />
       </div>
-    </div>
+    </output>
   );
 }
 
@@ -54,7 +50,7 @@ function AnimatedRoutes() {
   );
 }
 
-function SmoothScrollProvider({ children }: { children: React.ReactNode }) {
+function SmoothScrollProvider({ children }: Readonly<{ children: React.ReactNode }>) {
   useEffect(() => {
     const lenis = new Lenis({
       duration: 1.15,

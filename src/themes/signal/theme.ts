@@ -16,8 +16,13 @@ function readPreference(): ThemePreference {
   return 'system';
 }
 
+function resolveTheme(pref: ThemePreference): 'light' | 'dark' {
+  if (pref !== 'system') return pref;
+  return darkQuery().matches ? 'dark' : 'light';
+}
+
 function applyTheme(pref: ThemePreference) {
-  const resolved = pref === 'system' ? (darkQuery().matches ? 'dark' : 'light') : pref;
+  const resolved = resolveTheme(pref);
   document.documentElement.dataset.theme = resolved;
   document
     .querySelector('meta[name="theme-color"]')
@@ -26,7 +31,7 @@ function applyTheme(pref: ThemePreference) {
 
 /** Light / dark / system preference, persisted and kept in sync with the OS setting. */
 export function useTheme() {
-  const [preference, setPreferenceState] = useState<ThemePreference>(readPreference);
+  const [preference, setPreference] = useState<ThemePreference>(readPreference);
 
   useEffect(() => {
     applyTheme(preference);
@@ -38,15 +43,15 @@ export function useTheme() {
     return () => query.removeEventListener('change', onChange);
   }, [preference]);
 
-  const setPreference = useCallback((next: ThemePreference) => {
+  const choosePreference = useCallback((next: ThemePreference) => {
     try {
       if (next === 'system') localStorage.removeItem(STORAGE_KEY);
       else localStorage.setItem(STORAGE_KEY, next);
     } catch {
       // Non-persistent is fine; the choice still applies for this visit.
     }
-    setPreferenceState(next);
+    setPreference(next);
   }, []);
 
-  return { preference, setPreference };
+  return { preference, setPreference: choosePreference };
 }
