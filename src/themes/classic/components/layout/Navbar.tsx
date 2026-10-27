@@ -2,9 +2,10 @@ import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, Download } from 'lucide-react';
-import { personal } from '../../data/personal';
-import { cn } from '../../lib/utils';
-import { analytics } from '../../lib/analytics';
+import { personal } from '../../../../data/personal';
+import { cn } from '../../../../lib/utils';
+import { analytics } from '../../../../lib/analytics';
+import { versionLabel } from '../../../../lib/version';
 
 const navLinks = [
   { label: 'Home', to: '/' },
@@ -55,68 +56,77 @@ export default function Navbar() {
           className="container-xl flex items-center justify-between"
           aria-label="Main navigation"
         >
-          {/* Logo */}
-          <Link to="/" className="group flex items-center gap-2.5 rounded-lg" aria-label="Home">
-            <motion.div whileHover={{ scale: 1.05 }} className="flex items-center gap-2.5">
-              <div
-                className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg text-[10px] font-bold text-white"
-                style={{
-                  background: 'linear-gradient(135deg, #3b82f6, #8b5cf6)',
-                  boxShadow: '0 2px 8px rgba(59,130,246,0.40)',
-                }}
-                aria-hidden="true"
-              >
-                AP
-              </div>
-              <span
-                className="text-sm font-semibold transition-colors"
-                style={{ color: '#f8fafc' }}
-              >
-                {personal.name}
-              </span>
-            </motion.div>
-          </Link>
+          {/* Logo + version */}
+          <div className="flex items-center gap-2.5">
+            <Link to="/" className="group flex items-center gap-2.5 rounded-lg" aria-label="Home">
+              <motion.div whileHover={{ scale: 1.05 }} className="flex items-center gap-2.5">
+                <div
+                  className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg text-[10px] font-bold text-white"
+                  style={{
+                    background: 'linear-gradient(135deg, #3b82f6, #8b5cf6)',
+                    boxShadow: '0 2px 8px rgba(59,130,246,0.40)',
+                  }}
+                  aria-hidden="true"
+                >
+                  AP
+                </div>
+                <span
+                  className="text-sm font-semibold transition-colors"
+                  style={{ color: '#f8fafc' }}
+                >
+                  {personal.name}
+                </span>
+              </motion.div>
+            </Link>
+            <span
+              className="inline-flex h-[18px] items-center rounded-full border border-[rgba(96,165,250,0.25)] bg-[#18273f] px-2 text-[10px] font-bold text-[#93c5fd]"
+              title={`Site version ${versionLabel}`}
+            >
+              <span className="sr-only">Version </span>
+              {versionLabel}
+            </span>
+          </div>
 
           {/* Desktop nav */}
-          <div className="hidden items-center gap-1 md:flex" role="list">
+          <ul className="hidden items-center gap-1 md:flex">
             {navLinks.map((link) => {
               const active = location.pathname === link.to;
               return (
-                <Link
-                  key={link.to}
-                  to={link.to}
-                  role="listitem"
-                  className={cn(
-                    'relative px-4 py-2 text-sm rounded-lg transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500',
-                    active ? 'font-semibold' : 'font-medium',
-                  )}
-                  style={{
-                    color: active ? '#60a5fa' : '#94a3b8',
-                  }}
-                  aria-current={active ? 'page' : undefined}
-                  onMouseEnter={(e) => {
-                    if (!active) (e.currentTarget as HTMLElement).style.color = '#f8fafc';
-                  }}
-                  onMouseLeave={(e) => {
-                    if (!active) (e.currentTarget as HTMLElement).style.color = '#94a3b8';
-                  }}
-                >
-                  {active && (
-                    <motion.span
-                      layoutId="nav-pill"
-                      className="absolute inset-0 rounded-lg"
-                      style={{
-                        background: 'rgba(59,130,246,0.12)',
-                        border: '1px solid rgba(59,130,246,0.28)',
-                      }}
-                      transition={{ type: 'spring', bounce: 0.2, duration: 0.55 }}
-                    />
-                  )}
-                  <span className="relative z-10">{link.label}</span>
-                </Link>
+                <li key={link.to} className="flex">
+                  <Link
+                    to={link.to}
+                    className={cn(
+                      'relative px-4 py-2 text-sm rounded-lg transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500',
+                      active ? 'font-semibold' : 'font-medium',
+                    )}
+                    style={{
+                      color: active ? '#60a5fa' : '#94a3b8',
+                    }}
+                    aria-current={active ? 'page' : undefined}
+                    onMouseEnter={(e) => {
+                      if (!active) (e.currentTarget as HTMLElement).style.color = '#f8fafc';
+                    }}
+                    onMouseLeave={(e) => {
+                      if (!active) (e.currentTarget as HTMLElement).style.color = '#94a3b8';
+                    }}
+                  >
+                    {active && (
+                      <motion.span
+                        layoutId="nav-pill"
+                        className="absolute inset-0 rounded-lg"
+                        style={{
+                          background: 'rgba(59,130,246,0.12)',
+                          border: '1px solid rgba(59,130,246,0.28)',
+                        }}
+                        transition={{ type: 'spring', bounce: 0.2, duration: 0.55 }}
+                      />
+                    )}
+                    <span className="relative z-10">{link.label}</span>
+                  </Link>
+                </li>
               );
             })}
-          </div>
+          </ul>
 
           {/* Desktop CTA */}
           <div className="hidden md:flex items-center">

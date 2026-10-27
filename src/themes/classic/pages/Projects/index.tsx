@@ -1,13 +1,13 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { ExternalLink, ArrowRight, Building2, Code2, Package, ChevronRight } from 'lucide-react';
-import { GithubIcon } from '../../components/ui/BrandIcons';
-import { projects, type Project } from '../../data/personal';
-import { analytics } from '../../lib/analytics';
+import { ArrowRight, Building2, Code2, Package, ChevronRight } from 'lucide-react';
+import { projects, type Project } from '../../../../data/personal';
+import { analytics } from '../../../../lib/analytics';
 import AuroraBackground from '../../components/ui/AuroraBackground';
 import SectionTitle from '../../components/ui/SectionTitle';
 import GlassCard from '../../components/ui/GlassCard';
+import { CardActionLinks } from '../../components/ui/ProjectActions';
 
 type FilterTab = 'all' | 'company' | 'personal';
 
@@ -193,94 +193,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
               View Details
               <ArrowRight size={12} aria-hidden="true" />
             </Link>
-            {project.github && project.category !== 'company' && (
-              <a
-                href={project.github}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-medium transition-all"
-                style={{
-                  color: '#94a3b8',
-                  border: '1px solid rgba(255,255,255,0.10)',
-                  background: 'rgba(255,255,255,0.04)',
-                }}
-                onMouseEnter={(e) => {
-                  const el = e.currentTarget as HTMLElement;
-                  el.style.color = '#f8fafc';
-                  el.style.background = 'rgba(255,255,255,0.08)';
-                  el.style.borderColor = 'rgba(255,255,255,0.18)';
-                }}
-                onMouseLeave={(e) => {
-                  const el = e.currentTarget as HTMLElement;
-                  el.style.color = '#94a3b8';
-                  el.style.background = 'rgba(255,255,255,0.04)';
-                  el.style.borderColor = 'rgba(255,255,255,0.10)';
-                }}
-                aria-label={`View source code for ${project.title} on GitHub (opens in new tab)`}
-                onClick={() => analytics.projectGithubClick(project.title)}
-              >
-                <GithubIcon size={12} />
-                Code
-              </a>
-            )}
-            {project.npm && (
-              <a
-                href={project.npm}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-medium transition-all"
-                style={{
-                  color: '#fb923c',
-                  border: '1px solid rgba(251,146,60,0.25)',
-                  background: 'rgba(251,146,60,0.08)',
-                }}
-                onMouseEnter={(e) => {
-                  const el = e.currentTarget as HTMLElement;
-                  el.style.background = 'rgba(251,146,60,0.14)';
-                  el.style.borderColor = 'rgba(251,146,60,0.40)';
-                }}
-                onMouseLeave={(e) => {
-                  const el = e.currentTarget as HTMLElement;
-                  el.style.background = 'rgba(251,146,60,0.08)';
-                  el.style.borderColor = 'rgba(251,146,60,0.25)';
-                }}
-                aria-label={`View ${project.title} on NPM (opens in new tab)`}
-                onClick={() => analytics.projectNpmClick(project.title)}
-              >
-                <Package size={12} aria-hidden="true" />
-                NPM
-              </a>
-            )}
-            {project.demo && (
-              <a
-                href={project.demo}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-medium transition-all"
-                style={{
-                  color: '#94a3b8',
-                  border: '1px solid rgba(255,255,255,0.10)',
-                  background: 'rgba(255,255,255,0.04)',
-                }}
-                onMouseEnter={(e) => {
-                  const el = e.currentTarget as HTMLElement;
-                  el.style.color = '#f8fafc';
-                  el.style.background = 'rgba(255,255,255,0.08)';
-                  el.style.borderColor = 'rgba(255,255,255,0.18)';
-                }}
-                onMouseLeave={(e) => {
-                  const el = e.currentTarget as HTMLElement;
-                  el.style.color = '#94a3b8';
-                  el.style.background = 'rgba(255,255,255,0.04)';
-                  el.style.borderColor = 'rgba(255,255,255,0.10)';
-                }}
-                aria-label={`View live demo for ${project.title} (opens in new tab)`}
-                onClick={() => analytics.projectDemoClick(project.title)}
-              >
-                <ExternalLink size={12} aria-hidden="true" />
-                Demo
-              </a>
-            )}
+            <CardActionLinks project={project} />
           </div>
         </div>
       </GlassCard>

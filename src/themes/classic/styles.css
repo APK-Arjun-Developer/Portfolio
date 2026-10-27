@@ -52,7 +52,7 @@
   }
 
   ::selection {
-    background: rgba(59, 130, 246, 0.28);
+    background: #18315c;
     color: #f8fafc;
   }
 
@@ -112,11 +112,11 @@
       border-color 0.25s;
   }
   .glass-hover:hover {
-    background: rgba(255, 255, 255, 0.07) !important;
-    border-color: rgba(255, 255, 255, 0.14) !important;
+    background: rgba(255, 255, 255, 0.07);
+    border-color: rgba(255, 255, 255, 0.14);
     box-shadow:
       0 12px 40px rgba(0, 0, 0, 0.45),
-      inset 0 1px 0 rgba(255, 255, 255, 0.06) !important;
+      inset 0 1px 0 rgba(255, 255, 255, 0.06);
   }
 
   /* ── Gradient text ── */
@@ -163,14 +163,14 @@
   .btn-glass {
     @apply inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-medium transition-all duration-300 cursor-pointer;
     color: #cbd5e1;
-    background: rgba(255, 255, 255, 0.06);
+    background: #1a1f2d;
     border: 1px solid rgba(255, 255, 255, 0.12);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
   }
   .btn-glass:hover {
     color: #f8fafc;
-    background: rgba(255, 255, 255, 0.1);
+    background: #232936;
     border-color: rgba(255, 255, 255, 0.2);
     transform: translateY(-1px);
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
@@ -183,10 +183,10 @@
     @apply inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 cursor-pointer;
     color: #60a5fa;
     border: 1px solid rgba(59, 130, 246, 0.3);
-    background: rgba(59, 130, 246, 0.07);
+    background: #0e192f;
   }
   .btn-outline-blue:hover {
-    background: rgba(59, 130, 246, 0.14);
+    background: #12213e;
     border-color: rgba(59, 130, 246, 0.55);
     box-shadow: 0 2px 8px rgba(59, 130, 246, 0.2);
   }
@@ -195,19 +195,56 @@
     @apply inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 cursor-pointer;
     color: #a78bfa;
     border: 1px solid rgba(139, 92, 246, 0.3);
-    background: rgba(139, 92, 246, 0.07);
+    background: #14162f;
   }
   .btn-outline-violet:hover {
-    background: rgba(139, 92, 246, 0.14);
+    background: #1d1c3e;
     border-color: rgba(139, 92, 246, 0.55);
     box-shadow: 0 2px 8px rgba(139, 92, 246, 0.2);
+  }
+
+  /* ── Project action links (cards + detail page) ── */
+  .btn-card-ghost {
+    @apply inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-medium transition-all;
+    color: #94a3b8;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: #151b29;
+  }
+  .btn-card-ghost:hover,
+  .btn-card-ghost:focus-visible {
+    color: #f8fafc;
+    background: #1f2432;
+    border-color: rgba(255, 255, 255, 0.18);
+  }
+
+  .btn-npm-sm,
+  .btn-npm {
+    @apply inline-flex items-center font-medium transition-all;
+    color: #fb923c;
+    border: 1px solid rgba(251, 146, 60, 0.25);
+    background: #1e1b22;
+  }
+  .btn-npm-sm {
+    @apply gap-1.5 px-4 py-2 rounded-lg text-xs;
+  }
+  .btn-npm {
+    @apply gap-2 px-5 py-2.5 rounded-xl text-sm;
+    border-color: rgba(251, 146, 60, 0.3);
+  }
+  .btn-npm-sm:hover,
+  .btn-npm-sm:focus-visible,
+  .btn-npm:hover,
+  .btn-npm:focus-visible {
+    color: #fb923c;
+    background: #2d2324;
+    border-color: rgba(251, 146, 60, 0.42);
   }
 
   /* ── Tech badges ── */
   .tech-badge {
     @apply inline-flex items-center px-3 py-1 rounded-full text-xs font-medium;
     color: #94a3b8;
-    background: rgba(255, 255, 255, 0.05);
+    background: #171d2b;
     border: 1px solid rgba(255, 255, 255, 0.1);
     font-family: 'JetBrains Mono', monospace;
     transition:
@@ -217,19 +254,19 @@
   }
   .tech-badge:hover {
     color: #e2e8f0;
-    background: rgba(255, 255, 255, 0.09);
+    background: #212634;
     border-color: rgba(255, 255, 255, 0.18);
   }
 
   .tech-badge-blue {
     color: #60a5fa;
-    background: rgba(59, 130, 246, 0.1);
+    background: #101c35;
     border-color: rgba(59, 130, 246, 0.25);
   }
 
   .tech-badge-violet {
     color: #a78bfa;
-    background: rgba(139, 92, 246, 0.1);
+    background: #181935;
     border-color: rgba(139, 92, 246, 0.25);
   }
 

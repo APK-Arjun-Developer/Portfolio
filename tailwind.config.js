@@ -1,14 +1,46 @@
+// vite.config.ts publishes the resolved theme on process.env before PostCSS runs, so each
+// build only scans (and emits utilities for) the active theme's components.
+const uiTheme = process.env.VITE_UI_THEME === 'signal' ? 'signal' : 'classic';
+
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
+  content: [
+    './index.html',
+    './src/*.{ts,tsx}',
+    './src/{components,data,lib}/**/*.{ts,tsx}',
+    `./src/themes/${uiTheme}/**/*.{ts,tsx}`,
+  ],
   theme: {
     extend: {
       fontFamily: {
         sans: ['Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
         heading: ['"Plus Jakarta Sans"', 'Inter', 'system-ui', 'sans-serif'],
         mono: ['JetBrains Mono', 'Fira Code', 'Cascadia Code', 'monospace'],
+        // Signal theme
+        display: ['Syne', '"Arial Black"', 'system-ui', 'sans-serif'],
+        body: ['"Hanken Grotesk"', 'system-ui', '-apple-system', 'Segoe UI', 'sans-serif'],
       },
       colors: {
+        // Signal theme — every value is a CSS variable from src/themes/signal/styles.css,
+        // so light/dark share one class vocabulary.
+        sg: {
+          bg: 'var(--sg-bg)',
+          surface: 'var(--sg-surface)',
+          raised: 'var(--sg-raised)',
+          ink: 'var(--sg-ink)',
+          muted: 'var(--sg-muted)',
+          faint: 'var(--sg-faint)',
+          line: 'var(--sg-line)',
+          'line-strong': 'var(--sg-line-strong)',
+          coral: 'var(--sg-coral)',
+          'coral-text': 'var(--sg-coral-text)',
+          'coral-soft': 'var(--sg-coral-soft)',
+          'on-coral': 'var(--sg-on-coral)',
+          teal: 'var(--sg-teal)',
+          'teal-soft': 'var(--sg-teal-soft)',
+          'on-teal': 'var(--sg-on-teal)',
+        },
+        // Classic theme
         canvas: '#0b1120',
         'canvas-2': '#0f1929',
         'canvas-3': '#141e30',

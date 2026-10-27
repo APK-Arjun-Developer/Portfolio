@@ -1,0 +1,58 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    name: Format, Lint, Typecheck & Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Format check
+        run: bun run format:check
+
+      - name: Lint
+        run: bun run lint
+
+      - name: Typecheck
+        run: bun run typecheck
+
+      - name: Test
+        run: bun run test:coverage
+
+      # Informational only: advisories in dev tooling don't affect the deployed site.
+      - name: Security audit (informational)
+        run: bun audit --audit-level=high || true
+
+  build:
+    name: Build (${{ matrix.theme }})
+    needs: [test]
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        # Both UI themes must keep building — VITE_UI_THEME picks one at deploy time.
+        theme: [classic, signal]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Build
+        run: bun run build:${{ matrix.theme }}

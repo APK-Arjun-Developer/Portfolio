@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { skills, getYearsExperience } from '../../data/personal';
+import { skills, getYearsExperience } from '../../../../data/personal';
 import AuroraBackground from '../../components/ui/AuroraBackground';
 import SectionTitle from '../../components/ui/SectionTitle';
 import GlassCard from '../../components/ui/GlassCard';
@@ -160,7 +160,7 @@ export default function About() {
                     />
                   </div>
 
-                  <GlassCard className="flex-1 overflow-hidden" glow={i === 0 ? 'blue' : 'violet'}>
+                  <GlassCard className="flex-1 overflow-hidden">
                     {/* Accent top stripe */}
                     <div
                       className="h-0.5 w-full"
