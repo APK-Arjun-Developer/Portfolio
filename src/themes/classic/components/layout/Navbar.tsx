@@ -5,6 +5,7 @@ import { Menu, X, Download } from 'lucide-react';
 import { personal } from '../../../../data/personal';
 import { cn } from '../../../../lib/utils';
 import { analytics } from '../../../../lib/analytics';
+import { versionLabel } from '../../../../lib/version';
 
 const navLinks = [
   { label: 'Home', to: '/' },
@@ -55,27 +56,36 @@ export default function Navbar() {
           className="container-xl flex items-center justify-between"
           aria-label="Main navigation"
         >
-          {/* Logo */}
-          <Link to="/" className="group flex items-center gap-2.5 rounded-lg" aria-label="Home">
-            <motion.div whileHover={{ scale: 1.05 }} className="flex items-center gap-2.5">
-              <div
-                className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg text-[10px] font-bold text-white"
-                style={{
-                  background: 'linear-gradient(135deg, #3b82f6, #8b5cf6)',
-                  boxShadow: '0 2px 8px rgba(59,130,246,0.40)',
-                }}
-                aria-hidden="true"
-              >
-                AP
-              </div>
-              <span
-                className="text-sm font-semibold transition-colors"
-                style={{ color: '#f8fafc' }}
-              >
-                {personal.name}
-              </span>
-            </motion.div>
-          </Link>
+          {/* Logo + version */}
+          <div className="flex items-center gap-2.5">
+            <Link to="/" className="group flex items-center gap-2.5 rounded-lg" aria-label="Home">
+              <motion.div whileHover={{ scale: 1.05 }} className="flex items-center gap-2.5">
+                <div
+                  className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg text-[10px] font-bold text-white"
+                  style={{
+                    background: 'linear-gradient(135deg, #3b82f6, #8b5cf6)',
+                    boxShadow: '0 2px 8px rgba(59,130,246,0.40)',
+                  }}
+                  aria-hidden="true"
+                >
+                  AP
+                </div>
+                <span
+                  className="text-sm font-semibold transition-colors"
+                  style={{ color: '#f8fafc' }}
+                >
+                  {personal.name}
+                </span>
+              </motion.div>
+            </Link>
+            <span
+              className="inline-flex h-[18px] items-center rounded-full border border-[rgba(96,165,250,0.25)] bg-[#18273f] px-2 text-[10px] font-bold text-[#93c5fd]"
+              title={`Site version ${versionLabel}`}
+            >
+              <span className="sr-only">Version </span>
+              {versionLabel}
+            </span>
+          </div>
 
           {/* Desktop nav */}
           <ul className="hidden items-center gap-1 md:flex">

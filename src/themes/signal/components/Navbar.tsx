@@ -5,6 +5,7 @@ import { Download, Menu, X } from 'lucide-react';
 import { personal } from '../../../data/personal';
 import { analytics } from '../../../lib/analytics';
 import { cn } from '../../../lib/utils';
+import { versionLabel } from '../../../lib/version';
 import { duration, ease } from '../motion';
 import ThemeToggle from './ThemeToggle';
 
@@ -80,6 +81,13 @@ export default function Navbar() {
             {personal.name}
           </span>
         </Link>
+        <span
+          className="sg-tag mr-auto hidden px-2 py-0 text-[0.6875rem] sm:inline-flex"
+          title={`Site version ${versionLabel}`}
+        >
+          <span className="sr-only">Version </span>
+          {versionLabel}
+        </span>
 
         <div className="flex items-center gap-2 md:gap-5">
           <ul className="hidden items-center gap-1 md:flex">

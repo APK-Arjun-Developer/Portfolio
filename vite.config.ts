@@ -1,6 +1,10 @@
+import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { defineConfig, loadEnv, type HtmlTagDescriptor, type Plugin } from 'vite';
 import react from '@vitejs/plugin-react';
+
+// Bumped by semantic-release on every release; shown in the navbar of both themes.
+const { version } = JSON.parse(readFileSync(new URL('./package.json', import.meta.url), 'utf8'));
 
 const THEMES = ['signal', 'classic'] as const;
 type UiTheme = (typeof THEMES)[number];
@@ -71,6 +75,9 @@ export default defineConfig(({ mode }) => {
 
   return {
     plugins: [react(), uiThemeHead(theme)],
+    define: {
+      __APP_VERSION__: JSON.stringify(version),
+    },
     base: '/',
     resolve: {
       alias: {

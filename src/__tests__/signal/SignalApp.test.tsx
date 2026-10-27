@@ -94,6 +94,14 @@ describe('Signal theme', () => {
     });
   });
 
+  it('shows the site version next to the logo', async () => {
+    await renderTheme(SignalApp, '/');
+    const nav = screen.getByRole('navigation', { name: 'Main navigation' });
+    expect(within(nav).getByTitle(/^Site version v\d+\.\d+\.\d+/)).toHaveTextContent(
+      /v\d+\.\d+\.\d+/,
+    );
+  });
+
   describe('navigation', () => {
     it('marks the active route and toggles the header border on scroll', async () => {
       await renderTheme(SignalApp, '/about');

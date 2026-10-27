@@ -47,3 +47,12 @@ describe('cn', () => {
     expect(cn('px-2 py-1', hidden && 'hidden', 'px-4')).toBe('py-1 px-4');
   });
 });
+
+describe('version', () => {
+  it('exposes the package.json version injected at build time', async () => {
+    const { version } = await import('../../package.json');
+    const { appVersion, versionLabel } = await import('../lib/version');
+    expect(appVersion).toBe(version);
+    expect(versionLabel).toBe(`v${version}`);
+  });
+});

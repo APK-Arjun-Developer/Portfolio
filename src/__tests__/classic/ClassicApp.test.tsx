@@ -69,6 +69,11 @@ describe('Classic theme', () => {
     hoverEverything(container);
   });
 
+  it('shows the site version next to the logo', async () => {
+    await renderTheme(ClassicApp, '/');
+    expect(screen.getByTitle(/^Site version v\d+\.\d+\.\d+/)).toHaveTextContent(/v\d+\.\d+\.\d+/);
+  });
+
   describe('navbar', () => {
     it('shrinks on scroll and tracks the résumé download', async () => {
       const { user } = await renderTheme(ClassicApp, '/');
