@@ -10,10 +10,10 @@ import {
   Mail,
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { personal, getYearsExperience } from '../../data/personal';
+import { personal, getYearsExperience } from '../../../../data/personal';
 import AuroraBackground from '../../components/ui/AuroraBackground';
-import { GithubIcon, LinkedinIcon } from '../../components/ui/BrandIcons';
-import { analytics } from '../../lib/analytics';
+import { GithubIcon, LinkedinIcon } from '../../../../components/BrandIcons';
+import { analytics } from '../../../../lib/analytics';
 
 const techStack = ['React', 'Node.js', '.NET Core', 'SQL'] as const;
 

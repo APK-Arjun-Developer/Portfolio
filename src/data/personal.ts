@@ -19,6 +19,46 @@ export const personal = {
     'Full Stack Developer with experience building scalable web applications using React, Node.js, and .NET Core. Passionate about clean architecture, multi-role SaaS platforms, and end-to-end product delivery.',
 };
 
+export interface ExperienceEntry {
+  period: string;
+  role: string;
+  company: string;
+  location: string;
+  highlights: string[];
+}
+
+export const experience: ExperienceEntry[] = [
+  {
+    period: 'Feb 2025 – Present',
+    role: 'Full Stack Developer',
+    company: 'Techbumbles Software Solutions Pvt Ltd',
+    location: 'Erode, TN',
+    highlights: [
+      'Building scalable full-stack web applications with React, Node.js, .NET Core and PostgreSQL',
+      'Collaborating with cross-functional teams to deliver new features and improve system architecture',
+      'Implementing best practices in performance optimisation, security, and maintainability',
+    ],
+  },
+  {
+    period: 'Aug 2023 – Jan 2025',
+    role: 'Full Stack Developer',
+    company: 'PM Square Soft Services Pvt Ltd',
+    location: 'Coimbatore, TN',
+    highlights: [
+      'Developed high-performance web apps using React, Node.js, and .NET Core',
+      'Designed and optimised databases with MySQL, SQLite, and SQL Server',
+      'Conducted code reviews, debugging, and maintained architecture and user-guide documentation',
+    ],
+  },
+];
+
+export const education = {
+  degree: 'B.E. Aeronautical Engineering',
+  detail:
+    'Excel Engineering College · CGPA 8.0 · Transitioned into software via NxtWave MERN in 2023',
+  year: '2023',
+};
+
 export const skills = {
   backend: ['Node.js', '.NET Core', 'REST APIs'],
   frontend: ['React', 'JavaScript', 'HTML', 'CSS'],

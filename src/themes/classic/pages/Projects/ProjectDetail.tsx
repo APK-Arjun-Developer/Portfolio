@@ -9,9 +9,9 @@ import {
   Lightbulb,
   Code2,
 } from 'lucide-react';
-import { GithubIcon } from '../../components/ui/BrandIcons';
-import { projects } from '../../data/personal';
-import { analytics } from '../../lib/analytics';
+import { GithubIcon } from '../../../../components/BrandIcons';
+import { projects } from '../../../../data/personal';
+import { analytics } from '../../../../lib/analytics';
 import AuroraBackground from '../../components/ui/AuroraBackground';
 import GlassCard from '../../components/ui/GlassCard';
 

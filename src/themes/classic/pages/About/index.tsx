@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { skills, getYearsExperience } from '../../data/personal';
+import { skills, getYearsExperience } from '../../../../data/personal';
 import AuroraBackground from '../../components/ui/AuroraBackground';
 import SectionTitle from '../../components/ui/SectionTitle';
 import GlassCard from '../../components/ui/GlassCard';

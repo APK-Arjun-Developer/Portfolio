@@ -2,9 +2,9 @@ import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, Download } from 'lucide-react';
-import { personal } from '../../data/personal';
-import { cn } from '../../lib/utils';
-import { analytics } from '../../lib/analytics';
+import { personal } from '../../../../data/personal';
+import { cn } from '../../../../lib/utils';
+import { analytics } from '../../../../lib/analytics';
 
 const navLinks = [
   { label: 'Home', to: '/' },

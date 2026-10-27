@@ -1,9 +1,9 @@
 import { motion } from 'framer-motion';
 import { Mail } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { personal } from '../../data/personal';
-import { GithubIcon, LinkedinIcon } from '../ui/BrandIcons';
-import { analytics } from '../../lib/analytics';
+import { personal } from '../../../../data/personal';
+import { GithubIcon, LinkedinIcon } from '../../../../components/BrandIcons';
+import { analytics } from '../../../../lib/analytics';
 
 const socialLinks = [
   {

@@ -1,0 +1,278 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── Coral Signal tokens ─────────────────────────────────────────
+   Dark-first. The bootstrap script injected by vite.config.ts sets
+   data-theme on <html> (resolving "system") before first paint.     */
+@layer base {
+  :root,
+  :root[data-theme='dark'] {
+    --sg-bg: #0f1115;
+    --sg-surface: #181b22;
+    --sg-raised: #1f232c;
+    --sg-ink: #f4eee6;
+    --sg-muted: #a9a39a;
+    --sg-faint: #8a847b;
+    --sg-line: #2a2e37;
+    --sg-line-strong: #3d424d;
+    --sg-coral: #ff6b4a;
+    --sg-coral-text: #ff8a6e;
+    --sg-coral-soft: rgba(255, 107, 74, 0.16);
+    --sg-on-coral: #1a0e0a;
+    --sg-teal: #3fd5c1;
+    --sg-teal-soft: rgba(63, 213, 193, 0.14);
+    --sg-on-teal: #0f1115;
+    --sg-shadow: rgba(0, 0, 0, 0.6);
+    --sg-mesh-a: rgba(255, 107, 74, 0.22);
+    --sg-mesh-b: rgba(63, 213, 193, 0.12);
+    color-scheme: dark;
+  }
+
+  :root[data-theme='light'] {
+    --sg-bg: #fbf7f2;
+    --sg-surface: #ffffff;
+    --sg-raised: #f3ece3;
+    --sg-ink: #16181d;
+    --sg-muted: #5a5650;
+    --sg-faint: #6f6a62;
+    --sg-line: #e6dfd5;
+    --sg-line-strong: #cfc5b7;
+    --sg-coral: #c93a1e;
+    --sg-coral-text: #c93a1e;
+    --sg-coral-soft: rgba(201, 58, 30, 0.1);
+    --sg-on-coral: #ffffff;
+    --sg-teal: #0e8c7e;
+    --sg-teal-soft: rgba(14, 140, 126, 0.1);
+    --sg-on-teal: #ffffff;
+    --sg-shadow: rgba(22, 24, 29, 0.16);
+    --sg-mesh-a: rgba(255, 107, 74, 0.2);
+    --sg-mesh-b: rgba(14, 140, 126, 0.1);
+    color-scheme: light;
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-sg-bg font-body text-sg-muted antialiased;
+    font-size: 1.0625rem;
+    line-height: 1.65;
+    overflow-x: hidden;
+    transition: background-color 200ms cubic-bezier(0.2, 0, 0, 1);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-display text-sg-ink;
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  img {
+    max-width: 100%;
+    display: block;
+  }
+
+  ::selection {
+    background: var(--sg-coral);
+    color: var(--sg-on-coral);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--sg-coral);
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+
+  #main-content:focus {
+    outline: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+/* ── Components ── */
+@layer components {
+  .sg-wrap {
+    @apply mx-auto w-full max-w-[78rem] px-4 sm:px-6 lg:px-10;
+  }
+
+  .sg-kicker {
+    @apply font-mono text-xs uppercase tracking-[0.12em] text-sg-faint;
+  }
+
+  /* Buttons — pill, coral primary. Motion: 160–200ms ease-std; arrow nudge 200ms ease-out. */
+  .sg-btn {
+    @apply inline-flex min-h-[2.875rem] select-none items-center justify-center gap-2 rounded-full border px-6 text-[0.9375rem] font-semibold;
+    transition:
+      transform 160ms cubic-bezier(0.2, 0, 0, 1),
+      background-color 180ms cubic-bezier(0.2, 0, 0, 1),
+      border-color 180ms cubic-bezier(0.2, 0, 0, 1),
+      color 180ms cubic-bezier(0.2, 0, 0, 1),
+      box-shadow 200ms cubic-bezier(0.2, 0, 0, 1);
+  }
+  .sg-btn:hover {
+    box-shadow: 0 0 0 4px var(--sg-coral-soft);
+  }
+  .sg-btn:active {
+    transform: translateY(1px) scale(0.98);
+  }
+  .sg-btn:focus-visible {
+    outline-offset: 3px;
+    border-radius: 9999px;
+  }
+  .sg-btn-primary {
+    @apply sg-btn border-sg-coral bg-sg-coral text-sg-on-coral;
+  }
+  .sg-btn-secondary {
+    @apply sg-btn border-sg-line-strong text-sg-ink hover:border-sg-coral;
+  }
+  .sg-btn-quiet {
+    @apply sg-btn min-h-[2.25rem] border-transparent px-3 text-sm text-sg-ink hover:bg-sg-raised;
+  }
+  .sg-btn-quiet:hover {
+    box-shadow: none;
+  }
+
+  /* Directional icon nudge, used inside any .group */
+  .sg-nudge-x {
+    transition: transform 200ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .group:hover .sg-nudge-x,
+  .group:focus-visible .sg-nudge-x {
+    transform: translateX(3px);
+  }
+  .sg-nudge-ne {
+    transition: transform 200ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .group:hover .sg-nudge-ne,
+  .group:focus-visible .sg-nudge-ne {
+    transform: translate(2px, -2px);
+  }
+
+  .sg-tag {
+    @apply inline-flex items-center rounded-full border border-sg-line px-2.5 py-0.5 font-mono text-xs text-sg-muted;
+  }
+  .sg-tag-teal {
+    @apply sg-tag border-transparent bg-sg-teal-soft text-sg-ink;
+  }
+
+  .sg-link {
+    @apply text-sg-coral-text underline decoration-sg-line-strong decoration-1 underline-offset-4 transition-colors hover:decoration-sg-coral;
+  }
+}
+
+/* ── Ambient gradient mesh (hero only) ──
+   Two radial blobs drifting on transform only. Paused off-screen by
+   SignalMesh via data-paused, and static under reduced motion.        */
+.sg-mesh {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: -1;
+}
+.sg-mesh::before,
+.sg-mesh::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  will-change: transform;
+}
+.sg-mesh::before {
+  width: min(70rem, 140vw);
+  aspect-ratio: 1;
+  right: -28%;
+  top: -55%;
+  background: radial-gradient(circle, var(--sg-mesh-a) 0%, transparent 62%);
+  animation: sg-drift-a 16s cubic-bezier(0.65, 0, 0.35, 1) infinite alternate;
+}
+.sg-mesh::after {
+  width: min(52rem, 110vw);
+  aspect-ratio: 1;
+  right: 6%;
+  top: 8%;
+  background: radial-gradient(circle, var(--sg-mesh-b) 0%, transparent 60%);
+  animation: sg-drift-b 20s cubic-bezier(0.65, 0, 0.35, 1) infinite alternate;
+}
+.sg-mesh[data-paused='true']::before,
+.sg-mesh[data-paused='true']::after {
+  animation-play-state: paused;
+}
+@keyframes sg-drift-a {
+  to {
+    transform: translate(-8%, 10%) scale(1.12);
+  }
+}
+@keyframes sg-drift-b {
+  to {
+    transform: translate(10%, -6%) scale(0.9);
+  }
+}
+
+/* Packet travelling along a flow-diagram connector — only while the parent card is
+   hovered / focused, or always on a "live" diagram. */
+.sg-packet {
+  opacity: 0;
+}
+.group:hover .sg-flow .sg-packet,
+.group:focus-within .sg-flow .sg-packet,
+.sg-flow[data-live] .sg-packet {
+  animation: sg-packet 1.8s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+}
+
+/* Pointer-following spotlight on project visuals (hover-capable devices only) */
+@media (hover: hover) {
+  .sg-spot::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+      26rem circle at var(--px, 50%) var(--py, 0%),
+      var(--sg-coral-soft),
+      transparent 65%
+    );
+    opacity: 0;
+    transition: opacity 300ms cubic-bezier(0.2, 0, 0, 1);
+    pointer-events: none;
+  }
+  .sg-spot:hover::before {
+    opacity: 1;
+  }
+}
+@keyframes sg-packet {
+  0% {
+    transform: translateY(-4px);
+    opacity: 0;
+  }
+  20%,
+  70% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+}

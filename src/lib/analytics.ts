@@ -6,7 +6,7 @@ const track = (event: string, params?: Record<string, string>) => {
 };
 
 export const analytics = {
-  resumeDownload: (location: 'desktop_navbar' | 'mobile_menu') =>
+  resumeDownload: (location: 'desktop_navbar' | 'mobile_menu' | 'footer') =>
     track('resume_download', { location }),
 
   socialClick: (platform: 'github' | 'linkedin' | 'email', location: string) =>
