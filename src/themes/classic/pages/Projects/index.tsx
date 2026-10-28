@@ -11,7 +11,7 @@ import { CardActionLinks } from '../../components/ui/ProjectActions';
 
 type FilterTab = 'all' | 'company' | 'personal';
 
-function LayersIcon({ size }: { size: number }) {
+function LayersIcon({ size }: Readonly<{ size: number }>) {
   return (
     <svg
       width={size}
@@ -22,6 +22,7 @@ function LayersIcon({ size }: { size: number }) {
       strokeWidth={2}
       strokeLinecap="round"
       strokeLinejoin="round"
+      aria-hidden="true"
     >
       <polygon points="12 2 2 7 12 12 22 7 12 2" />
       <polyline points="2 17 12 22 22 17" />
@@ -36,7 +37,19 @@ const tabs: { id: FilterTab; label: string; icon: React.ReactNode }[] = [
   { id: 'personal', label: 'Personal', icon: <Code2 size={14} /> },
 ];
 
-function ProjectCard({ project, index }: { project: Project; index: number }) {
+const panelLabels: Record<FilterTab, string> = {
+  all: 'All',
+  company: 'Company',
+  personal: 'Personal',
+};
+
+function matchesTab(tab: FilterTab, project: Project) {
+  if (tab === 'all') return true;
+  const isCompany = project.category === 'company';
+  return tab === 'company' ? isCompany : !isCompany;
+}
+
+function ProjectCard({ project, index }: Readonly<{ project: Project; index: number }>) {
   const isCompany = project.category === 'company';
   const accent = isCompany ? '#a78bfa' : '#60a5fa';
   const accentBase = isCompany ? '#8b5cf6' : '#3b82f6';
@@ -204,11 +217,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
 export default function Projects() {
   const [activeTab, setActiveTab] = useState<FilterTab>('all');
 
-  const filtered = projects.filter((p) => {
-    if (activeTab === 'all') return true;
-    if (activeTab === 'company') return p.category === 'company';
-    return p.category !== 'company';
-  });
+  const filtered = projects.filter((p) => matchesTab(activeTab, p));
 
   return (
     <AuroraBackground className="min-h-screen">
@@ -230,12 +239,7 @@ export default function Projects() {
         >
           {tabs.map((tab) => {
             const isActive = activeTab === tab.id;
-            const count =
-              tab.id === 'all'
-                ? projects.length
-                : tab.id === 'company'
-                  ? projects.filter((p) => p.category === 'company').length
-                  : projects.filter((p) => p.category !== 'company').length;
+            const count = projects.filter((p) => matchesTab(tab.id, p)).length;
             return (
               <button
                 key={tab.id}
@@ -301,11 +305,7 @@ export default function Projects() {
         </motion.div>
 
         {/* Projects grid */}
-        <div
-          id="projects-grid"
-          role="tabpanel"
-          aria-label={`${activeTab === 'all' ? 'All' : activeTab === 'company' ? 'Company' : 'Personal'} projects`}
-        >
+        <div id="projects-grid" role="tabpanel" aria-label={`${panelLabels[activeTab]} projects`}>
           <AnimatePresence mode="wait">
             <motion.div
               key={activeTab}
