@@ -22,10 +22,16 @@ export async function renderTheme(App: ComponentType, path = '/') {
   return { user, ...utils };
 }
 
+/**
+ * A cold lazy-route import (e.g. after vi.resetModules) can exceed Testing Library's 1s
+ * default under a loaded full-suite + coverage run.
+ */
+const PAGE_LOAD_TIMEOUT = 5000;
+
 /** Lazy pages render inside <main>; the first heading there means the page has mounted. */
 export async function waitForPage() {
-  const main = await screen.findByRole('main');
-  await within(main).findAllByRole('heading');
+  const main = await screen.findByRole('main', {}, { timeout: PAGE_LOAD_TIMEOUT });
+  await within(main).findAllByRole('heading', {}, { timeout: PAGE_LOAD_TIMEOUT });
 }
 
 export const currentPath = () => screen.getByTestId('location').textContent;

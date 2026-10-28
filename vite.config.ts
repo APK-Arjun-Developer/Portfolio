@@ -25,6 +25,27 @@ const fontLink = (families: string): HtmlTagDescriptor => ({
   injectTo: 'head',
 });
 
+const SITE_URL = 'https://arjun-prakash.is-a.dev';
+
+/** Social preview card; crawlers need an absolute URL. Images: `bun run og:generate`. */
+const socialImage = (file: string): HtmlTagDescriptor[] => {
+  const meta = (attrs: Record<string, string>): HtmlTagDescriptor => ({
+    tag: 'meta',
+    attrs,
+    injectTo: 'head',
+  });
+  const url = `${SITE_URL}/${file}`;
+  const alt = 'Arjun Prakash — Full Stack Developer';
+  return [
+    meta({ property: 'og:image', content: url }),
+    meta({ property: 'og:image:width', content: '1200' }),
+    meta({ property: 'og:image:height', content: '630' }),
+    meta({ property: 'og:image:alt', content: alt }),
+    meta({ name: 'twitter:image', content: url }),
+    meta({ name: 'twitter:image:alt', content: alt }),
+  ];
+};
+
 const favicon = (href: string): HtmlTagDescriptor[] => [
   { tag: 'link', attrs: { rel: 'icon', type: 'image/svg+xml', href }, injectTo: 'head' },
   { tag: 'link', attrs: { rel: 'apple-touch-icon', href }, injectTo: 'head' },
@@ -44,6 +65,7 @@ const headTags: Record<UiTheme, HtmlTagDescriptor[]> = {
     { tag: 'meta', attrs: { name: 'theme-color', content: '#0f1115' }, injectTo: 'head-prepend' },
     { tag: 'script', children: signalThemeBootstrap, injectTo: 'head' },
     ...favicon('/favicon-signal.svg'),
+    ...socialImage('og-image-signal.png'),
     fontLink(
       'family=Hanken+Grotesk:ital,wght@0,400..700;1,400&family=JetBrains+Mono:wght@400;500&family=Syne:wght@600..800',
     ),
@@ -51,6 +73,7 @@ const headTags: Record<UiTheme, HtmlTagDescriptor[]> = {
   classic: [
     { tag: 'meta', attrs: { name: 'theme-color', content: '#08080e' }, injectTo: 'head-prepend' },
     ...favicon('/favicon.svg'),
+    ...socialImage('og-image.png'),
     fontLink(
       'family=Inter:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@600;700;800;900&family=JetBrains+Mono:wght@400;500;600',
     ),
