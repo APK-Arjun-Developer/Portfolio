@@ -18,7 +18,7 @@ const timeline = [
     highlights: [
       'Building scalable full-stack web applications with React, Node.js, .NET Core and PostgreSQL',
       'Collaborating with cross-functional teams to deliver new features and improve system architecture',
-      'Implementing best practices in performance optimisation, security, and maintainability',
+      'Implementing best practices in performance optimization, security, and maintainability',
     ],
   },
   {
@@ -31,7 +31,7 @@ const timeline = [
     accentBorder: 'rgba(139,92,246,0.25)',
     highlights: [
       'Developed high-performance web apps using React, Node.js, and .NET Core',
-      'Designed and optimised databases with MySQL, SQLite, and SQL Server',
+      'Designed and optimized databases with MySQL, SQLite, and SQL Server',
       'Conducted code reviews, debugging, and maintained architecture and user-guide documentation',
     ],
   },
@@ -63,33 +63,48 @@ export default function About() {
             <div className="lg:col-span-3 space-y-5">
               {(
                 [
-                  <>
-                    I'm a Full Stack Developer with experience building production web applications
-                    using{' '}
-                    <span className="font-medium" style={{ color: '#60a5fa' }}>
-                      React, Node.js, and .NET Core
-                    </span>
-                    . I work across the full stack — from database design to responsive UI.
-                  </>,
-                  <>
-                    I've shipped multi-role SaaS platforms in healthcare, food delivery, and parking
-                    — systems where data integrity, real-time updates, and role-based access control
-                    matter.
-                  </>,
-                  <>
-                    I graduated with a B.E. in Aeronautical Engineering from Excel Engineering
-                    College (CGPA 8.0) and transitioned into software through the NxtWave MERN
-                    programme in 2023.
-                  </>,
-                ] as React.ReactNode[]
+                  {
+                    id: 'stack',
+                    body: (
+                      <>
+                        I'm a Full Stack Developer with experience building production web
+                        applications using{' '}
+                        <span className="font-medium" style={{ color: '#60a5fa' }}>
+                          React, Node.js, and .NET Core
+                        </span>
+                        . I work across the full stack — from database design to responsive UI.
+                      </>
+                    ),
+                  },
+                  {
+                    id: 'domains',
+                    body: (
+                      <>
+                        I've shipped multi-role SaaS platforms in healthcare, food delivery, and
+                        parking — systems where data integrity, real-time updates, and role-based
+                        access control matter.
+                      </>
+                    ),
+                  },
+                  {
+                    id: 'education',
+                    body: (
+                      <>
+                        I graduated with a B.E. in Aeronautical Engineering from Excel Engineering
+                        College (CGPA 8.0) and transitioned into software through the NxtWave MERN
+                        programme in 2023.
+                      </>
+                    ),
+                  },
+                ] as { id: string; body: React.ReactNode }[]
               ).map((para, i) => (
                 <motion.p
-                  key={i}
+                  key={para.id}
                   {...fadeUp(i * 0.08)}
                   className="leading-relaxed"
                   style={{ color: '#94a3b8' }}
                 >
-                  {para}
+                  {para.body}
                 </motion.p>
               ))}
             </div>

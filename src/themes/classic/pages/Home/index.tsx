@@ -59,8 +59,6 @@ export default function Home() {
                   border: '1px solid rgba(34,197,94,0.25)',
                   color: '#4ade80',
                 }}
-                role="status"
-                aria-label="Currently available for new opportunities"
               >
                 <span className="relative flex h-2 w-2" aria-hidden="true">
                   <span
@@ -72,7 +70,7 @@ export default function Home() {
                     style={{ background: '#22c55e' }}
                   />
                 </span>
-                Available for opportunities
+                <span>Available for opportunities</span>
               </div>
             </motion.div>
 

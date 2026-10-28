@@ -7,7 +7,7 @@ interface SectionTitleProps {
   id?: string;
 }
 
-export default function SectionTitle({ number, title, subtitle, id }: SectionTitleProps) {
+export default function SectionTitle({ number, title, subtitle, id }: Readonly<SectionTitleProps>) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}

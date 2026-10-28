@@ -33,7 +33,7 @@ interface TechCardProps {
   index?: number;
 }
 
-export default function TechCard({ name, index = 0 }: TechCardProps) {
+export default function TechCard({ name, index = 0 }: Readonly<TechCardProps>) {
   const tech = TECH_ICONS[name];
   const Icon = tech?.icon ?? Webhook;
   const color = tech?.color ?? '#94a3b8';

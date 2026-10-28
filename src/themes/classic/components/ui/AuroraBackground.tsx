@@ -3,7 +3,10 @@ interface AuroraBackgroundProps {
   className?: string;
 }
 
-export default function AuroraBackground({ children, className = '' }: AuroraBackgroundProps) {
+export default function AuroraBackground({
+  children,
+  className = '',
+}: Readonly<AuroraBackgroundProps>) {
   return (
     <div className={`relative overflow-hidden ${className}`}>
       <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">

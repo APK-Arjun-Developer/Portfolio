@@ -12,7 +12,7 @@ const fadeUp = (delay = 0) => ({
   transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] as const, delay },
 });
 
-function SectionHeading({ number, title }: { number: string; title: string }) {
+function SectionHeading({ number, title }: Readonly<{ number: string; title: string }>) {
   return (
     <div className="mb-7">
       <div className="flex items-center gap-2.5 mb-2">
@@ -157,7 +157,7 @@ export default function ProjectDetail() {
         </header>
 
         {/* Divider */}
-        <motion.div {...fadeUp(0.2)} className="my-10 divider-glow" role="separator" />
+        <motion.hr {...fadeUp(0.2)} className="my-10 divider-glow border-0" />
 
         {/* ── 01 Problem & Overview ── */}
         <motion.section {...fadeUp(0.22)} className="mb-14" aria-labelledby="overview-heading">
@@ -210,7 +210,7 @@ export default function ProjectDetail() {
           >
             {project.challenges.map((c, i) => (
               <motion.li
-                key={i}
+                key={c.problem}
                 initial={{ opacity: 0, y: 16 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
@@ -330,7 +330,7 @@ export default function ProjectDetail() {
 
         {/* ── Bottom CTA ── */}
         <motion.div {...fadeUp(0.32)}>
-          <div className="divider-soft mb-8" role="separator" />
+          <hr className="divider-soft mb-8 border-0" />
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <Link
               to="/projects"
