@@ -1,3 +1,10 @@
+## [1.0.2](https://github.com/APK-Arjun-Developer/Portfolio/compare/v1.0.1...v1.0.2) (2026-10-28)
+
+
+### Bug Fixes
+
+* resolve remaining sonarcloud issues in classic theme ([f02299f](https://github.com/APK-Arjun-Developer/Portfolio/commit/f02299f65ad09c56c59e35d6156fe45cb365850d))
+
 ## [1.0.1](https://github.com/APK-Arjun-Developer/Portfolio/compare/v1.0.0...v1.0.1) (2026-10-28)
 
 
