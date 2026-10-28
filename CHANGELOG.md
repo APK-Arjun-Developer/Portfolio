@@ -1,3 +1,10 @@
+## [1.0.1](https://github.com/APK-Arjun-Developer/Portfolio/compare/v1.0.0...v1.0.1) (2026-10-28)
+
+
+### Bug Fixes
+
+* add missing social preview images per theme ([4015c18](https://github.com/APK-Arjun-Developer/Portfolio/commit/4015c182361a836bf38a6b7f45fee0bbe7f7fa6c))
+
 # 1.0.0 (2026-10-28)
 
 
