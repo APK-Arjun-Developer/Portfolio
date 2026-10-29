@@ -74,7 +74,7 @@ export default function TechCard({ name, index = 0 }: Readonly<TechCardProps>) {
           border: `1px solid ${color}22`,
         }}
       >
-        <Icon size={26} />
+        <Icon size={26} aria-hidden="true" />
       </div>
       <span className="text-center text-xs font-medium leading-tight" style={{ color: '#94a3b8' }}>
         {name}
