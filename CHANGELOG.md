@@ -1,3 +1,10 @@
+## [1.0.3](https://github.com/APK-Arjun-Developer/Portfolio/compare/v1.0.2...v1.0.3) (2026-10-29)
+
+
+### Bug Fixes
+
+* hide decorative tech icons from assistive tech ([e5d5592](https://github.com/APK-Arjun-Developer/Portfolio/commit/e5d5592b953d7c101367233dacb4068745e5e08c))
+
 ## [1.0.2](https://github.com/APK-Arjun-Developer/Portfolio/compare/v1.0.1...v1.0.2) (2026-10-28)
 
 
