@@ -1,0 +1,38 @@
+name: Branch Name
+
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize, reopened]
+
+jobs:
+  validate:
+    name: Validate branch name
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check branch name
+        # Same rule as .husky/pre-push, enforced server-side so --no-verify pushes and
+        # branches created on github.com are checked too.
+        env:
+          BRANCH: ${{ github.head_ref }}
+        run: |
+          exempt='^main$'
+          pattern='^(feat|fix|ci|chore|docs|refactor|test|perf|hotfix)/[a-z0-9][a-z0-9-]*$'
+
+          if echo "$BRANCH" | grep -qE "$exempt"; then
+            echo "Branch '$BRANCH' is exempt from naming validation."
+            exit 0
+          fi
+
+          if ! echo "$BRANCH" | grep -qE "$pattern"; then
+            echo ""
+            echo "  Invalid branch name: '$BRANCH'"
+            echo ""
+            echo "  Required: <type>/<kebab-case-description>"
+            echo "  Types:    feat | fix | ci | chore | docs | refactor | test | perf | hotfix"
+            echo "  Example:  feat/contact-form"
+            echo ""
+            exit 1
+          fi
+
+          echo "Branch name '$BRANCH' is valid."

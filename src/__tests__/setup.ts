@@ -1,6 +1,19 @@
 import '@testing-library/jest-dom/vitest';
 import { cleanup } from '@testing-library/react';
-import { afterEach, beforeEach, vi } from 'vitest';
+import { toHaveNoViolations } from 'jest-axe';
+import { afterEach, beforeEach, expect, vi } from 'vitest';
+
+expect.extend(toHaveNoViolations);
+
+declare module 'vitest' {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  interface Matchers<R extends void | Promise<void> = void | Promise<void>, T = unknown> {
+    toHaveNoViolations(): R;
+  }
+  interface AsymmetricMatchersContaining {
+    toHaveNoViolations(): void;
+  }
+}
 
 /*
  * jsdom gaps the themes rely on. Each stub is the smallest thing that lets the real
