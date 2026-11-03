@@ -4,8 +4,8 @@
 declare const __APP_VERSION__: string;
 
 interface ImportMetaEnv {
-  /** Which UI theme to build: 'classic' (default) or 'signal'. */
-  readonly VITE_UI_THEME?: 'signal' | 'classic';
+  /** Which UI theme to build: 'classic' (default), 'signal' or 'terminal'. */
+  readonly VITE_UI_THEME?: 'signal' | 'classic' | 'terminal';
   readonly VITE_GA_MEASUREMENT_ID?: string;
   readonly VITE_GA_ENABLED?: string;
 }

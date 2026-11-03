@@ -10,9 +10,11 @@
   "scripts": {
     "dev": "vite",
     "dev:signal": "vite --mode signal",
+    "dev:terminal": "vite --mode terminal",
     "build": "tsc -b && vite build",
     "build:classic": "vite build --mode classic",
     "build:signal": "vite build --mode signal",
+    "build:terminal": "vite build --mode terminal",
     "preview": "vite preview",
     "og:generate": "node scripts/og-image.mjs",
     "format": "prettier --write .",
@@ -23,7 +25,7 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
-    "ci": "bun run format:check && bun run lint && bun run typecheck && bun run test:coverage && bun run build:classic && bun run build:signal",
+    "ci": "bun run format:check && bun run lint && bun run typecheck && bun run test:coverage && bun run build:classic && bun run build:signal && bun run build:terminal",
     "release": "semantic-release",
     "prepare": "husky"
   },

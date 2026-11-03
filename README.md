@@ -74,57 +74,61 @@ bun install            # also installs the Husky git hooks ("prepare" script)
 cp .env.example .env   # optional: theme and Google Analytics settings
 bun run dev            # http://localhost:5173 (classic theme)
 bun run dev:signal     # same, with the Coral Signal theme
+bun run dev:terminal   # same, with the Terminal theme
 ```
 
 ## 4. Scripts
 
-| Script                           | What it does                                                                                       |
-| -------------------------------- | -------------------------------------------------------------------------------------------------- |
-| `dev` / `dev:signal`             | Dev server (theme from `.env`, or Signal)                                                          |
-| `build`                          | `tsc -b` + production build using `VITE_UI_THEME` (what Vercel runs)                               |
-| `build:classic` / `build:signal` | Production build of one specific theme                                                             |
-| `preview`                        | Serve the last build locally                                                                       |
-| `og:generate`                    | Re-render the social preview images in `public/`                                                   |
-| `format` / `format:check`        | Prettier: rewrite files / check only                                                               |
-| `lint` / `lint:fix`              | ESLint: report / auto-fix                                                                          |
-| `typecheck`                      | `tsc -b` (no emit)                                                                                 |
-| `test` / `test:watch`            | Vitest once / in watch mode                                                                        |
-| `test:coverage`                  | Vitest with v8 coverage (`coverage/`, including `lcov.info` for SonarCloud)                        |
-| `ci`                             | Everything CI runs: format:check → lint → typecheck → test:coverage → build:classic → build:signal |
-| `release`                        | semantic-release (CI only)                                                                         |
-| `prepare`                        | Installs the Husky hooks (runs automatically on install)                                           |
+| Script                                              | What it does                                                                     |
+| --------------------------------------------------- | -------------------------------------------------------------------------------- |
+| `dev` / `dev:signal` / `dev:terminal`               | Dev server (theme from `.env`, or the named theme)                               |
+| `build`                                             | `tsc -b` + production build using `VITE_UI_THEME` (what Vercel runs)             |
+| `build:classic` / `build:signal` / `build:terminal` | Production build of one specific theme                                           |
+| `preview`                                           | Serve the last build locally                                                     |
+| `og:generate [theme]`                               | Re-render the social preview images in `public/` (all, or one theme)             |
+| `format` / `format:check`                           | Prettier: rewrite files / check only                                             |
+| `lint` / `lint:fix`                                 | ESLint: report / auto-fix                                                        |
+| `typecheck`                                         | `tsc -b` (no emit)                                                               |
+| `test` / `test:watch`                               | Vitest once / in watch mode                                                      |
+| `test:coverage`                                     | Vitest with v8 coverage (`coverage/`, including `lcov.info` for SonarCloud)      |
+| `ci`                                                | Everything CI runs: format:check → lint → typecheck → test:coverage → all builds |
+| `release`                                           | semantic-release (CI only)                                                       |
+| `prepare`                                           | Installs the Husky hooks (runs automatically on install)                         |
 
 Run **`bun run ci`** before opening a pull request. If it passes locally, CI will pass too.
 
 ## 5. UI themes
 
-The site ships with two complete designs. One is chosen **at build time**. Only that theme's code, CSS, fonts, favicon, `theme-color` and social image end up in the bundle.
+The site ships with three complete designs. One is chosen **at build time**. Only that theme's code, CSS, fonts, favicon, `theme-color` and social image end up in the bundle.
 
-| Theme               | Look                                                                              |
-| ------------------- | --------------------------------------------------------------------------------- |
-| `classic` (default) | Dark "glass" design with blue and violet accents                                  |
-| `signal`            | "Coral Signal": light/dark/system modes, flow-diagram case studies, motion system |
+| Theme               | Look                                                                                 |
+| ------------------- | ------------------------------------------------------------------------------------ |
+| `classic` (default) | Dark "glass" design with blue and violet accents                                     |
+| `signal`            | "Coral Signal": light/dark/system modes, flow-diagram case studies, motion system    |
+| `terminal`          | Warm paper look: flip calendar, a door per project, rolling-year timeline, pull cord |
 
-**Switching the live site:** in Vercel → Settings → Environment Variables, set `VITE_UI_THEME` to `signal` or `classic`, then **redeploy**. Saving the variable alone changes nothing.
+**Switching the live site:** in Vercel → Settings → Environment Variables, set `VITE_UI_THEME` to `signal`, `classic` or `terminal`, then **redeploy**. Saving the variable alone changes nothing.
 
-**Locally:** set `VITE_UI_THEME` in `.env` and restart the dev server, or use `dev:signal` / `build:signal` / `build:classic`, which pass Vite's `--mode` and ignore `.env`.
+**Locally:** set `VITE_UI_THEME` in `.env` and restart the dev server, or use the `dev:<theme>` / `build:<theme>` scripts, which pass Vite's `--mode` and ignore `.env`.
 
 How it works:
 
 - `vite.config.ts` resolves the theme (`--mode` first, then `VITE_UI_THEME`, else `classic`). An unknown value falls back to `classic` with a warning.
 - The alias `@theme-app` points at `src/themes/<theme>/App.tsx`, which `src/App.tsx` imports.
-- The `ui-theme-head` plugin injects that theme's fonts, `theme-color`, favicon, social image tags and, for Signal, the light/dark bootstrap script.
-- `tailwind.config.js` scans only the active theme's files, so the CSS has no leftovers from the other theme.
+- The `ui-theme-head` plugin injects that theme's fonts, `theme-color`, favicon, social image tags and, for Signal and Terminal, the light/dark bootstrap script.
+- `tailwind.config.js` scans only the active theme's files, so the CSS has no leftovers from the other themes. Because of this, a theme can import another theme's data but not its components.
 
-The Light / System / Dark toggle in the Signal navbar is a per-visitor setting stored in their browser. It doesn't switch between themes.
+The Light / System / Dark toggle in the Signal navbar and the pull cord in the Terminal header are per-visitor settings stored in their browser. They don't switch between themes.
+
+**Terminal portrait:** a transparent cut-out at `public/terminal/portrait.webp`. To replace it, keep the transparency and update `portrait` in `src/themes/terminal/content.ts` and the image size in `pages/Home.tsx`.
 
 ## 6. Environment variables
 
-| Variable                 | Default   | Description                               |
-| ------------------------ | --------- | ----------------------------------------- |
-| `VITE_UI_THEME`          | `classic` | `classic` or `signal`, read at build time |
-| `VITE_GA_ENABLED`        | `false`   | Set to exactly `true` to send GA4 events  |
-| `VITE_GA_MEASUREMENT_ID` | (none)    | GA4 measurement ID (`G-XXXXXXXXXX`)       |
+| Variable                 | Default   | Description                                           |
+| ------------------------ | --------- | ----------------------------------------------------- |
+| `VITE_UI_THEME`          | `classic` | `classic`, `signal` or `terminal`, read at build time |
+| `VITE_GA_ENABLED`        | `false`   | Set to exactly `true` to send GA4 events              |
+| `VITE_GA_MEASUREMENT_ID` | (none)    | GA4 measurement ID (`G-XXXXXXXXXX`)                   |
 
 - Locally: copy `.env.example` to `.env` (git-ignored).
 - Production: Vercel environment variables, followed by a redeploy.
@@ -146,6 +150,7 @@ src/
   themes/
     classic/            App, pages, components, styles.css
     signal/             App, pages, components, motion.ts, content.ts, theme.ts, styles.css
+    terminal/           App, pages, components, motion.ts, content.ts, theme.ts, intro.ts, styles.css
   __tests__/            Vitest suites + setup.ts + helpers.tsx
 ```
 
@@ -268,28 +273,30 @@ Global types for `src/vite-env.d.ts`:
 | Helpers     | `src/__tests__/helpers.tsx`: `renderTheme(App, path)`, `waitForPage()`, `currentPath()`                                                    |
 | Coverage    | v8 provider; reporters `text`, `json`, `html`, `lcov`; `main.tsx` and `vite-env.d.ts` excluded                                             |
 | Thresholds  | **lines ≥ 80%, branches ≥ 80%**. The run fails below either.                                                                               |
-| Theme alias | `@theme-app` resolves to the classic theme in tests; both themes are also tested directly                                                  |
+| Theme alias | `@theme-app` resolves to the classic theme in tests; every theme is also tested directly                                                   |
 
-| Suite                         | Covers                                                                                                   |
-| ----------------------------- | -------------------------------------------------------------------------------------------------------- |
-| `data.test.ts`                | years-of-experience maths, project ids, flow diagrams                                                    |
-| `lib.test.ts`                 | analytics events on/off, `cn`, version label                                                             |
-| `App.test.tsx`                | root app, GA initialisation and page views                                                               |
-| `classic/ClassicApp.test.tsx` | every classic route, navbar, mobile menu, project filter, links                                          |
-| `signal/SignalApp.test.tsx`   | every Signal route, navigation, filter, case studies, contact footer                                     |
-| `signal/theme.test.tsx`       | light/dark/system preference, OS changes, blocked storage                                                |
-| `a11y.test.tsx`               | axe-core audit of every route in both themes (`toHaveNoViolations`); colour contrast is skipped in jsdom |
+| Suite                           | Covers                                                                                                   |
+| ------------------------------- | -------------------------------------------------------------------------------------------------------- |
+| `data.test.ts`                  | years-of-experience maths, project ids, flow diagrams                                                    |
+| `lib.test.ts`                   | analytics events on/off, `cn`, version label                                                             |
+| `App.test.tsx`                  | root app, GA initialisation and page views                                                               |
+| `classic/ClassicApp.test.tsx`   | every classic route, navbar, mobile menu, project filter, links                                          |
+| `signal/SignalApp.test.tsx`     | every Signal route, navigation, filter, case studies, contact footer                                     |
+| `signal/theme.test.tsx`         | light/dark/system preference, OS changes, blocked storage                                                |
+| `terminal/TerminalApp.test.tsx` | every Terminal route, doors, loader, flip calendar, timeline, dialogs, contact footer                    |
+| `terminal/theme.test.tsx`       | light/dark mode, OS changes, blocked storage, view transition, pull cord                                 |
+| `a11y.test.tsx`                 | axe-core audit of every route in every theme (`toHaveNoViolations`); colour contrast is skipped in jsdom |
 
 ## 15. Build
 
-| Item           | Details                                                                                                      |
-| -------------- | ------------------------------------------------------------------------------------------------------------ |
-| Tool           | Vite 8 (`vite.config.ts`) with `@vitejs/plugin-react`                                                        |
-| Output         | `dist/`, a static single-page app                                                                            |
-| Code splitting | each route page is lazy-loaded                                                                               |
-| Version        | `package.json` version injected as `__APP_VERSION__` and shown in the navbar chip                            |
-| Theme          | see [UI themes](#5-ui-themes)                                                                                |
-| Social images  | `public/og-image.png` (classic), `public/og-image-signal.png` (Signal), 1200×630, absolute URLs in meta tags |
+| Item           | Details                                                                                                                                                 |
+| -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Tool           | Vite 8 (`vite.config.ts`) with `@vitejs/plugin-react`                                                                                                   |
+| Output         | `dist/`, a static single-page app                                                                                                                       |
+| Code splitting | each route page is lazy-loaded                                                                                                                          |
+| Version        | `package.json` version injected as `__APP_VERSION__` and shown in the navbar chip                                                                       |
+| Theme          | see [UI themes](#5-ui-themes)                                                                                                                           |
+| Social images  | `public/og-image.png` (classic), `public/og-image-signal.png` (Signal), `public/og-image-terminal.png` (Terminal), 1200×630, absolute URLs in meta tags |
 
 Regenerate the social images after changing the name, role or headline:
 
@@ -316,12 +323,12 @@ bun run og:generate   # uses your installed Chrome via Playwright
 
 `.github/workflows/ci.yml` runs on pushes and pull requests to `main`, using Bun.
 
-| Job                                      | Steps                                                                                              |
-| ---------------------------------------- | -------------------------------------------------------------------------------------------------- |
-| **Format, Lint, Typecheck & Test**       | `format:check` → `lint` → `typecheck` → `test:coverage` → `bun audit` (informational, never fails) |
-| **Build (classic)** / **Build (signal)** | run after the first job, in parallel: `build:classic` and `build:signal`                           |
+| Job                                                             | Steps                                                                                              |
+| --------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- |
+| **Format, Lint, Typecheck & Test**                              | `format:check` → `lint` → `typecheck` → `test:coverage` → `bun audit` (informational, never fails) |
+| **Build (classic)** / **Build (signal)** / **Build (terminal)** | run after the first job, in parallel: `build:classic`, `build:signal` and `build:terminal`         |
 
-Both themes must build on every change, even though only one is deployed.
+Every theme must build on every change, even though only one is deployed.
 
 `.github/workflows/branch-name.yml` also runs on every pull request to `main` and fails when the source branch doesn't match [the naming rule](#8-branch-naming).
 
@@ -331,7 +338,7 @@ Both themes must build on every change, even though only one is deployed.
 
 **Trigger:** every push to `main`, which normally means merging a pull request.
 
-**Steps:** format → lint → typecheck → test → build classic → build signal → semantic-release.
+**Steps:** format → lint → typecheck → test → build classic → build signal → build terminal → semantic-release.
 
 **How the version is chosen** from the commits since the last tag:
 

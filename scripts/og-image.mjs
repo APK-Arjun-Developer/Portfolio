@@ -1,6 +1,8 @@
 // Renders the 1200×630 social preview cards (Open Graph / Twitter) for each UI theme.
-//   bun run og:generate
-// Output: public/og-image.png (classic) and public/og-image-signal.png (signal).
+//   bun run og:generate            (all themes)
+//   bun run og:generate terminal   (one theme)
+// Output: public/og-image.png (classic), public/og-image-signal.png (signal) and
+// public/og-image-terminal.png (terminal).
 // Copy mirrors src/data/personal.ts and src/themes/signal/content.ts — update both together.
 import { chromium } from '@playwright/test';
 import { fileURLToPath } from 'node:url';
@@ -71,18 +73,45 @@ const cards = {
      <div class="foot"><div class="who">${name}<span>${role}</span></div>
        <div class="pills">${pills('pill').split('</span>').slice(0, 3).join('</span>')}</span></div></div>`,
   ),
+
+  terminal: page(
+    'family=Onest:wght@500;800&family=JetBrains+Mono:wght@500;700',
+    `
+    body { background: #1a1818; color: #b8aeae; font-family: Onest, sans-serif; padding: 68px 80px;
+      background-image: radial-gradient(circle at 88% 12%, rgba(196,176,176,.2), transparent 45%);
+      display: flex; flex-direction: column; justify-content: space-between; }
+    .top { display: flex; justify-content: space-between; align-items: center; }
+    .logo { font: 800 40px Onest, sans-serif; color: #e8e4e0; letter-spacing: -.02em; }
+    .logo b { color: #c4b0b0; }
+    .site { font: 500 22px 'JetBrains Mono', monospace; color: #9c9292; }
+    h1 { font: 800 70px/1.05 Onest, sans-serif; color: #e8e4e0; letter-spacing: -.03em; max-width: 1000px; }
+    h1 em { font-style: normal; color: #c4b0b0; }
+    .board { display: inline-flex; gap: 5px; }
+    .board i { width: 34px; height: 50px; display: grid; place-items: center; border-radius: 5px; background: #0d0c0b;
+      border: 1px solid #363030; font: 700 28px 'JetBrains Mono', monospace; font-style: normal; color: #e8e4e0; }
+    .board i.gap { background: transparent; border-color: transparent; }`,
+    `<div class="top"><div class="logo">AP<b>.</b></div><div class="site">${site}</div></div>
+     <h1>I build SaaS platforms where every tenant sees <em>only its own data.</em></h1>
+     <div class="board">${[...role.toUpperCase()]
+       .map((c) => (c === ' ' ? '<i class="gap"></i>' : `<i>${c}</i>`))
+       .join('')}</div>`,
+  ),
 };
 
 const out = {
   classic: '../public/og-image.png',
   signal: '../public/og-image-signal.png',
+  terminal: '../public/og-image-terminal.png',
 };
+
+const only = process.argv[2];
+if (only && !cards[only]) throw new Error(`Unknown theme "${only}".`);
 
 // Prefer the system Chrome (no download); fall back to Playwright's bundled Chromium.
 const browser = await chromium.launch({ channel: 'chrome' }).catch(() => chromium.launch());
 try {
   const tab = await browser.newPage({ viewport: { width: 1200, height: 630 } });
-  for (const [theme, html] of Object.entries(cards)) {
+  for (const [theme, html] of Object.entries(cards).filter(([t]) => !only || t === only)) {
     await tab.setContent(html, { waitUntil: 'networkidle' });
     await tab.evaluate(() => document.fonts.ready);
     const path = fileURLToPath(new URL(out[theme], import.meta.url));
