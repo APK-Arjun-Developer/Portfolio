@@ -148,7 +148,7 @@ export default function GateRow({ gates }: Readonly<{ gates: Project[] }>) {
   const onCursor = (event: PointerEvent | null) => {
     const el = badge.current;
     if (!el) return;
-    if (!event || event.pointerType !== 'mouse') {
+    if (event?.pointerType !== 'mouse') {
       el.dataset.on = 'false';
       return;
     }

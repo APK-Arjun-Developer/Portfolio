@@ -24,6 +24,27 @@ interface Point {
   py: number;
 }
 
+function constrainRope(points: Point[], segmentLength: number, tipHeld: boolean) {
+  for (let pass = 0; pass < SOLVER_PASSES; pass += 1) {
+    for (let i = 0; i < SEGMENTS; i += 1) {
+      const a = points[i];
+      const b = points[i + 1];
+      const dx = b.x - a.x;
+      const dy = b.y - a.y;
+      const gap = Math.hypot(dx, dy) || 1;
+      const stretch = (gap - segmentLength) / gap;
+      const pinA = i === 0 ? 0 : 0.5;
+      const pinB = i + 1 === SEGMENTS && tipHeld ? 0 : 0.5;
+      // Only the two ends can be pinned, so each segment has a movable point.
+      const share = pinA + pinB;
+      a.x += (dx * stretch * pinA) / share;
+      a.y += (dy * stretch * pinA) / share;
+      b.x -= (dx * stretch * pinB) / share;
+      b.y -= (dy * stretch * pinB) / share;
+    }
+  }
+}
+
 /** A rope hanging from the ceiling: grab it and swing it, or pull it down to switch modes. */
 export default function PullCord() {
   const { mode, toggle } = useMode();
@@ -45,8 +66,10 @@ export default function PullCord() {
 
   useEffect(() => {
     const box = wrap.current;
-    if (!box) return;
-    const ctx = canvas.current?.getContext?.('2d') ?? null;
+    const surface = canvas.current;
+    const button = hit.current;
+    if (!box || !surface || !button) return;
+    const ctx = surface.getContext('2d');
 
     let length = 0;
     let seg = 0;
@@ -69,10 +92,10 @@ export default function PullCord() {
     };
 
     const resize = () => {
-      if (!canvas.current || !ctx) return;
+      if (!ctx) return;
       const dpr = Math.min(window.devicePixelRatio || 1, 2);
-      canvas.current.width = box.clientWidth * dpr;
-      canvas.current.height = box.clientHeight * dpr;
+      surface.width = box.clientWidth * dpr;
+      surface.height = box.clientHeight * dpr;
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     };
 
@@ -111,23 +134,7 @@ export default function PullCord() {
         tip.x = anchorX + dx * reach;
         tip.y = points[0].y + dy * reach;
       }
-      for (let pass = 0; pass < SOLVER_PASSES; pass += 1) {
-        for (let i = 0; i < SEGMENTS; i += 1) {
-          const a = points[i];
-          const b = points[i + 1];
-          const dx = b.x - a.x;
-          const dy = b.y - a.y;
-          const gap = Math.hypot(dx, dy) || 1;
-          const stretch = (gap - seg) / gap;
-          const pinA = i === 0 ? 0 : 0.5;
-          const pinB = i + 1 === SEGMENTS && held ? 0 : 0.5;
-          const share = pinA + pinB || 1;
-          a.x += (dx * stretch * pinA) / share;
-          a.y += (dy * stretch * pinA) / share;
-          b.x -= (dx * stretch * pinB) / share;
-          b.y -= (dy * stretch * pinB) / share;
-        }
-      }
+      constrainRope(points, seg, held !== null);
       // The screen edges stop the rope, so a hard swing can't carry it out of sight.
       const maxX = (document.documentElement.clientWidth || window.innerWidth) - EDGE_MARGIN;
       for (const p of points) p.x = Math.min(maxX, Math.max(EDGE_MARGIN, p.x));
@@ -136,9 +143,7 @@ export default function PullCord() {
 
     const draw = () => {
       const tip = points[SEGMENTS];
-      if (hit.current) {
-        hit.current.style.transform = `translate(${tip.x - 32}px, ${tip.y - 24}px)`;
-      }
+      button.style.transform = `translate(${tip.x - 32}px, ${tip.y - 24}px)`;
       if (!ctx) return;
       ctx.clearRect(0, 0, box.clientWidth, box.clientHeight);
       ctx.lineCap = 'round';
@@ -237,8 +242,8 @@ export default function PullCord() {
   }, []);
 
   const toLocal = (event: PointerEvent) => {
-    const box = wrap.current?.getBoundingClientRect();
-    return { x: event.clientX - (box?.left ?? 0), y: event.clientY - (box?.top ?? 0) };
+    const { left, top } = wrap.current?.getBoundingClientRect() ?? { left: 0, top: 0 };
+    return { x: event.clientX - left, y: event.clientY - top };
   };
 
   const onPointerDown = (event: PointerEvent<HTMLButtonElement>) => {
@@ -273,7 +278,9 @@ export default function PullCord() {
 
   return (
     <div ref={wrap} className="tm-cord">
-      <canvas ref={canvas} className="absolute inset-0 h-full w-full" aria-hidden="true" />
+      <div className="absolute inset-0" aria-hidden="true">
+        <canvas ref={canvas} className="h-full w-full" />
+      </div>
       <button
         ref={hit}
         type="button"

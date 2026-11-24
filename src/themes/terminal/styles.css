@@ -232,11 +232,13 @@
   }
 }
 
-.tm-navlink {
-  transition: transform 300ms cubic-bezier(0.16, 1, 0.3, 1);
-}
-.tm-navlink:hover {
-  transform: translateY(-2px);
+@media (prefers-reduced-motion: no-preference) {
+  .tm-navlink {
+    transition: transform 300ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .tm-navlink:hover {
+    transform: translateY(-2px);
+  }
 }
 
 /* ── Hero ── */
@@ -924,10 +926,14 @@
   background: #e8e4e0;
   color: #1a1818;
   font-weight: 600;
-  transition: transform 350ms cubic-bezier(0.16, 1, 0.3, 1);
 }
-.tm-footer__btn:hover {
-  transform: translateY(-2px);
+@media (prefers-reduced-motion: no-preference) {
+  .tm-footer__btn {
+    transition: transform 350ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .tm-footer__btn:hover {
+    transform: translateY(-2px);
+  }
 }
 .tm-footer__ghost {
   display: inline-flex;

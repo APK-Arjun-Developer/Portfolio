@@ -1,80 +1,22 @@
-import { useEffect, useState } from 'react';
+import { CopyEmail } from '../../FooterContact';
+import { contactRows, footerLinks } from '../../footer-links';
 import { Link } from 'react-router-dom';
-import { ArrowRight, ArrowUpRight, Check, Copy, Download, Mail } from 'lucide-react';
+import { ArrowRight, ArrowUpRight, Download } from 'lucide-react';
 import { personal, projects } from '../../../data/personal';
 import { analytics } from '../../../lib/analytics';
 import { versionLabel } from '../../../lib/version';
-import { GithubIcon, LinkedinIcon } from '../../../components/BrandIcons';
 import { useOpenContact } from '../contact';
-
-const footerLinks = [
-  { label: 'Home', to: '/' },
-  { label: 'About', to: '/about' },
-  { label: 'Projects', to: '/projects' },
-];
-
-function CopyEmail() {
-  const [copied, setCopied] = useState(false);
-
-  useEffect(() => {
-    if (!copied) return;
-    const t = window.setTimeout(() => setCopied(false), 2000);
-    return () => window.clearTimeout(t);
-  }, [copied]);
-
-  return (
-    <button
-      type="button"
-      aria-label="Copy email"
-      onClick={() =>
-        navigator.clipboard?.writeText(personal.email).then(
-          () => setCopied(true),
-          () => {},
-        )
-      }
-      className="inline-flex h-11 w-11 items-center justify-center text-[#e8e4e0] hover:text-white"
-    >
-      {copied ? <Check size={18} aria-hidden="true" /> : <Copy size={18} aria-hidden="true" />}
-      <span className="sr-only" aria-live="polite">
-        {copied ? 'Email copied' : ''}
-      </span>
-    </button>
-  );
-}
 
 /** Dark closing panel on every page: the pitch, every way to get in touch, the name edge to edge. */
 export default function ContactFooter() {
   const openContact = useOpenContact();
-  const rows = [
-    {
-      label: 'GitHub',
-      href: personal.github,
-      Icon: GithubIcon,
-      onClick: () => analytics.socialClick('github', 'footer'),
-      external: true,
-    },
-    {
-      label: 'LinkedIn',
-      href: personal.linkedin,
-      Icon: LinkedinIcon,
-      onClick: () => analytics.socialClick('linkedin', 'footer'),
-      external: true,
-    },
-    {
-      label: 'Email',
-      href: `mailto:${personal.email}`,
-      Icon: Mail,
-      onClick: () => analytics.socialClick('email', 'footer'),
-      external: false,
-    },
-  ];
 
   return (
     <footer className="tm-footer" aria-labelledby="contact-heading">
       <div className="tm-wrap relative z-[1] pb-7 pt-20 lg:pt-28">
         <p className="inline-flex items-center gap-2.5 text-[0.8125rem] font-medium uppercase tracking-[0.06em] text-[#b8b0a9]">
           <i className="tm-footer__pulse" aria-hidden="true" />
-          Available for opportunities
+          <span>Available for opportunities</span>
         </p>
         <h2
           id="contact-heading"
@@ -88,7 +30,7 @@ export default function ContactFooter() {
 
         <div className="mt-9 flex flex-wrap gap-3">
           <button type="button" onClick={openContact} className="tm-footer__btn group">
-            Contact Me
+            <span>Contact Me</span>
             <span className="tm-badge tm-badge--dark">
               <ArrowRight size={16} className="tm-nudge-x" aria-hidden="true" />
             </span>
@@ -107,7 +49,7 @@ export default function ContactFooter() {
             {personal.email}
             <ArrowUpRight size={20} className="tm-nudge-ne shrink-0" aria-hidden="true" />
           </a>
-          <CopyEmail />
+          <CopyEmail iconOnly />
         </div>
 
         <div className="mt-16 grid grid-cols-2 gap-x-6 gap-y-9 border-t border-[#ffffff1f] pt-10 md:grid-cols-[2fr_1fr_1fr]">
@@ -143,7 +85,7 @@ export default function ContactFooter() {
           <div>
             <h3 className="tm-footer__h">Connect</h3>
             <ul className="space-y-2.5">
-              {rows.map(({ label, href, Icon, onClick, external }) => (
+              {contactRows.map(({ label, href, Icon, onClick, external }) => (
                 <li key={label}>
                   <a
                     href={href}

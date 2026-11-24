@@ -10,7 +10,12 @@ interface ThemeRoutesProps {
   ProjectDetail: ComponentType;
 }
 
-export default function ThemeRoutes({ Home, About, Projects, ProjectDetail }: ThemeRoutesProps) {
+export default function ThemeRoutes({
+  Home,
+  About,
+  Projects,
+  ProjectDetail,
+}: Readonly<ThemeRoutesProps>) {
   const location = useLocation();
 
   return (

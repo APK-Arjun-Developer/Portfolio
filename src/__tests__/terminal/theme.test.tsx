@@ -45,6 +45,13 @@ describe('useMode (terminal)', () => {
     expect(result.current.mode).toBe('light');
   });
 
+  it('restores a saved light theme when the system is dark', () => {
+    setPrefersDark(true);
+    localStorage.setItem('theme', 'light');
+    const { result } = renderHook(() => useMode());
+    expect(result.current.mode).toBe('light');
+  });
+
   it('still works when storage is unavailable', () => {
     const getItem = vi.spyOn(Storage.prototype, 'getItem').mockImplementation(() => {
       throw new Error('blocked');
@@ -99,6 +106,67 @@ describe('useMode (terminal)', () => {
 
 describe('PullCord', () => {
   const cord = () => screen.getByRole('switch', { name: /dark mode/i });
+
+  it('draws and resizes the rope, then stops scheduling frames once it settles', () => {
+    const context = {
+      setTransform: vi.fn(),
+      clearRect: vi.fn(),
+      beginPath: vi.fn(),
+      moveTo: vi.fn(),
+      lineTo: vi.fn(),
+      save: vi.fn(),
+      translate: vi.fn(),
+      stroke: vi.fn(),
+      restore: vi.fn(),
+      setLineDash: vi.fn(),
+      rotate: vi.fn(),
+      fillRect: vi.fn(),
+      createRadialGradient: vi.fn(() => ({ addColorStop: vi.fn() })),
+      bezierCurveTo: vi.fn(),
+      fill: vi.fn(),
+    };
+    const canvas = vi
+      .spyOn(HTMLCanvasElement.prototype, 'getContext')
+      .mockReturnValue(context as unknown as CanvasRenderingContext2D);
+    const viewport = vi.spyOn(window, 'innerWidth', 'get');
+    const originalPixelRatio = Object.getOwnPropertyDescriptor(window, 'devicePixelRatio')!;
+    vi.useFakeTimers({ toFake: ['requestAnimationFrame', 'cancelAnimationFrame'] });
+    try {
+      viewport.mockReturnValue(500);
+      const { unmount } = render(<PullCord />);
+      expect(context.lineTo).toHaveBeenCalled();
+      expect(context.fill).toHaveBeenCalled();
+      viewport.mockReturnValue(1200);
+      Object.defineProperty(window, 'devicePixelRatio', { configurable: true, value: 0 });
+      fireEvent.resize(window);
+      expect(context.setTransform).toHaveBeenCalledTimes(2);
+      expect(context.setTransform).toHaveBeenLastCalledWith(1, 0, 0, 1, 0, 0);
+
+      // Bringing the tip to the ceiling anchor must keep the rope coordinates finite.
+      fireEvent.pointerDown(cord(), { clientX: 1120, clientY: 0 });
+      fireEvent.pointerMove(cord(), { clientX: 1120, clientY: -70 });
+      act(() => vi.advanceTimersToNextFrame());
+      expect(cord().style.transform).toMatch(/^translate\(-?[\d.]+px, -?[\d.]+px\)$/);
+      fireEvent.pointerUp(cord());
+      fireEvent.click(cord());
+      expect(cord()).toHaveAttribute('aria-checked', 'false');
+
+      fireEvent.click(cord());
+      expect(cord()).toHaveAttribute('aria-checked', 'true');
+      act(() => {
+        for (let frame = 0; frame < 600 && vi.getTimerCount(); frame += 1) {
+          vi.advanceTimersToNextFrame();
+        }
+      });
+      expect(vi.getTimerCount()).toBe(0);
+      unmount();
+    } finally {
+      vi.useRealTimers();
+      Object.defineProperty(window, 'devicePixelRatio', originalPixelRatio);
+      viewport.mockRestore();
+      canvas.mockRestore();
+    }
+  });
 
   it('toggles on click, which also covers Enter and Space on a button', () => {
     render(<PullCord />);

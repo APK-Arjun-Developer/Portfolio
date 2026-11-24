@@ -1,69 +1,13 @@
-import { useEffect, useState } from 'react';
+import { CopyEmail } from '../../FooterContact';
+import { contactRows, footerLinks } from '../../footer-links';
 import { Link } from 'react-router-dom';
-import { ArrowUpRight, Check, Copy, Download, Mail } from 'lucide-react';
+import { ArrowUpRight, Download } from 'lucide-react';
 import { personal } from '../../../data/personal';
 import { analytics } from '../../../lib/analytics';
-import { GithubIcon, LinkedinIcon } from '../../../components/BrandIcons';
 import { Reveal, RevealGroup, RevealItem } from '../../Reveal';
-
-const footerLinks = [
-  { label: 'Home', to: '/' },
-  { label: 'About', to: '/about' },
-  { label: 'Projects', to: '/projects' },
-];
-
-function CopyEmail() {
-  const [copied, setCopied] = useState(false);
-
-  useEffect(() => {
-    if (!copied) return;
-    const t = window.setTimeout(() => setCopied(false), 2000);
-    return () => window.clearTimeout(t);
-  }, [copied]);
-
-  return (
-    <button
-      type="button"
-      onClick={() =>
-        navigator.clipboard?.writeText(personal.email).then(
-          () => setCopied(true),
-          () => {},
-        )
-      }
-      className="sg-btn-quiet"
-    >
-      {copied ? <Check size={15} aria-hidden="true" /> : <Copy size={15} aria-hidden="true" />}
-      <span aria-live="polite">{copied ? 'Copied' : 'Copy email'}</span>
-    </button>
-  );
-}
 
 /** Closing contact composition shared by every page, plus the legal/nav bar. */
 export default function ContactFooter() {
-  const rows = [
-    {
-      label: 'GitHub',
-      href: personal.github,
-      Icon: GithubIcon,
-      onClick: () => analytics.socialClick('github', 'footer'),
-      external: true,
-    },
-    {
-      label: 'LinkedIn',
-      href: personal.linkedin,
-      Icon: LinkedinIcon,
-      onClick: () => analytics.socialClick('linkedin', 'footer'),
-      external: true,
-    },
-    {
-      label: 'Email',
-      href: `mailto:${personal.email}`,
-      Icon: Mail,
-      onClick: () => analytics.socialClick('email', 'footer'),
-      external: false,
-    },
-  ];
-
   return (
     <footer
       className="relative mt-28 border-t border-sg-line md:mt-40"
@@ -101,7 +45,7 @@ export default function ContactFooter() {
           as="ul"
           className="self-end border-t border-sg-line lg:col-span-4 lg:col-start-9"
         >
-          {rows.map(({ label, href, Icon, onClick, external }) => (
+          {contactRows.map(({ label, href, Icon, onClick, external }) => (
             <RevealItem as="li" key={label} className="border-b border-sg-line">
               <a
                 href={href}

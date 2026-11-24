@@ -55,6 +55,13 @@ describe('Signal theme', () => {
       );
     });
 
+    it('tracks navigation from the hero to all projects', async () => {
+      const { user } = await renderTheme(SignalApp, '/');
+      await user.click(screen.getByRole('link', { name: /view projects/i }));
+      expect(currentPath()).toBe('/projects');
+      expect(eventNames()).toContain('cta_click');
+    });
+
     it('links company cards, the hero contact CTA and the featured case study', async () => {
       const { user } = await renderTheme(SignalApp, '/');
       const company = projects.find((p) => p.category === 'company')!;

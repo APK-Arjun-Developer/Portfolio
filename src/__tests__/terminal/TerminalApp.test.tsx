@@ -6,6 +6,7 @@ import FlipCalendar from '../../themes/terminal/components/FlipCalendar';
 import Loader from '../../themes/terminal/components/Loader';
 import { calendarWords, projectStatus, stops } from '../../themes/terminal/content';
 import { composeMailto } from '../../themes/terminal/mail';
+import { holdScroll, releaseScroll, scrollToTop } from '../../themes/terminal/scroll';
 import TerminalApp from '../../themes/terminal/App';
 import { education, experience, personal, projects } from '../../data/personal';
 import { currentPath, renderTheme } from '../helpers';
@@ -99,6 +100,13 @@ describe('Terminal theme', () => {
 
       await user.click(screen.getByRole('link', { name: /read the case study/i }));
       expect(currentPath()).toBe('/projects/multi-tenant-api');
+    });
+
+    it('tracks navigation from the hero to all projects', async () => {
+      const { user } = await renderTheme(TerminalApp, '/');
+      await user.click(screen.getByRole('link', { name: /view projects/i }));
+      expect(currentPath()).toBe('/projects');
+      expect(eventNames()).toContain('cta_click');
     });
 
     it('shows the hero portrait without an ability card button', async () => {
@@ -261,6 +269,8 @@ describe('Terminal theme', () => {
 
       await user.click(toggle);
       expect(toggle).toHaveAttribute('aria-expanded', 'true');
+      await user.keyboard('{ArrowDown}');
+      expect(toggle).toHaveAttribute('aria-expanded', 'true');
       await user.keyboard('{Escape}');
       expect(toggle).toHaveAttribute('aria-expanded', 'false');
       expect(toggle).toHaveFocus();
@@ -401,6 +411,24 @@ describe('Terminal theme', () => {
       await waitFor(() => expect(screen.queryByRole('dialog')).toBeNull());
       expect(document.documentElement.style.overflow).toBe('');
     });
+
+    it('keeps the page locked until the final scroll hold is released', () => {
+      holdScroll();
+      holdScroll();
+      try {
+        releaseScroll();
+        expect(document.documentElement.style.overflow).toBe('hidden');
+      } finally {
+        releaseScroll();
+      }
+      expect(document.documentElement.style.overflow).toBe('');
+    });
+
+    it('scrolls immediately when reduced motion is enabled', () => {
+      stubMedia('prefers-reduced-motion');
+      scrollToTop();
+      expect(window.scrollTo).toHaveBeenCalledWith({ top: 0, behavior: 'auto' });
+    });
   });
 
   describe('projects page', () => {
@@ -421,13 +449,16 @@ describe('Terminal theme', () => {
       expect(eventNames()).toEqual(['project_filter_click', 'project_filter_click']);
     });
 
-    it('opens a project and tracks it', async () => {
-      const { user } = await renderTheme(TerminalApp, '/projects');
+    it.each([projects[0].title, `View details for ${projects[0].title}`])(
+      'tracks navigation from %s',
+      async (name) => {
+        const { user } = await renderTheme(TerminalApp, '/projects');
 
-      await user.click(screen.getByRole('link', { name: `View details for ${projects[0].title}` }));
-      expect(currentPath()).toBe(`/projects/${projects[0].id}`);
-      expect(eventNames()).toContain('project_view_details');
-    });
+        await user.click(within(screen.getByRole('main')).getByRole('link', { name }));
+        expect(currentPath()).toBe(`/projects/${projects[0].id}`);
+        expect(eventNames()).toContain('project_view_details');
+      },
+    );
 
     it('reads each status from what the project has', () => {
       expect(projectStatus(projects.find((p) => p.npm)!)).toBe('NPM package');
@@ -609,6 +640,17 @@ describe('Loader', () => {
 describe('FlipCalendar', () => {
   const word = (container: HTMLElement) =>
     container.querySelector('[data-word]')?.getAttribute('data-word');
+
+  it('does not schedule a flip for a single page', () => {
+    const timer = vi.spyOn(window, 'setInterval');
+    try {
+      const { container } = render(<FlipCalendar words={['One']} />);
+      expect(word(container)).toBe('One');
+      expect(timer).not.toHaveBeenCalled();
+    } finally {
+      timer.mockRestore();
+    }
+  });
 
   it('cycles the words, leaving the last page to lift away', async () => {
     const { container } = render(<FlipCalendar words={['One', 'Two']} hold={20} />);

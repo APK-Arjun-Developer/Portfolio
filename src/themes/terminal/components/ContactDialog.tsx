@@ -1,4 +1,4 @@
-import { useState, type FormEvent } from 'react';
+import { useState, type SubmitEvent } from 'react';
 import { ArrowUpRight } from 'lucide-react';
 import { personal } from '../../../data/personal';
 import { analytics } from '../../../lib/analytics';
@@ -22,7 +22,7 @@ export default function ContactDialog({
     onClose();
   };
 
-  const onSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const onSubmit = (event: SubmitEvent<HTMLFormElement>) => {
     event.preventDefault();
     const values = Object.fromEntries(
       new FormData(event.currentTarget),
@@ -44,7 +44,7 @@ export default function ContactDialog({
             link below or write to me directly.
           </p>
           <a href={mailto} className="tm-btn-primary group mt-6">
-            Open the email again
+            <span>Open the email again</span>
             <span className="tm-badge">
               <ArrowUpRight size={15} aria-hidden="true" />
             </span>
@@ -81,7 +81,7 @@ export default function ContactDialog({
             </label>
             <div className="flex justify-end pt-1">
               <button type="submit" className="tm-btn-primary group">
-                Write email
+                <span>Write email</span>
                 <span className="tm-badge">
                   <ArrowUpRight size={15} className="tm-nudge-ne" aria-hidden="true" />
                 </span>

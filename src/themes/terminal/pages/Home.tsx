@@ -87,7 +87,7 @@ export default function Home() {
                 className="tm-btn-primary group"
                 onClick={() => analytics.ctaClick('view_projects')}
               >
-                View Projects
+                <span>View Projects</span>
                 <span className="tm-badge">
                   <ArrowRight size={15} className="tm-nudge-x" aria-hidden="true" />
                 </span>

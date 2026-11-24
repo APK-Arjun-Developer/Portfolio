@@ -9,9 +9,9 @@ const DIGITS = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
 function RollingYear({ year }: Readonly<{ year: string }>) {
   return (
     <span className="tm-year">
-      {[...year].map((digit, place) => (
+      {['thousands', 'hundreds', 'tens', 'ones'].slice(0, year.length).map((place, index) => (
         <span key={place} className="tm-year__cell">
-          <span className="tm-year__roll" style={{ '--d': digit } as React.CSSProperties}>
+          <span className="tm-year__roll" style={{ '--d': year[index] } as React.CSSProperties}>
             {DIGITS.map((d) => (
               <i key={d}>{d}</i>
             ))}

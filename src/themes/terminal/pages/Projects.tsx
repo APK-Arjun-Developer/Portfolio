@@ -1,26 +1,12 @@
-import { useState } from 'react';
-import { motion } from 'framer-motion';
+import { useProjectFilter } from '../../project-filter';
 import { ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { projects, type Project } from '../../../data/personal';
+import { type Project } from '../../../data/personal';
 import { analytics } from '../../../lib/analytics';
-import { cn } from '../../../lib/utils';
 import { projectLabel, projectKind, projectStatus } from '../content';
-import { duration, ease } from '../motion';
 import ProjectLinks from '../../ProjectLinks';
 import { Reveal } from '../../Reveal';
 import SectionHeader from '../components/SectionHeader';
-
-type FilterTab = 'all' | 'company' | 'personal';
-
-const tabs: { id: FilterTab; label: string }[] = [
-  { id: 'all', label: 'All Projects' },
-  { id: 'company', label: 'Company Work' },
-  { id: 'personal', label: 'Personal' },
-];
-
-const matches = (tab: FilterTab, category: string | undefined) =>
-  tab === 'all' || (tab === 'company' ? category === 'company' : category !== 'company');
 
 function BoardRow({ project }: Readonly<{ project: Project }>) {
   const to = `/projects/${project.id}`;
@@ -72,8 +58,7 @@ function BoardRow({ project }: Readonly<{ project: Project }>) {
 }
 
 export default function Projects() {
-  const [activeTab, setActiveTab] = useState<FilterTab>('all');
-  const filtered = projects.filter((p) => matches(activeTab, p.category));
+  const { filtered, filter } = useProjectFilter('terminal');
 
   return (
     <div className="tm-wrap pt-14 md:pt-24">
@@ -84,44 +69,7 @@ export default function Projects() {
         intro="Company work and personal projects — full stack, frontend, and open-source."
       />
 
-      <fieldset className="mb-10 inline-flex flex-wrap gap-1 rounded-full border border-tm-line p-1 md:mb-14">
-        <legend className="sr-only">Filter projects by category</legend>
-        {tabs.map((tab) => {
-          const active = activeTab === tab.id;
-          const count = projects.filter((p) => matches(tab.id, p.category)).length;
-          return (
-            <button
-              key={tab.id}
-              type="button"
-              aria-pressed={active}
-              aria-controls="projects-list"
-              onClick={() => {
-                setActiveTab(tab.id);
-                analytics.projectFilterClick(tab.id);
-              }}
-              className={cn(
-                'relative inline-flex min-h-[2.5rem] items-center gap-2 rounded-full px-4 text-sm font-semibold transition-colors duration-200',
-                active ? 'text-tm-on-accent' : 'text-tm-muted hover:text-tm-ink',
-              )}
-            >
-              {active && (
-                <motion.span
-                  layoutId="tm-filter-pill"
-                  className="absolute inset-0 rounded-full bg-tm-accent"
-                  transition={{ duration: duration.ui + 0.06, ease: ease.inOut }}
-                />
-              )}
-              <span className="relative">{tab.label}</span>
-              <span
-                className="relative font-mono text-xs opacity-75"
-                aria-label={`${count} projects`}
-              >
-                {count}
-              </span>
-            </button>
-          );
-        })}
-      </fieldset>
+      {filter}
 
       <div id="projects-list" className="border-t border-tm-line">
         {filtered.map((project) => (

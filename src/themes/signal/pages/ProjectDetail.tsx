@@ -1,8 +1,8 @@
+import ProjectDetailFooter from '../../ProjectDetailFooter';
 import { motion } from 'framer-motion';
 import { useParams, Link, Navigate } from 'react-router-dom';
-import { ArrowLeft, ArrowRight } from 'lucide-react';
+import { ArrowLeft } from 'lucide-react';
 import { projects } from '../../../data/personal';
-import { analytics } from '../../../lib/analytics';
 import { flows } from '../content';
 import { duration, ease } from '../motion';
 import FlowDiagram from '../components/FlowDiagram';
@@ -205,43 +205,7 @@ export default function ProjectDetail() {
         </RevealGroup>
       </section>
 
-      {/* ── Footer: back, links, next ── */}
-      <Reveal className="mt-24 flex flex-col items-start justify-between gap-6 border-t border-sg-line pt-8 sm:flex-row sm:items-center">
-        <Link
-          to="/projects"
-          className="group inline-flex items-center gap-2 text-sm font-semibold text-sg-muted transition-colors hover:text-sg-ink"
-          aria-label="Back to all projects"
-        >
-          <ArrowLeft
-            size={16}
-            className="transition-transform duration-200 group-hover:-translate-x-0.5"
-            aria-hidden="true"
-          />
-          Back to Projects
-        </Link>
-        <ProjectLinks theme="signal" project={project} />
-      </Reveal>
-
-      {next && next.id !== project.id && (
-        <Reveal className="mt-12">
-          <Link
-            to={`/projects/${next.id}`}
-            onClick={() => analytics.projectViewDetails(next.title)}
-            className="group block rounded-[2rem] border border-sg-line bg-sg-surface p-8 transition-[border-color,transform] duration-300 hover:-translate-y-1 hover:border-sg-coral sm:p-10"
-          >
-            <span className="sg-kicker">Next project</span>
-            <span className="mt-3 flex items-center justify-between gap-6 font-display text-[clamp(1.75rem,3vw+1rem,3rem)] font-extrabold leading-tight text-sg-ink transition-colors group-hover:text-sg-coral-text">
-              {next.title}
-              <ArrowRight
-                size={36}
-                strokeWidth={1.75}
-                className="sg-nudge-x shrink-0"
-                aria-hidden="true"
-              />
-            </span>
-          </Link>
-        </Reveal>
-      )}
+      <ProjectDetailFooter theme="signal" project={project} next={next} />
     </article>
   );
 }
