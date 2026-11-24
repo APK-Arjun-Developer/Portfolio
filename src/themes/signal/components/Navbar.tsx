@@ -121,7 +121,6 @@ export default function Navbar() {
 
           <a
             href={personal.resumeUrl}
-            download="arjun-p-resume.pdf"
             onClick={() => analytics.resumeDownload('desktop_navbar')}
             className="sg-btn-primary group hidden min-h-[2.5rem] px-5 text-sm md:inline-flex"
             aria-label="Download resume PDF"
@@ -184,7 +183,6 @@ export default function Navbar() {
               <li className="pb-2 pt-5">
                 <a
                   href={personal.resumeUrl}
-                  download="arjun-p-resume.pdf"
                   onClick={() => {
                     setMobileOpen(false);
                     analytics.resumeDownload('mobile_menu');

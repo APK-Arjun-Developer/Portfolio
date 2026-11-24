@@ -114,7 +114,6 @@ export default function Navbar() {
         <div className="flex items-center gap-3 pr-10 sm:pr-14 lg:pr-0">
           <a
             href={personal.resumeUrl}
-            download="arjun-p-resume.pdf"
             onClick={() => analytics.resumeDownload('desktop_navbar')}
             className="tm-chip group hidden items-center gap-2 px-3.5 py-2.5 text-sm font-medium text-tm-ink lg:inline-flex"
             aria-label="Download resume PDF"
@@ -184,7 +183,6 @@ export default function Navbar() {
             <div className="tm-wrap border-t border-[#ffffff1f] py-6">
               <a
                 href={personal.resumeUrl}
-                download="arjun-p-resume.pdf"
                 onClick={() => {
                   setMenuOpen(false);
                   analytics.resumeDownload('mobile_menu');

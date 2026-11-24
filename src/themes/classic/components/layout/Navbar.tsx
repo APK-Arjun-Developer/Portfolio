@@ -132,7 +132,6 @@ export default function Navbar() {
           <div className="hidden md:flex items-center">
             <a
               href={personal.resumeUrl}
-              download="arjun-p-resume.pdf"
               onClick={() => analytics.resumeDownload('desktop_navbar')}
               className="inline-flex items-center gap-1.5 rounded-lg px-3.5 py-1.5 text-xs font-semibold transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
               style={{
@@ -293,7 +292,6 @@ export default function Navbar() {
                 >
                   <a
                     href={personal.resumeUrl}
-                    download="arjun-p-resume.pdf"
                     onClick={() => {
                       setMobileOpen(false);
                       analytics.resumeDownload('mobile_menu');
