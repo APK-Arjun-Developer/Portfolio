@@ -1,3 +1,12 @@
+# [1.1.0](https://github.com/APK-Arjun-Developer/Portfolio/compare/v1.0.3...v1.1.0) (2026-11-24)
+
+
+### Features
+
+* add terminal theme support and update theme management ([a77c822](https://github.com/APK-Arjun-Developer/Portfolio/commit/a77c8226f578dfe6a78dc29c2a6bf6bd1fb1ca65))
+* enhance theme functionality and add new components ([ffb3466](https://github.com/APK-Arjun-Developer/Portfolio/commit/ffb346685271c058dd84615c7f7037bb02a9db36))
+* update terminal theme portrait and remove unused components ([adcf2b3](https://github.com/APK-Arjun-Developer/Portfolio/commit/adcf2b3e464f61d7e528ade1971dd6d347eae0de))
+
 ## [1.0.3](https://github.com/APK-Arjun-Developer/Portfolio/compare/v1.0.2...v1.0.3) (2026-10-29)
 
 
