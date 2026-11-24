@@ -1,64 +1,30 @@
+import BackToProjects from '../../BackToProjects';
+import { projectDetailEntrance } from '../../reveal-motion';
+import ProjectSectionTitle from '../../ProjectSectionTitle';
+import { useProjectDetail } from '../../useProjectDetail';
 import ProjectDetailFooter from '../../ProjectDetailFooter';
 import { motion } from 'framer-motion';
-import { useParams, Link, Navigate } from 'react-router-dom';
-import { ArrowLeft } from 'lucide-react';
-import { projects } from '../../../data/personal';
+import { Navigate } from 'react-router-dom';
 import { flows, projectLabel } from '../content';
-import { duration, ease } from '../motion';
+import { duration } from '../motion';
 import ProjectLinks from '../../ProjectLinks';
 import RouteMap from '../components/RouteMap';
 import { Reveal, RevealGroup, RevealItem } from '../../Reveal';
 
-const enter = (delay: number) => ({
-  initial: { opacity: 0, y: 14 },
-  animate: { opacity: 1, y: 0 },
-  transition: { duration: duration.section, ease: ease.out, delay },
-});
-
-function SectionTitle({
-  id,
-  kicker,
-  title,
-}: Readonly<{ id: string; kicker: string; title: string }>) {
-  return (
-    <Reveal className="mb-8 md:mb-10">
-      <p className="tm-kicker flex items-center gap-3">
-        <span className="h-2 w-2 rounded-full bg-tm-accent" aria-hidden="true" />
-        {kicker}
-      </p>
-      <h2 id={id} className="mt-3 text-[clamp(1.75rem,2vw+1rem,2.5rem)] font-bold leading-tight">
-        {title}
-      </h2>
-    </Reveal>
-  );
-}
+const enter = (delay: number) => projectDetailEntrance(delay, duration.section);
 
 export default function ProjectDetail() {
-  const { id } = useParams<{ id: string }>();
-  const index = projects.findIndex((p) => p.id === id);
-  const project = projects[index];
+  const { project, next } = useProjectDetail();
 
   if (!project) return <Navigate to="/projects" replace />;
 
   const isCompany = project.category === 'company';
   const flow = flows[project.id];
-  const next = projects[(index + 1) % projects.length];
 
   return (
     <article className="tm-wrap pt-10 md:pt-16">
       <motion.div {...enter(0)}>
-        <Link
-          to="/projects"
-          className="group inline-flex items-center gap-2 text-sm font-semibold text-tm-muted transition-colors hover:text-tm-ink"
-          aria-label="Back to all projects"
-        >
-          <ArrowLeft
-            size={16}
-            className="transition-transform duration-200 group-hover:-translate-x-0.5"
-            aria-hidden="true"
-          />
-          All Projects
-        </Link>
+        <BackToProjects theme="terminal">All Projects</BackToProjects>
       </motion.div>
 
       {/* ── Boarding pass ── */}
@@ -116,7 +82,12 @@ export default function ProjectDetail() {
         aria-labelledby="overview-heading"
       >
         <div className="lg:col-span-4">
-          <SectionTitle id="overview-heading" kicker="01" title="Problem & Overview" />
+          <ProjectSectionTitle
+            theme="terminal"
+            id="overview-heading"
+            kicker="01"
+            title="Problem & Overview"
+          />
         </div>
         <Reveal className="lg:col-span-8">
           <p className="text-[clamp(1.125rem,0.6vw+1rem,1.375rem)] leading-relaxed text-tm-ink">
@@ -127,7 +98,12 @@ export default function ProjectDetail() {
 
       {/* ── Features ── */}
       <section className="mt-24 md:mt-32" aria-labelledby="features-heading">
-        <SectionTitle id="features-heading" kicker="02" title="Key Features" />
+        <ProjectSectionTitle
+          theme="terminal"
+          id="features-heading"
+          kicker="02"
+          title="Key Features"
+        />
         <RevealGroup as="ol" className="grid gap-4 md:grid-cols-2" aria-label="Key features">
           {project.features.map((f, i) => (
             <RevealItem
@@ -146,7 +122,12 @@ export default function ProjectDetail() {
 
       {/* ── Challenges ── */}
       <section className="mt-24 md:mt-32" aria-labelledby="challenges-heading">
-        <SectionTitle id="challenges-heading" kicker="03" title="Challenges & Solutions" />
+        <ProjectSectionTitle
+          theme="terminal"
+          id="challenges-heading"
+          kicker="03"
+          title="Challenges & Solutions"
+        />
         <RevealGroup as="ol" className="space-y-6" aria-label="Technical challenges and solutions">
           {project.challenges.map((c, i) => (
             <RevealItem
@@ -174,7 +155,12 @@ export default function ProjectDetail() {
 
       {/* ── Tech stack ── */}
       <section className="mt-24 md:mt-32" aria-labelledby="techstack-heading">
-        <SectionTitle id="techstack-heading" kicker="04" title="Tech Stack" />
+        <ProjectSectionTitle
+          theme="terminal"
+          id="techstack-heading"
+          kicker="04"
+          title="Tech Stack"
+        />
         <RevealGroup
           as="ul"
           className="grid gap-px overflow-hidden rounded-3xl border border-tm-line bg-tm-line sm:grid-cols-2 lg:grid-cols-4"
