@@ -1,6 +1,8 @@
 // vite.config.ts publishes the resolved theme on process.env before PostCSS runs, so each
 // build only scans (and emits utilities for) the active theme's components.
-const uiTheme = process.env.VITE_UI_THEME === 'signal' ? 'signal' : 'classic';
+const uiTheme = ['signal', 'terminal'].includes(process.env.VITE_UI_THEME)
+  ? process.env.VITE_UI_THEME
+  : 'classic';
 
 /** @type {import('tailwindcss').Config} */
 export default {
@@ -9,6 +11,7 @@ export default {
     './src/*.{ts,tsx}',
     './src/{components,data,lib}/**/*.{ts,tsx}',
     `./src/themes/${uiTheme}/**/*.{ts,tsx}`,
+    ...(uiTheme === 'classic' ? [] : ['./src/themes/*.{ts,tsx}']),
   ],
   theme: {
     extend: {
@@ -19,6 +22,8 @@ export default {
         // Signal theme
         display: ['Syne', '"Arial Black"', 'system-ui', 'sans-serif'],
         body: ['"Hanken Grotesk"', 'system-ui', '-apple-system', 'Segoe UI', 'sans-serif'],
+        // Terminal theme
+        onest: ['Onest', 'system-ui', '-apple-system', 'Segoe UI', 'sans-serif'],
       },
       colors: {
         // Signal theme — every value is a CSS variable from src/themes/signal/styles.css,
@@ -39,6 +44,21 @@ export default {
           teal: 'var(--sg-teal)',
           'teal-soft': 'var(--sg-teal-soft)',
           'on-teal': 'var(--sg-on-teal)',
+        },
+        // Terminal theme — CSS variables from src/themes/terminal/styles.css.
+        tm: {
+          bg: 'var(--tm-bg)',
+          surface: 'var(--tm-surface)',
+          raised: 'var(--tm-raised)',
+          ink: 'var(--tm-ink)',
+          muted: 'var(--tm-muted)',
+          faint: 'var(--tm-faint)',
+          line: 'var(--tm-line)',
+          'line-strong': 'var(--tm-line-strong)',
+          accent: 'var(--tm-accent)',
+          'accent-text': 'var(--tm-accent-text)',
+          'accent-soft': 'var(--tm-accent-soft)',
+          'on-accent': 'var(--tm-on-accent)',
         },
         // Classic theme
         canvas: '#0b1120',

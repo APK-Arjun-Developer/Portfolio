@@ -57,6 +57,9 @@ jobs:
       - name: Build (signal)
         run: bun run build:signal
 
+      - name: Build (terminal)
+        run: bun run build:terminal
+
       - name: Release
         # Pass repository-url explicitly so semantic-release uses the correct
         # repo regardless of what package.json says

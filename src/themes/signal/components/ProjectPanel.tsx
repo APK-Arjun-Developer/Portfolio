@@ -5,7 +5,7 @@ import { analytics } from '../../../lib/analytics';
 import { cn } from '../../../lib/utils';
 import { flows } from '../content';
 import FlowDiagram from './FlowDiagram';
-import ProjectLinks from './ProjectLinks';
+import ProjectLinks from '../../ProjectLinks';
 import { motion } from 'framer-motion';
 import { fadeUp, viewportOnce } from '../motion';
 
@@ -105,7 +105,7 @@ export default function ProjectPanel({
             Read case study
             <ArrowRight size={16} className="sg-nudge-x" aria-hidden="true" />
           </Link>
-          <ProjectLinks project={project} />
+          <ProjectLinks theme="signal" project={project} />
         </div>
       </div>
     </motion.article>

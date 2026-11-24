@@ -6,7 +6,7 @@ import react from '@vitejs/plugin-react';
 // Bumped by semantic-release on every release; shown in the navbar of both themes.
 const { version } = JSON.parse(readFileSync(new URL('./package.json', import.meta.url), 'utf8'));
 
-const THEMES = ['signal', 'classic'] as const;
+const THEMES = ['signal', 'classic', 'terminal'] as const;
 type UiTheme = (typeof THEMES)[number];
 const DEFAULT_THEME: UiTheme = 'classic';
 
@@ -51,24 +51,31 @@ const favicon = (href: string): HtmlTagDescriptor[] => [
   { tag: 'link', attrs: { rel: 'apple-touch-icon', href }, injectTo: 'head' },
 ];
 
-// Runs before first paint: resolves the stored light/dark/system preference (signal only).
-const signalThemeBootstrap = `(function () {
+// Runs before first paint: resolves the stored light/dark/system preference (signal and terminal).
+const themeBootstrap = (darkColor: string, lightColor: string) => `(function () {
   var pref = 'system';
   try { pref = localStorage.getItem('theme') || 'system'; } catch (e) {}
   var dark = pref === 'dark' || (pref !== 'light' && window.matchMedia('(prefers-color-scheme: dark)').matches);
   document.documentElement.dataset.theme = dark ? 'dark' : 'light';
-  document.querySelector('meta[name="theme-color"]').setAttribute('content', dark ? '#0f1115' : '#fbf7f2');
+  document.querySelector('meta[name="theme-color"]').setAttribute('content', dark ? '${darkColor}' : '${lightColor}');
 })();`;
 
 const headTags: Record<UiTheme, HtmlTagDescriptor[]> = {
   signal: [
     { tag: 'meta', attrs: { name: 'theme-color', content: '#0f1115' }, injectTo: 'head-prepend' },
-    { tag: 'script', children: signalThemeBootstrap, injectTo: 'head' },
+    { tag: 'script', children: themeBootstrap('#0f1115', '#fbf7f2'), injectTo: 'head' },
     ...favicon('/favicon-signal.svg'),
     ...socialImage('og-image-signal.png'),
     fontLink(
       'family=Hanken+Grotesk:ital,wght@0,400..700;1,400&family=JetBrains+Mono:wght@400;500&family=Syne:wght@600..800',
     ),
+  ],
+  terminal: [
+    { tag: 'meta', attrs: { name: 'theme-color', content: '#1a1818' }, injectTo: 'head-prepend' },
+    { tag: 'script', children: themeBootstrap('#1a1818', '#e9e5e0'), injectTo: 'head' },
+    ...favicon('/favicon-terminal.svg'),
+    ...socialImage('og-image-terminal.png'),
+    fontLink('family=Onest:wght@400..800&family=JetBrains+Mono:wght@400;500;700'),
   ],
   classic: [
     { tag: 'meta', attrs: { name: 'theme-color', content: '#08080e' }, injectTo: 'head-prepend' },
@@ -89,7 +96,7 @@ function uiThemeHead(theme: UiTheme): Plugin {
 
 // https://vite.dev/config/
 export default defineConfig(({ mode }) => {
-  // `--mode signal` / `--mode classic` picks a theme explicitly (cross-platform, used by
+  // `--mode signal` / `--mode classic` / `--mode terminal` picks a theme explicitly (cross-platform, used by
   // the build:* scripts); otherwise VITE_UI_THEME from the environment / .env decides.
   const modeTheme = (THEMES as readonly string[]).includes(mode) ? mode : undefined;
   const theme = resolveTheme(modeTheme ?? loadEnv(mode, process.cwd(), 'VITE_').VITE_UI_THEME);

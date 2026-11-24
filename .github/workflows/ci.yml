@@ -42,8 +42,8 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        # Both UI themes must keep building — VITE_UI_THEME picks one at deploy time.
-        theme: [classic, signal]
+        # Every UI theme must keep building — VITE_UI_THEME picks one at deploy time.
+        theme: [classic, signal, terminal]
     steps:
       - uses: actions/checkout@v4
 

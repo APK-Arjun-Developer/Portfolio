@@ -34,7 +34,7 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      // src/App.tsx imports the build-selected theme; tests exercise both themes
+      // src/App.tsx imports the build-selected theme; tests exercise every theme
       // directly and resolve the alias to the default (classic).
       '@theme-app': fileURLToPath(new URL('./src/themes/classic/App.tsx', import.meta.url)),
     },

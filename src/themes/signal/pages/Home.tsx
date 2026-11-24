@@ -10,9 +10,9 @@ import FlowDiagram from '../components/FlowDiagram';
 import ProjectPanel from '../components/ProjectPanel';
 import SectionHeader from '../components/SectionHeader';
 import SignalMesh from '../components/SignalMesh';
-import SkillGrid from '../components/SkillGrid';
+import SkillGrid from '../../SkillGrid';
 import SplitHeadline from '../components/SplitHeadline';
-import { RevealGroup, RevealItem } from '../components/Reveal';
+import { RevealGroup, RevealItem } from '../../Reveal';
 
 const featured = projects.find((p) => p.id === 'multi-tenant-api')!;
 const personalProjects = projects.filter((p) => p.category !== 'company');
@@ -254,7 +254,7 @@ export default function Home() {
           title="What I build with."
           intro="Grouped by the kind of engineering work, with the tools I've used for each."
         />
-        <SkillGrid />
+        <SkillGrid theme="signal" />
       </section>
     </>
   );

@@ -1,64 +1,30 @@
+import BackToProjects from '../../BackToProjects';
+import { projectDetailEntrance } from '../../reveal-motion';
+import ProjectSectionTitle from '../../ProjectSectionTitle';
+import { useProjectDetail } from '../../useProjectDetail';
+import ProjectDetailFooter from '../../ProjectDetailFooter';
 import { motion } from 'framer-motion';
-import { useParams, Link, Navigate } from 'react-router-dom';
-import { ArrowLeft, ArrowRight } from 'lucide-react';
-import { projects } from '../../../data/personal';
-import { analytics } from '../../../lib/analytics';
+import { Navigate } from 'react-router-dom';
 import { flows } from '../content';
 import { duration, ease } from '../motion';
 import FlowDiagram from '../components/FlowDiagram';
-import ProjectLinks from '../components/ProjectLinks';
-import { Reveal, RevealGroup, RevealItem } from '../components/Reveal';
+import ProjectLinks from '../../ProjectLinks';
+import { Reveal, RevealGroup, RevealItem } from '../../Reveal';
 
-const enter = (delay: number) => ({
-  initial: { opacity: 0, y: 14 },
-  animate: { opacity: 1, y: 0 },
-  transition: { duration: duration.section, ease: ease.out, delay },
-});
-
-function SectionTitle({
-  id,
-  kicker,
-  title,
-}: Readonly<{ id: string; kicker: string; title: string }>) {
-  return (
-    <Reveal className="mb-8 md:mb-10">
-      <p className="sg-kicker flex items-center gap-3">
-        <span className="h-px w-8 bg-sg-coral" aria-hidden="true" />
-        {kicker}
-      </p>
-      <h2 id={id} className="mt-3 text-[clamp(1.75rem,2vw+1rem,2.5rem)] font-bold leading-tight">
-        {title}
-      </h2>
-    </Reveal>
-  );
-}
+const enter = (delay: number) => projectDetailEntrance(delay, duration.section);
 
 export default function ProjectDetail() {
-  const { id } = useParams<{ id: string }>();
-  const index = projects.findIndex((p) => p.id === id);
-  const project = projects[index];
+  const { project, next } = useProjectDetail();
 
   if (!project) return <Navigate to="/projects" replace />;
 
   const isCompany = project.category === 'company';
   const flow = flows[project.id];
-  const next = projects[(index + 1) % projects.length];
 
   return (
     <article className="sg-wrap pt-10 md:pt-16">
       <motion.div {...enter(0)}>
-        <Link
-          to="/projects"
-          className="group inline-flex items-center gap-2 text-sm font-semibold text-sg-muted transition-colors hover:text-sg-ink"
-          aria-label="Back to all projects"
-        >
-          <ArrowLeft
-            size={16}
-            className="transition-transform duration-200 group-hover:-translate-x-0.5"
-            aria-hidden="true"
-          />
-          All Projects
-        </Link>
+        <BackToProjects theme="signal">All Projects</BackToProjects>
       </motion.div>
 
       {/* ── Header ── */}
@@ -109,7 +75,7 @@ export default function ProjectDetail() {
           </motion.dl>
 
           <motion.div {...enter(0.32)}>
-            <ProjectLinks project={project} variant="buttons" className="mt-8" />
+            <ProjectLinks theme="signal" project={project} variant="buttons" className="mt-8" />
           </motion.div>
         </div>
 
@@ -133,7 +99,12 @@ export default function ProjectDetail() {
         aria-labelledby="overview-heading"
       >
         <div className="lg:col-span-4">
-          <SectionTitle id="overview-heading" kicker="01" title="Problem & Overview" />
+          <ProjectSectionTitle
+            theme="signal"
+            id="overview-heading"
+            kicker="01"
+            title="Problem & Overview"
+          />
         </div>
         <Reveal className="lg:col-span-8">
           <p className="text-[clamp(1.125rem,0.6vw+1rem,1.375rem)] leading-relaxed text-sg-ink">
@@ -144,7 +115,12 @@ export default function ProjectDetail() {
 
       {/* ── Features ── */}
       <section className="mt-24 md:mt-32" aria-labelledby="features-heading">
-        <SectionTitle id="features-heading" kicker="02" title="Key Features" />
+        <ProjectSectionTitle
+          theme="signal"
+          id="features-heading"
+          kicker="02"
+          title="Key Features"
+        />
         <RevealGroup as="ol" className="grid gap-4 md:grid-cols-2" aria-label="Key features">
           {project.features.map((f, i) => (
             <RevealItem
@@ -163,7 +139,12 @@ export default function ProjectDetail() {
 
       {/* ── Challenges ── */}
       <section className="mt-24 md:mt-32" aria-labelledby="challenges-heading">
-        <SectionTitle id="challenges-heading" kicker="03" title="Challenges & Solutions" />
+        <ProjectSectionTitle
+          theme="signal"
+          id="challenges-heading"
+          kicker="03"
+          title="Challenges & Solutions"
+        />
         <RevealGroup as="ol" className="space-y-6" aria-label="Technical challenges and solutions">
           {project.challenges.map((c, i) => (
             <RevealItem
@@ -191,7 +172,7 @@ export default function ProjectDetail() {
 
       {/* ── Tech stack ── */}
       <section className="mt-24 md:mt-32" aria-labelledby="techstack-heading">
-        <SectionTitle id="techstack-heading" kicker="04" title="Tech Stack" />
+        <ProjectSectionTitle theme="signal" id="techstack-heading" kicker="04" title="Tech Stack" />
         <RevealGroup
           as="ul"
           className="grid gap-px overflow-hidden rounded-3xl border border-sg-line bg-sg-line sm:grid-cols-2 lg:grid-cols-4"
@@ -205,43 +186,7 @@ export default function ProjectDetail() {
         </RevealGroup>
       </section>
 
-      {/* ── Footer: back, links, next ── */}
-      <Reveal className="mt-24 flex flex-col items-start justify-between gap-6 border-t border-sg-line pt-8 sm:flex-row sm:items-center">
-        <Link
-          to="/projects"
-          className="group inline-flex items-center gap-2 text-sm font-semibold text-sg-muted transition-colors hover:text-sg-ink"
-          aria-label="Back to all projects"
-        >
-          <ArrowLeft
-            size={16}
-            className="transition-transform duration-200 group-hover:-translate-x-0.5"
-            aria-hidden="true"
-          />
-          Back to Projects
-        </Link>
-        <ProjectLinks project={project} />
-      </Reveal>
-
-      {next && next.id !== project.id && (
-        <Reveal className="mt-12">
-          <Link
-            to={`/projects/${next.id}`}
-            onClick={() => analytics.projectViewDetails(next.title)}
-            className="group block rounded-[2rem] border border-sg-line bg-sg-surface p-8 transition-[border-color,transform] duration-300 hover:-translate-y-1 hover:border-sg-coral sm:p-10"
-          >
-            <span className="sg-kicker">Next project</span>
-            <span className="mt-3 flex items-center justify-between gap-6 font-display text-[clamp(1.75rem,3vw+1rem,3rem)] font-extrabold leading-tight text-sg-ink transition-colors group-hover:text-sg-coral-text">
-              {next.title}
-              <ArrowRight
-                size={36}
-                strokeWidth={1.75}
-                className="sg-nudge-x shrink-0"
-                aria-hidden="true"
-              />
-            </span>
-          </Link>
-        </Reveal>
-      )}
+      <ProjectDetailFooter theme="signal" project={project} next={next} />
     </article>
   );
 }

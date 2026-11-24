@@ -2,6 +2,7 @@ import { describe, expect, it, vi } from 'vitest';
 import { axe } from 'jest-axe';
 import ClassicApp from '../themes/classic/App';
 import SignalApp from '../themes/signal/App';
+import TerminalApp from '../themes/terminal/App';
 import { renderTheme } from './helpers';
 
 vi.mock('react-ga4', () => ({
@@ -15,7 +16,7 @@ vi.mock('lenis', () => ({
 }));
 
 /*
- * axe-core accessibility audit of every route in both themes. jsdom has no layout
+ * axe-core accessibility audit of every route in every theme. jsdom has no layout
  * engine, so jest-axe skips colour contrast (SonarCloud and manual checks cover it).
  */
 const routes = ['/', '/about', '/projects', '/projects/multi-tenant-api', '/projects/dr-carrot'];
@@ -23,6 +24,7 @@ const routes = ['/', '/about', '/projects', '/projects/multi-tenant-api', '/proj
 describe.each([
   ['classic', ClassicApp],
   ['signal', SignalApp],
+  ['terminal', TerminalApp],
 ])('%s theme — accessibility (axe)', (_name, App) => {
   it.each(routes)(
     '%s has no axe violations',
