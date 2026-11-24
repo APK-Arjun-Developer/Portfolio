@@ -1,3 +1,10 @@
+## [1.1.1](https://github.com/APK-Arjun-Developer/Portfolio/compare/v1.1.0...v1.1.1) (2026-11-24)
+
+
+### Bug Fixes
+
+* download resume from google drive ([0b7f984](https://github.com/APK-Arjun-Developer/Portfolio/commit/0b7f9840241b1ef5bf1841672e8704a8de63df02))
+
 # [1.1.0](https://github.com/APK-Arjun-Developer/Portfolio/compare/v1.0.3...v1.1.0) (2026-11-24)
 
 
