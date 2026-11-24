@@ -14,7 +14,7 @@ export const personal = {
   email: 'apkarjundeveloper@gmail.com',
   github: 'https://github.com/APK-Arjun-Developer',
   linkedin: 'https://www.linkedin.com/in/arjun-prakash-full-stack-developer',
-  resumeUrl: '/resume.pdf',
+  resumeUrl: 'https://drive.google.com/uc?export=download&id=11OZhQU-X2vJL9LrQP1Rkilq7ZIRoZuZo',
   summary:
     'Full Stack Developer with experience building scalable web applications using React, Node.js, and .NET Core. Passionate about clean architecture, multi-role SaaS platforms, and end-to-end product delivery.',
 };

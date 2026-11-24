@@ -122,6 +122,8 @@ The Light / System / Dark toggle in the Signal navbar and the pull cord in the T
 
 **Terminal portrait:** the transparent cutout lives at `public/terminal/arjun-cutout.png`. When replacing it, preserve transparency and update the image source and dimensions in `src/themes/terminal/pages/Home.tsx`.
 
+**Resume:** all themes use the Google Drive download URL in `src/data/personal.ts`. Keep the file accessible to anyone with the link and upload revisions as new versions of the same file to keep the URL stable.
+
 ## 6. Environment variables
 
 | Variable                 | Default   | Description                                           |
@@ -139,7 +141,7 @@ The Light / System / Dark toggle in the Signal navbar and the pull cord in the T
 ```
 .github/workflows/      ci.yml, sonarcloud.yml, branch-name.yml, release.yml
 .husky/                 pre-commit, commit-msg, pre-push
-public/                 favicons, og-image*.png, resume.pdf
+public/                 favicons, og-image*.png, terminal portrait
 scripts/og-image.mjs    renders the social preview cards (Playwright)
 src/
   App.tsx               router, scroll reset, GA page views; renders @theme-app

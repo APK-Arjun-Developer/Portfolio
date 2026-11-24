@@ -65,7 +65,6 @@ export default function ContactFooter() {
           <RevealItem as="li" className="border-b border-sg-line">
             <a
               href={personal.resumeUrl}
-              download="arjun-p-resume.pdf"
               onClick={() => analytics.resumeDownload('footer')}
               className="group flex items-center justify-between gap-4 py-5 text-lg font-semibold text-sg-ink transition-colors hover:text-sg-coral-text"
             >

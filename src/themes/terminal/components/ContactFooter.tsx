@@ -102,7 +102,6 @@ export default function ContactFooter() {
               <li>
                 <a
                   href={personal.resumeUrl}
-                  download="arjun-p-resume.pdf"
                   onClick={() => analytics.resumeDownload('footer')}
                   className="tm-footer__link inline-flex items-center gap-2"
                 >
