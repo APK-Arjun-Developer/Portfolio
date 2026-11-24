@@ -1,6 +1,5 @@
-import { lazy, Suspense, useCallback, useEffect, useState } from 'react';
-import { Routes, Route, useLocation } from 'react-router-dom';
-import { MotionConfig, motion } from 'framer-motion';
+import { lazy, useCallback, useEffect, useState } from 'react';
+import { MotionConfig } from 'framer-motion';
 import Lenis from 'lenis';
 import BackToTop from './components/BackToTop';
 import ContactDialog from './components/ContactDialog';
@@ -10,8 +9,10 @@ import Navbar from './components/Navbar';
 import PullCord from './components/PullCord';
 import { ContactContext } from './contact';
 import { IntroContext, loaderNeeded } from './intro';
-import { duration, ease, prefersReducedMotion } from './motion';
+import { duration, prefersReducedMotion } from './motion';
 import { setLenis } from './scroll';
+import { RevealDuration } from '../reveal-motion';
+import ThemeRoutes from '../ThemeRoutes';
 import './styles.css';
 
 const Home = lazy(() => import('./pages/Home'));
@@ -43,7 +44,6 @@ function useSmoothScroll() {
 
 /** "Terminal" theme — built with VITE_UI_THEME=terminal. */
 export default function TerminalApp() {
-  const location = useLocation();
   const [introReady, setIntroReady] = useState(() => !loaderNeeded());
   const [contactOpen, setContactOpen] = useState(false);
   const openPage = useCallback(() => setIntroReady(true), []);
@@ -53,35 +53,26 @@ export default function TerminalApp() {
 
   return (
     <MotionConfig reducedMotion="user">
-      <IntroContext.Provider value={introReady}>
-        <ContactContext.Provider value={openContact}>
-          <Loader onOpen={openPage} />
-          <PullCord />
-          <div className="flex min-h-screen flex-col">
-            <Navbar />
-            <main id="main-content" className="flex-1" tabIndex={-1}>
-              <motion.div
-                key={location.pathname}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: duration.ui + 0.1, ease: ease.out }}
-              >
-                <Suspense fallback={<div className="min-h-[70vh]" aria-busy="true" />}>
-                  <Routes location={location}>
-                    <Route path="/" element={<Home />} />
-                    <Route path="/about" element={<About />} />
-                    <Route path="/projects" element={<Projects />} />
-                    <Route path="/projects/:id" element={<ProjectDetail />} />
-                  </Routes>
-                </Suspense>
-              </motion.div>
-            </main>
-            <ContactFooter />
-          </div>
-          <BackToTop />
-          <ContactDialog open={contactOpen} onClose={closeContact} />
-        </ContactContext.Provider>
-      </IntroContext.Provider>
+      <RevealDuration.Provider value={duration.section}>
+        <IntroContext.Provider value={introReady}>
+          <ContactContext.Provider value={openContact}>
+            <Loader onOpen={openPage} />
+            <PullCord />
+            <div className="flex min-h-screen flex-col">
+              <Navbar />
+              <ThemeRoutes
+                Home={Home}
+                About={About}
+                Projects={Projects}
+                ProjectDetail={ProjectDetail}
+              />
+              <ContactFooter />
+            </div>
+            <BackToTop />
+            <ContactDialog open={contactOpen} onClose={closeContact} />
+          </ContactContext.Provider>
+        </IntroContext.Provider>
+      </RevealDuration.Provider>
     </MotionConfig>
   );
 }

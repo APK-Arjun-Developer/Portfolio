@@ -7,8 +7,8 @@ import { analytics } from '../../../lib/analytics';
 import { cn } from '../../../lib/utils';
 import { projectLabel, projectKind, projectStatus } from '../content';
 import { duration, ease } from '../motion';
-import ProjectLinks from '../components/ProjectLinks';
-import { Reveal } from '../components/Reveal';
+import ProjectLinks from '../../ProjectLinks';
+import { Reveal } from '../../Reveal';
 import SectionHeader from '../components/SectionHeader';
 
 type FilterTab = 'all' | 'company' | 'personal';
@@ -64,7 +64,7 @@ function BoardRow({ project }: Readonly<{ project: Project }>) {
             View details
             <ArrowRight size={15} className="tm-nudge-x" aria-hidden="true" />
           </Link>
-          <ProjectLinks project={project} className="lg:justify-end" />
+          <ProjectLinks theme="terminal" project={project} className="lg:justify-end" />
         </div>
       </article>
     </Reveal>

@@ -10,10 +10,10 @@ import { useIntroReady } from '../intro';
 import { duration, ease } from '../motion';
 import FlipCalendar from '../components/FlipCalendar';
 import GateRow from '../components/Gate';
-import { Reveal } from '../components/Reveal';
+import { Reveal } from '../../Reveal';
 import RouteMap from '../components/RouteMap';
 import SectionHeader from '../components/SectionHeader';
-import SkillGrid from '../components/SkillGrid';
+import SkillGrid from '../../SkillGrid';
 import Story from '../components/Story';
 
 const featured = projects.find((p) => p.id === 'multi-tenant-api')!;
@@ -221,7 +221,7 @@ export default function Home() {
           title="What I build with."
           intro="Grouped by the kind of engineering work, with the tools I've used for each."
         />
-        <SkillGrid />
+        <SkillGrid theme="terminal" />
       </section>
     </>
   );

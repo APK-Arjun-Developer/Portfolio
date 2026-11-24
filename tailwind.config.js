@@ -11,6 +11,7 @@ export default {
     './src/*.{ts,tsx}',
     './src/{components,data,lib}/**/*.{ts,tsx}',
     `./src/themes/${uiTheme}/**/*.{ts,tsx}`,
+    ...(uiTheme === 'classic' ? [] : ['./src/themes/*.{ts,tsx}']),
   ],
   theme: {
     extend: {

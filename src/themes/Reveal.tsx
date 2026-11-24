@@ -1,5 +1,6 @@
+import { useContext } from 'react';
 import { motion } from 'framer-motion';
-import { fadeUp, staggerGroup, viewportOnce } from '../motion';
+import { fadeUp, RevealDuration, staggerGroup, viewportOnce } from './reveal-motion';
 
 interface RevealProps {
   children: React.ReactNode;
@@ -9,10 +10,11 @@ interface RevealProps {
 
 /** A single block that rises in once when it scrolls into view. */
 export function Reveal({ children, className, delay = 0 }: Readonly<RevealProps>) {
+  const duration = useContext(RevealDuration);
   return (
     <motion.div
       className={className}
-      variants={fadeUp}
+      variants={fadeUp(duration)}
       initial="hidden"
       whileInView="show"
       viewport={viewportOnce}
@@ -64,8 +66,9 @@ interface RevealItemProps {
 
 export function RevealItem({ as = 'div', children, className }: Readonly<RevealItemProps>) {
   const Tag = itemTags[as];
+  const duration = useContext(RevealDuration);
   return (
-    <Tag className={className} variants={fadeUp}>
+    <Tag className={className} variants={fadeUp(duration)}>
       {children}
     </Tag>
   );

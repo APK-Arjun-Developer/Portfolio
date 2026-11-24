@@ -1,8 +1,8 @@
 import { education, experience } from '../../../data/personal';
 import { heroFacts } from '../content';
 import SectionHeader from '../components/SectionHeader';
-import SkillGrid from '../components/SkillGrid';
-import { Reveal, RevealGroup, RevealItem } from '../components/Reveal';
+import SkillGrid from '../../SkillGrid';
+import { Reveal, RevealGroup, RevealItem } from '../../Reveal';
 
 export default function About() {
   return (
@@ -96,7 +96,7 @@ export default function About() {
           title="Technical Skills"
           intro="Technologies I work with across the full stack."
         />
-        <SkillGrid />
+        <SkillGrid theme="signal" />
       </section>
 
       {/* ── Education ── */}

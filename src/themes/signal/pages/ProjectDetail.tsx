@@ -6,8 +6,8 @@ import { analytics } from '../../../lib/analytics';
 import { flows } from '../content';
 import { duration, ease } from '../motion';
 import FlowDiagram from '../components/FlowDiagram';
-import ProjectLinks from '../components/ProjectLinks';
-import { Reveal, RevealGroup, RevealItem } from '../components/Reveal';
+import ProjectLinks from '../../ProjectLinks';
+import { Reveal, RevealGroup, RevealItem } from '../../Reveal';
 
 const enter = (delay: number) => ({
   initial: { opacity: 0, y: 14 },
@@ -109,7 +109,7 @@ export default function ProjectDetail() {
           </motion.dl>
 
           <motion.div {...enter(0.32)}>
-            <ProjectLinks project={project} variant="buttons" className="mt-8" />
+            <ProjectLinks theme="signal" project={project} variant="buttons" className="mt-8" />
           </motion.div>
         </div>
 
@@ -219,7 +219,7 @@ export default function ProjectDetail() {
           />
           Back to Projects
         </Link>
-        <ProjectLinks project={project} />
+        <ProjectLinks theme="signal" project={project} />
       </Reveal>
 
       {next && next.id !== project.id && (

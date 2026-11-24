@@ -5,9 +5,9 @@ import { projects } from '../../../data/personal';
 import { analytics } from '../../../lib/analytics';
 import { flows, projectLabel } from '../content';
 import { duration, ease } from '../motion';
-import ProjectLinks from '../components/ProjectLinks';
+import ProjectLinks from '../../ProjectLinks';
 import RouteMap from '../components/RouteMap';
-import { Reveal, RevealGroup, RevealItem } from '../components/Reveal';
+import { Reveal, RevealGroup, RevealItem } from '../../Reveal';
 
 const enter = (delay: number) => ({
   initial: { opacity: 0, y: 14 },
@@ -100,7 +100,7 @@ export default function ProjectDetail() {
             </div>
           </dl>
 
-          <ProjectLinks project={project} variant="buttons" className="mt-8" />
+          <ProjectLinks theme="terminal" project={project} variant="buttons" className="mt-8" />
         </div>
 
         {flow && (
@@ -202,7 +202,7 @@ export default function ProjectDetail() {
           />
           Back to Projects
         </Link>
-        <ProjectLinks project={project} />
+        <ProjectLinks theme="terminal" project={project} />
       </Reveal>
 
       {next && next.id !== project.id && (

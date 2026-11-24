@@ -1,5 +1,5 @@
 import { cn } from '../../../lib/utils';
-import { Reveal } from './Reveal';
+import { Reveal } from '../../Reveal';
 
 interface SectionHeaderProps {
   kicker: string;

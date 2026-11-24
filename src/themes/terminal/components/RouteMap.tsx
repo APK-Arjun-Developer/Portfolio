@@ -1,6 +1,6 @@
 import { cn } from '../../../lib/utils';
 import type { Flow } from '../content';
-import { RevealGroup, RevealItem } from './Reveal';
+import { RevealGroup, RevealItem } from '../../Reveal';
 
 /** A project's request or data path, drawn as stops on a route. */
 export default function RouteMap({

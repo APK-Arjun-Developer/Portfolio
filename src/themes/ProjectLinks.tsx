@@ -1,18 +1,37 @@
 import { ArrowUpRight, Package } from 'lucide-react';
-import type { Project } from '../../../data/personal';
-import { analytics } from '../../../lib/analytics';
-import { cn } from '../../../lib/utils';
-import { GithubIcon } from '../../../components/BrandIcons';
+import type { Project } from '../data/personal';
+import { analytics } from '../lib/analytics';
+import { cn } from '../lib/utils';
+import { GithubIcon } from '../components/BrandIcons';
+
+const linkStyles = {
+  signal: {
+    primary: 'sg-btn-primary group',
+    secondary: 'sg-btn-secondary group',
+    inline:
+      'group inline-flex items-center gap-1.5 text-sm font-semibold text-sg-ink transition-colors hover:text-sg-coral-text',
+    arrow: 'sg-nudge-ne',
+  },
+  terminal: {
+    primary: 'tm-btn-primary group',
+    secondary: 'tm-btn-secondary group',
+    inline:
+      'group inline-flex items-center gap-1.5 text-sm font-semibold text-tm-ink transition-colors hover:text-tm-accent-text',
+    arrow: 'tm-nudge-ne',
+  },
+};
 
 interface ProjectLinksProps {
+  theme: 'signal' | 'terminal';
   project: Project;
-  /** buttons: boarding pass; inline: compact text links under gates and board rows */
+  /** buttons: case-study header; inline: compact text links inside cards */
   variant?: 'buttons' | 'inline';
   className?: string;
 }
 
 /** Demo / source / package links for a project, with analytics wired in one place. */
 export default function ProjectLinks({
+  theme,
   project,
   variant = 'inline',
   className,
@@ -21,9 +40,8 @@ export default function ProjectLinks({
   if (!showCode && !project.npm && !project.demo) return null;
 
   const buttons = variant === 'buttons';
-  const linkClass = buttons
-    ? 'tm-btn-secondary group'
-    : 'group inline-flex items-center gap-1.5 text-sm font-semibold text-tm-ink transition-colors hover:text-tm-accent-text';
+  const styles = linkStyles[theme];
+  const linkClass = buttons ? styles.secondary : styles.inline;
 
   return (
     <div
@@ -38,12 +56,12 @@ export default function ProjectLinks({
           href={project.demo}
           target="_blank"
           rel="noopener noreferrer"
-          className={buttons ? 'tm-btn-primary group' : linkClass}
+          className={buttons ? styles.primary : linkClass}
           aria-label={`View live demo for ${project.title} (opens in new tab)`}
           onClick={() => analytics.projectDemoClick(project.title)}
         >
           {buttons ? 'Live Demo' : 'Demo'}
-          <ArrowUpRight size={15} className="tm-nudge-ne" aria-hidden="true" />
+          <ArrowUpRight size={15} className={styles.arrow} aria-hidden="true" />
         </a>
       )}
       {showCode && (

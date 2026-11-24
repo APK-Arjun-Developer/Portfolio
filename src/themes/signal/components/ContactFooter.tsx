@@ -4,7 +4,7 @@ import { ArrowUpRight, Check, Copy, Download, Mail } from 'lucide-react';
 import { personal } from '../../../data/personal';
 import { analytics } from '../../../lib/analytics';
 import { GithubIcon, LinkedinIcon } from '../../../components/BrandIcons';
-import { Reveal, RevealGroup, RevealItem } from './Reveal';
+import { Reveal, RevealGroup, RevealItem } from '../../Reveal';
 
 const footerLinks = [
   { label: 'Home', to: '/' },

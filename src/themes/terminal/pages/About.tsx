@@ -1,7 +1,7 @@
 import { heroFacts } from '../content';
-import { Reveal } from '../components/Reveal';
+import { Reveal } from '../../Reveal';
 import SectionHeader from '../components/SectionHeader';
-import SkillGrid from '../components/SkillGrid';
+import SkillGrid from '../../SkillGrid';
 import Story from '../components/Story';
 
 export default function About() {
@@ -63,7 +63,7 @@ export default function About() {
           title="Technical Skills"
           intro="Technologies I work with across the full stack."
         />
-        <SkillGrid />
+        <SkillGrid theme="terminal" />
       </section>
     </>
   );
