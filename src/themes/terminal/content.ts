@@ -7,12 +7,6 @@ import { education, experience, personal, projects, type Project } from '../../d
 
 export { flows, headline, heroFacts, skillGroups, type Flow } from '../signal/content';
 
-/** A transparent cut-out, so it sits on the hero in either mode. */
-export const portrait = {
-  src: '/terminal/portrait.webp',
-  alt: personal.name,
-};
-
 export const firstName = personal.name.split(' ')[0];
 
 /** What the hero's flip calendar cycles through, after "I am a". */

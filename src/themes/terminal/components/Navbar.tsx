@@ -7,7 +7,6 @@ import { analytics } from '../../../lib/analytics';
 import { cn } from '../../../lib/utils';
 import { useOpenContact } from '../contact';
 import { duration, ease } from '../motion';
-import LocalClock from './LocalClock';
 
 const navLinks = [
   { label: 'Home', to: '/' },
@@ -127,7 +126,6 @@ export default function Navbar() {
               aria-hidden="true"
             />
           </a>
-          <LocalClock />
         </div>
       </nav>
 

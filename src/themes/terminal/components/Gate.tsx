@@ -51,9 +51,7 @@ function Gate({ project, active, dimmed, infoSide, onActive, onCursor }: Readonl
   if (walking) angle = DOOR_OPEN_DEG;
   else if (active) angle = DOOR_AJAR_DEG;
 
-  let scale = 1;
-  if (walking) scale = 1.14;
-  else if (active) scale = 1.05;
+  const scale = walking ? 1.14 : 1;
 
   return (
     <li

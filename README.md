@@ -120,7 +120,7 @@ How it works:
 
 The Light / System / Dark toggle in the Signal navbar and the pull cord in the Terminal header are per-visitor settings stored in their browser. They don't switch between themes.
 
-**Terminal portrait:** a transparent cut-out at `public/terminal/portrait.webp`. To replace it, keep the transparency and update `portrait` in `src/themes/terminal/content.ts` and the image size in `pages/Home.tsx`.
+**Terminal portrait:** the transparent cutout lives at `public/terminal/arjun-cutout.png`. When replacing it, preserve transparency and update the image source and dimensions in `src/themes/terminal/pages/Home.tsx`.
 
 ## 6. Environment variables
 

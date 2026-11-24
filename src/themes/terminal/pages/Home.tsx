@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowDown, ArrowRight, ArrowUpRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
@@ -9,7 +8,6 @@ import { calendarWords, firstName, flows, headline } from '../content';
 import { useOpenContact } from '../contact';
 import { useIntroReady } from '../intro';
 import { duration, ease } from '../motion';
-import AbilityCard from '../components/AbilityCard';
 import FlipCalendar from '../components/FlipCalendar';
 import GateRow from '../components/Gate';
 import { Reveal } from '../components/Reveal';
@@ -45,7 +43,6 @@ function Line({
 export default function Home() {
   const ready = useIntroReady();
   const openContact = useOpenContact();
-  const [cardOpen, setCardOpen] = useState(false);
   const enter = (delay: number) => ({
     initial: { opacity: 0, y: 14 },
     animate: ready ? { opacity: 1, y: 0 } : { opacity: 0, y: 14 },
@@ -134,24 +131,15 @@ export default function Home() {
             </motion.ul>
           </div>
 
-          {/* Cut-out portrait, standing on the status line below */}
-          {/* <motion.div
-            {...enter(0.2)}
-            className="relative flex items-end justify-center lg:col-span-5"
-          >
-            <div className="relative aspect-[605/1060] w-full max-w-[20rem] lg:h-[min(calc(100svh-11.75rem),46rem)] lg:w-auto lg:max-w-none">
-              <img
-                src={portrait.src}
-                alt={portrait.alt}
-                width={605}
-                height={1060}
-                className="h-full w-full object-contain object-bottom"
-              />
-              <button type="button" className="tm-photo-tag" onClick={() => setCardOpen(true)}>
-                My ability card
-              </button>
-            </div>
-          </motion.div> */}
+          <motion.div {...enter(0.2)} className="flex items-end justify-center lg:col-span-5">
+            <img
+              src="/terminal/arjun-cutout.png"
+              alt={`Portrait of ${personal.name}`}
+              width={1024}
+              height={1536}
+              className="tm-hero-portrait h-auto w-full max-w-[22rem] lg:max-w-[26rem]"
+            />
+          </motion.div>
         </div>
 
         <div className="border-t border-tm-line">
@@ -165,7 +153,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-      <AbilityCard open={cardOpen} onClose={() => setCardOpen(false)} />
 
       {/* ── The wall of doors ── */}
       <div className="tm-wall">

@@ -2,7 +2,6 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { act, fireEvent, render, screen, waitFor, within } from '@testing-library/react';
 import ReactGA from 'react-ga4';
 import { MemoryRouter } from 'react-router-dom';
-import { formatClock } from '../../themes/terminal/clock';
 import FlipCalendar from '../../themes/terminal/components/FlipCalendar';
 import Loader from '../../themes/terminal/components/Loader';
 import { calendarWords, projectStatus, stops } from '../../themes/terminal/content';
@@ -102,25 +101,13 @@ describe('Terminal theme', () => {
       expect(currentPath()).toBe('/projects/multi-tenant-api');
     });
 
-    it('opens the ability card, flips it, and closes it', async () => {
-      const { user } = await renderTheme(TerminalApp, '/');
-      const opener = screen.getByRole('button', { name: 'My ability card' });
-
-      await user.click(opener);
-      const card = screen.getByRole('dialog', { name: 'My ability card' });
-      expect(within(card).getByText('Years Experience')).toBeInTheDocument();
-
-      const stage = card.querySelector('.tm-card-stage')!;
-      fireEvent.pointerMove(stage, { clientX: 40, clientY: 30 });
-      fireEvent.pointerLeave(stage);
-
-      const flip = within(card).getByRole('button', { name: 'Flip card' });
-      await user.click(flip);
-      expect(flip).toHaveAttribute('aria-pressed', 'true');
-
-      await user.keyboard('{Escape}');
-      await waitFor(() => expect(screen.queryByRole('dialog')).toBeNull());
-      expect(opener).toHaveFocus();
+    it('shows the hero portrait without an ability card button', async () => {
+      await renderTheme(TerminalApp, '/');
+      expect(screen.getByRole('img', { name: `Portrait of ${personal.name}` })).toHaveAttribute(
+        'src',
+        '/terminal/arjun-cutout.png',
+      );
+      expect(screen.queryByRole('button', { name: 'My ability card' })).toBeNull();
     });
   });
 
@@ -323,15 +310,9 @@ describe('Terminal theme', () => {
       expect(document.documentElement.dataset.theme).toBe('dark');
     });
 
-    it('shows the live clock', async () => {
+    it('omits the local clock', async () => {
       await renderTheme(TerminalApp, '/');
-      expect(screen.getByText('Local time')).toBeInTheDocument();
-    });
-
-    it('formats the clock in 12-hour time', () => {
-      expect(formatClock(new Date(2026, 2, 12, 0, 5)).time).toBe('12:05am');
-      expect(formatClock(new Date(2026, 2, 12, 13, 41)).time).toBe('1:41pm');
-      expect(formatClock(new Date(2026, 2, 12, 13, 41)).date).toBe('12 March, 2026');
+      expect(screen.queryByText(/local time/i)).toBeNull();
     });
 
     it('shows the back-to-top button once scrolled, and uses it', async () => {
@@ -517,24 +498,25 @@ describe('Terminal theme', () => {
   });
 
   describe('contact footer', () => {
-    it('copies the email address and resets the label', async () => {
+    it('copies the email address and clears the confirmation', async () => {
       const { user } = await renderTheme(TerminalApp, '/');
       const writeText = vi.spyOn(navigator.clipboard, 'writeText');
 
       await user.click(screen.getByRole('button', { name: /copy email/i }));
       expect(writeText).toHaveBeenCalledWith(personal.email);
-      expect(await screen.findByText('Copied')).toBeInTheDocument();
-      await waitFor(() => expect(screen.getByText('Copy email')).toBeInTheDocument(), {
+      expect(await screen.findByText('Email copied')).toBeInTheDocument();
+      await waitFor(() => expect(screen.queryByText('Email copied')).toBeNull(), {
         timeout: 3000,
       });
     });
 
-    it('keeps the label when the clipboard refuses', async () => {
+    it('keeps the copy button available when the clipboard refuses', async () => {
       const { user } = await renderTheme(TerminalApp, '/');
       vi.spyOn(navigator.clipboard, 'writeText').mockRejectedValueOnce(new Error('denied'));
 
       await user.click(screen.getByRole('button', { name: /copy email/i }));
-      expect(screen.getByText('Copy email')).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: 'Copy email' })).toBeEnabled();
+      expect(screen.queryByText('Email copied')).toBeNull();
     });
 
     it('tracks the footer contact links', async () => {

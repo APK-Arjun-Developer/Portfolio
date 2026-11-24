@@ -184,9 +184,6 @@
   .tm-btn-secondary {
     @apply tm-btn border-tm-line-strong px-7 text-tm-ink hover:bg-tm-accent-soft;
   }
-  .tm-btn-quiet {
-    @apply tm-btn min-h-[2.25rem] border-transparent px-3 text-sm text-tm-ink hover:bg-tm-raised;
-  }
   .tm-badge {
     display: grid;
     place-items: center;
@@ -268,30 +265,8 @@
     padding-top: 5.25rem;
   }
 }
-.tm-photo-tag {
-  position: absolute;
-  left: 6%;
-  bottom: 12%;
-  display: inline-flex;
-  align-items: center;
-  min-height: 2.75rem;
-  padding: 0 1rem;
-  white-space: nowrap;
-  border-radius: 9999px;
-  border: 1px solid rgba(255, 255, 255, 0.22);
-  background: rgba(26, 24, 24, 0.78);
-  backdrop-filter: blur(8px);
-  color: #f3eeec;
-  font-size: 0.8125rem;
-  font-weight: 600;
-  box-shadow: 0 10px 24px -12px rgba(0, 0, 0, 0.6);
-  transition:
-    transform 350ms cubic-bezier(0.16, 1, 0.3, 1),
-    background 250ms;
-}
-.tm-photo-tag:hover {
-  transform: translateY(-3px);
-  background: rgba(26, 24, 24, 0.92);
+.tm-hero-portrait {
+  mask-image: linear-gradient(to bottom, #000 89%, transparent);
 }
 
 /* ── Flip calendar ── */
@@ -407,19 +382,15 @@
 .tm-gates {
   position: relative;
   isolation: isolate;
-  display: grid;
-  grid-auto-flow: column;
-  grid-auto-columns: minmax(13.5rem, 15rem);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   gap: 2.5rem;
-  overflow-x: auto;
-  scroll-snap-type: x proximity;
   padding-block: 1.25rem 1rem;
-  scrollbar-width: thin;
-  scrollbar-color: var(--tm-line-strong) transparent;
 }
 .tm-gate {
   position: relative;
-  scroll-snap-align: start;
+  width: min(100%, 15rem);
 }
 .tm-doorway {
   position: relative;
@@ -594,11 +565,11 @@
 /* With a wide screen and a mouse: doors stand alone, and hovering brings one forward. */
 @media (min-width: 1024px) and (hover: hover) {
   .tm-gates {
-    justify-content: center;
     gap: clamp(1.5rem, 3vw, 2.75rem);
-    grid-auto-columns: minmax(0, 13.5rem);
     padding-block: 1.25rem 0;
-    overflow: visible;
+  }
+  .tm-gate {
+    width: min(100%, 13.5rem);
   }
   /* Skirting along the whole wall */
   .tm-gates::after {
@@ -918,48 +889,6 @@
   background: var(--tm-raised);
   color: var(--tm-ink);
 }
-.tm-dialog--bare {
-  max-width: 24rem;
-  padding: 0;
-  background: none;
-  box-shadow: none;
-  perspective: 70rem;
-}
-.tm-dialog--bare .tm-dialog__close {
-  top: -3.25rem;
-  right: 0;
-  background: rgba(255, 255, 255, 0.92);
-  color: #1a1818;
-}
-.tm-card-stage {
-  transform-style: preserve-3d;
-}
-.tm-card {
-  position: relative;
-  aspect-ratio: 5 / 7;
-  transform-style: preserve-3d;
-  transition: transform 800ms cubic-bezier(0.22, 1, 0.36, 1);
-}
-.tm-card[data-flipped='true'] {
-  transform: rotateY(180deg);
-}
-.tm-card__face {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  flex-direction: column;
-  padding: 1.75rem;
-  border-radius: 1.5rem;
-  border: 1px solid rgba(214, 178, 110, 0.5);
-  background:
-    linear-gradient(135deg, rgba(214, 178, 110, 0.18), transparent 45%),
-    radial-gradient(120% 80% at 80% 0%, #3b3230 0%, #1d1a1a 60%);
-  box-shadow: 0 2rem 4rem -1rem rgba(0, 0, 0, 0.7);
-  backface-visibility: hidden;
-}
-.tm-card__face--back {
-  transform: rotateY(180deg);
-}
 
 /* ── Footer ── */
 .tm-footer {
@@ -1214,7 +1143,6 @@
   }
   .tm-year__roll,
   .tm-meter b,
-  .tm-card,
   .tm-stop {
     transition: none;
   }

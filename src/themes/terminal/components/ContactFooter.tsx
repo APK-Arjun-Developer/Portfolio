@@ -5,7 +5,6 @@ import { personal, projects } from '../../../data/personal';
 import { analytics } from '../../../lib/analytics';
 import { versionLabel } from '../../../lib/version';
 import { GithubIcon, LinkedinIcon } from '../../../components/BrandIcons';
-import { useClock } from '../clock';
 import { useOpenContact } from '../contact';
 
 const footerLinks = [
@@ -26,16 +25,19 @@ function CopyEmail() {
   return (
     <button
       type="button"
+      aria-label="Copy email"
       onClick={() =>
         navigator.clipboard?.writeText(personal.email).then(
           () => setCopied(true),
           () => {},
         )
       }
-      className="inline-flex min-h-9 items-center gap-2 text-sm font-semibold text-[#e8e4e0] hover:text-white"
+      className="inline-flex h-11 w-11 items-center justify-center text-[#e8e4e0] hover:text-white"
     >
-      {copied ? <Check size={15} aria-hidden="true" /> : <Copy size={15} aria-hidden="true" />}
-      <span aria-live="polite">{copied ? 'Copied' : 'Copy email'}</span>
+      {copied ? <Check size={18} aria-hidden="true" /> : <Copy size={18} aria-hidden="true" />}
+      <span className="sr-only" aria-live="polite">
+        {copied ? 'Email copied' : ''}
+      </span>
     </button>
   );
 }
@@ -43,7 +45,6 @@ function CopyEmail() {
 /** Dark closing panel on every page: the pitch, every way to get in touch, the name edge to edge. */
 export default function ContactFooter() {
   const openContact = useOpenContact();
-  const { time } = useClock();
   const rows = [
     {
       label: 'GitHub',
@@ -97,7 +98,7 @@ export default function ContactFooter() {
           </Link>
         </div>
 
-        <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-2">
+        <div className="mt-8 flex flex-wrap items-center gap-2">
           <a
             href={`mailto:${personal.email}`}
             onClick={() => analytics.ctaClick('contact_me')}
@@ -167,7 +168,6 @@ export default function ContactFooter() {
                   Resume (PDF)
                 </a>
               </li>
-              <li className="text-[0.9375rem] tabular-nums text-[#c5bdb6]">Local time {time}</li>
             </ul>
           </div>
         </div>
